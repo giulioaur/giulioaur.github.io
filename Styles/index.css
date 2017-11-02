@@ -1,0 +1,170 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans");
+body {
+  font-size: 20px;
+  font-family: 'Open Sans'; }
+
+.row {
+  margin-left: 0px;
+  margin-right: 0px; }
+
+@media screen and (max-width: 765px) {
+  .content-fluid {
+    padding: 0 15px; } }
+@media screen and (max-width: 900px) {
+  #header #header_collapse {
+    height: auto !important;
+    border-top: 1px solid #b9b6b6;
+    margin-top: 0 !important; } }
+@media screen and (min-width: 900px) {
+  #header #header_collapse {
+    height: 65px !important; } }
+#header {
+  padding-left: 100px;
+  background-image: linear-gradient(#d2d2d2, #e7e7e7);
+  box-shadow: -1px 2px #fafafa; }
+  #header #header_collapse {
+    margin-top: 35px; }
+    #header #header_collapse ul {
+      font-size: 22px; }
+      #header #header_collapse ul li {
+        padding: 0 35px; }
+      #header #header_collapse ul li a {
+        color: #337ab7; }
+      #header #header_collapse ul li a:hover {
+        background-color: transparent;
+        color: blue;
+        font-weight: bold; }
+
+#header.navbar-fixed-top #header_collapse {
+  margin-top: 0; }
+
+#fix_header {
+  height: 100px;
+  display: none; }
+
+.my_section {
+  margin: 40px 0;
+  padding-top: 50px; }
+
+.title {
+  text-align: center;
+  color: #337ab7;
+  text-shadow: 1px 0.6px #34328e;
+  margin-bottom: 50px; }
+
+#about_me .title {
+  margin-top: 50px; }
+#about_me #photo_content {
+  min-height: 300px;
+  margin-top: 50px; }
+  #about_me #photo_content #me_photo {
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+    transition: all 0.3s ease; }
+  @media only screen and (min-width: 1080px) {
+    #about_me #photo_content #me_photo.sticky {
+      position: fixed;
+      z-index: 10000;
+      height: 80px;
+      top: 20px;
+      left: 10px;
+      border: 4px solid white; } }
+#about_me #citation {
+  text-align: center;
+  color: blue;
+  font-size: 20px; }
+#about_me article {
+  text-align: justify; }
+
+#skills .row {
+  margin-bottom: 20px; }
+
+#exp ul {
+  list-style-image: url("Images/cm.png"); }
+
+#cv button {
+  background-color: transparent;
+  border: none;
+  width: 220px; }
+  #cv button span {
+    font-size: 200px;
+    color: #484848; }
+  #cv button span:hover {
+    color: black;
+    text-shadow: 1px -2px #343434; }
+#cv button:hover {
+  background-color: none; }
+#cv .row:nth-of-type(2) {
+  margin-top: 40px; }
+
+footer {
+  background-image: linear-gradient(#e7e7e7, #d2d2d2);
+  margin-top: 80px;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 1px -2px #fafafa;
+  border-top: 1px solid #e7e7e7; }
+  footer .row .col img {
+    height: 25px; }
+  footer .row .col a:nth-of-type(2) {
+    vertical-align: -2px; }
+  footer .row .col img:nth-of-type(3) {
+    height: 23px;
+    margin-top: 5px; }
+  footer .row .col a:nth-of-type(3) {
+    vertical-align: -3px; }
+  footer .row p {
+    text-align: center; }
+  footer .row:first-child {
+    padding: 15px; }
+  footer .row:nth-child(2) {
+    margin-top: 10px; }
+
+@media (max-width: 768px) {
+  .col-xs-offset-12 {
+    margin-left: 100%; }
+
+  .col-xs-offset-11 {
+    margin-left: 91.66666666666666%; }
+
+  .col-xs-offset-10 {
+    margin-left: 83.33333333333334%; }
+
+  .col-xs-offset-9 {
+    margin-left: 75%; }
+
+  .col-xs-offset-8 {
+    margin-left: 66.66666666666666%; }
+
+  .col-xs-offset-7 {
+    margin-left: 58.333333333333336%; }
+
+  .col-xs-offset-6 {
+    margin-left: 50%; }
+
+  .col-xs-offset-5 {
+    margin-left: 41.66666666666667%; }
+
+  .col-xs-offset-4 {
+    margin-left: 33.33333333333333%; }
+
+  .col-xs-offset-3 {
+    margin-left: 25%; }
+
+  .col-xs-offset-2 {
+    margin-left: 16.666666666666664%; }
+
+  .col-xs-offset-1 {
+    margin-left: 8.333333333333332%; }
+
+  .col-xs-offset-0 {
+    margin-left: 0; } }
+/* Ensure that all of the zero offsets are available - recent SASS version did not include .col-sm-offset-0 */
+@media (min-width: 768px) {
+  .col-sm-offset-0,
+  .col-md-offset-0,
+  .col-lg-offset-0 {
+    margin-left: 0; } }
+
+/*# sourceMappingURL=index.css.map */
