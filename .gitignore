@@ -1,8 +1,9 @@
 Documenti/
 bootstrap/
-Sass/
 Scripts/jquery-3.1.1.min.js
 StartSass.bat
 NewProject.bmpr
 sushi - Copia.html
 .vscode/
+.sass-cache/
+todo.txt

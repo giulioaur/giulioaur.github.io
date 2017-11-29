@@ -116,24 +116,52 @@ body {
   position: relative; }
   #skills .title {
     position: relative; }
-  #skills .skill_container {
-    text-align: center;
-    color: #1e1e1e; }
-    #skills .skill_container i {
-      font-size: 90px;
-      visibility: visible;
-      position: absolute; }
-    #skills .skill_container svg {
-      width: 90px;
+  #skills .hidden_row {
+    opacity: 0;
+    margin-top: 200px; }
+  @media screen and (min-width: 765px) {
+    #skills .skill_container {
+      text-align: center;
+      color: #1e1e1e; }
+      #skills .skill_container i {
+        font-size: 90px;
+        visibility: visible;
+        position: absolute; }
+      #skills .skill_container svg, #skills .skill_container img {
+        width: 90px;
+        visibility: hidden; }
+      #skills .skill_container h2 {
+        margin-top: 0px; }
+      #skills .skill_container p {
+        text-align: justify; }
+    #skills .skill_container:hover i {
       visibility: hidden; }
-    #skills .skill_container h2 {
-      margin-top: 0px; }
-    #skills .skill_container p {
-      text-align: justify; }
-  #skills .skill_container:hover i {
-    visibility: hidden; }
-  #skills .skill_container:hover svg {
-    visibility: visible; }
+    #skills .skill_container:hover svg, #skills .skill_container:hover img {
+      visibility: visible; } }
+  @media screen and (max-width: 765px) {
+    #skills .row .col-sm-10 {
+      margin-bottom: 0 !important; }
+      #skills .row .col-sm-10 .row .col {
+        margin-bottom: 10px; }
+        #skills .row .col-sm-10 .row .col .skill_container {
+          text-align: center;
+          color: #1e1e1e;
+          position: relative; }
+          #skills .row .col-sm-10 .row .col .skill_container i {
+            display: none; }
+          #skills .row .col-sm-10 .row .col .skill_container svg, #skills .row .col-sm-10 .row .col .skill_container img {
+            width: 70px;
+            top: 30%;
+            left: 0;
+            position: absolute; }
+          #skills .row .col-sm-10 .row .col .skill_container .text_container {
+            width: 85%;
+            margin-left: 15%; }
+            #skills .row .col-sm-10 .row .col .skill_container .text_container h2 {
+              text-align: left;
+              margin-top: 0px; }
+            #skills .row .col-sm-10 .row .col .skill_container .text_container p {
+              text-align: justify; } }
   #skills .row {
     margin-bottom: 20px; }
     #skills .row .col-sm-10 {
@@ -148,23 +176,63 @@ body {
   position: absolute;
   background: rgba(255, 255, 255, 0.7); }
 
-#exp ul {
-  list-style-image: url("Images/cm.png"); }
+#projects #proj_carousel .carousel-inner > .item > img {
+  height: 180px;
+  margin: 0 auto; }
 
-#cv button {
-  background-color: transparent;
-  border: none;
-  width: 220px; }
-  #cv button span {
-    font-size: 200px;
-    color: #484848; }
-  #cv button span:hover {
-    color: black;
-    text-shadow: 1px -2px #343434; }
-#cv button:hover {
-  background-color: none; }
-#cv .row:nth-of-type(2) {
-  margin-top: 40px; }
+#exp {
+  background-image: url("Images/expbackground.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative; }
+  #exp .title {
+    position: relative; }
+  #exp .row .exp_section {
+    margin-bottom: 30px;
+    border: 4px solid #a3a2a2;
+    border-radius: 30px; }
+    #exp .row .exp_section h1 {
+      color: #337ab7; }
+  #exp .row #education i {
+    display: inline;
+    font-size: 30px; }
+  #exp .row #education h1 {
+    display: inline; }
+  #exp .row #work li {
+    display: block; }
+  #exp .row #work li::before {
+    content: "\e139";
+    font-size: 16px;
+    font-family: 'Glyphicons Halflings';
+    margin: 0 5px 0 -15px;
+    position: relative; }
+
+#exp::before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7); }
+
+#contact .row .col form input, #contact .row .col form textarea {
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid gray;
+  border-radius: 0; }
+#contact .row .col form #name_container::before {
+  content: "\e139";
+  position: absolute;
+  height: 45px;
+  font-family: 'Glyphicons Halflings';
+  top: 0;
+  left: 0;
+  width: 15px;
+  text-align: center;
+  line-height: 45px; }
 
 footer {
   background-image: linear-gradient(#e7e7e7, #d2d2d2);

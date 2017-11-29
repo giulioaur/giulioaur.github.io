@@ -5,15 +5,31 @@ function init(){
     $GLOBAL.fixPhoto = $('#me_photo').position().top + parseInt($('#me_photo').css('height')) - 85;
 
     //Recall function to init components.
-    fixElement();
+    initElement();
 
     //Bind Events.
     $(window).scroll(fixElement);
     $(window).scroll(updateNavBar);
+    $(window).scroll(showSkills);
     $('#header_collapse a').click(toggleCollapsedMenu);
 
     // Start with nav bar correctly setted.
     updateNavBar();
+}
+
+function initElement(){
+    // Make the skills visible.
+    let windowScroll = $(window)[0].scrollY,
+    skillTop = $('#skills').offset().top;
+
+    if(windowScroll >= skillTop + 450)
+        $($('.hidden_row')[2]).css({marginTop:"0", opacity:"1"});
+    if(windowScroll >= skillTop + 100)
+        $($('.hidden_row')[1]).css({marginTop:"0", opacity:"1"});
+    if(windowScroll >= skillTop - 250)
+        $($('.hidden_row')[0]).css({marginTop:"0", opacity:"1"});
+
+    fixElement();
 }
 
 function fixElement(){
@@ -30,7 +46,7 @@ function fixElement(){
         $('#me_photo').addClass('sticky');
     } else {
         $('#me_photo').removeClass('sticky');
-    }
+    }    
 }
 
 function toggleCollapsedMenu(){
@@ -52,6 +68,19 @@ function updateNavBar(){
 
     $('#header_collapse li a').removeClass('current');
     $('#header_collapse li a[href=\'#' + currentSection + '\']').addClass('current');
+}
+
+function showSkills(){
+    let windowScroll = $(window)[0].scrollY,
+        skillTop = $('#skills').offset().top;
+
+    
+    if(windowScroll >= skillTop + 450)
+        $($('.hidden_row')[2]).animate({marginTop:"0", opacity:"1"}, 500);
+    else if(windowScroll >= skillTop + 100)
+        $($('.hidden_row')[1]).animate({marginTop:"0", opacity:"1"}, 500);
+    else if(windowScroll >= skillTop - 250)
+        $($('.hidden_row')[0]).animate({marginTop:"0", opacity:"1"}, 500);
 }
 
 $(document).on('click', 'a[href^="#"]', function (event) {
