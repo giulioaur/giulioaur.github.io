@@ -17,7 +17,7 @@ body {
     margin-top: 0 !important; } }
 @media screen and (min-width: 900px) {
   #header #header_collapse {
-    height: 50px !important; } }
+    height: 52px !important; } }
 #header {
   background-image: linear-gradient(#d2d2d2, #e7e7e7);
   box-shadow: -1px 1px #e2e2da; }
@@ -75,8 +75,7 @@ body {
         z-index: 10000;
         height: 80px;
         top: 15px;
-        left: 10px;
-        border: 4px solid white; } }
+        left: 10px; } }
   #preface #text_container {
     position: relative;
     text-align: center;
@@ -176,9 +175,28 @@ body {
   position: absolute;
   background: rgba(255, 255, 255, 0.7); }
 
-#projects #proj_carousel .carousel-inner > .item > img {
-  height: 180px;
-  margin: 0 auto; }
+#projects #proj_carousel .carousel-inner > .item a {
+  text-decoration: none !important; }
+#projects #proj_carousel .carousel-inner > .item .proj_section {
+  position: relative;
+  padding: 45px 135px; }
+  #projects #proj_carousel .carousel-inner > .item .proj_section h1 {
+    text-align: center;
+    position: relative;
+    color: #34328e; }
+  #projects #proj_carousel .carousel-inner > .item .proj_section p {
+    color: black !important;
+    position: relative; }
+#projects #proj_carousel .carousel-inner > .item #proj_sann {
+  background-image: url("Images/sann.jpg") !important; }
+#projects #proj_carousel .carousel-inner > .item .proj_section::before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5); }
 
 #exp {
   background-image: url("Images/expbackground.jpg");
@@ -192,22 +210,22 @@ body {
   #exp .row .exp_section {
     margin-bottom: 30px;
     border: 4px solid #a3a2a2;
-    border-radius: 30px; }
+    border-radius: 30px;
+    padding: 15px; }
     #exp .row .exp_section h1 {
-      color: #337ab7; }
-  #exp .row #education i {
-    display: inline;
-    font-size: 30px; }
-  #exp .row #education h1 {
-    display: inline; }
-  #exp .row #work li {
-    display: block; }
-  #exp .row #work li::before {
-    content: "\e139";
-    font-size: 16px;
-    font-family: 'Glyphicons Halflings';
-    margin: 0 5px 0 -15px;
-    position: relative; }
+      color: #337ab7;
+      display: inline;
+      padding-left: 10px; }
+    #exp .row .exp_section i, #exp .row .exp_section img {
+      display: inline;
+      font-size: 30px;
+      float: right;
+      margin-right: 22px;
+      font-size: 40px; }
+    #exp .row .exp_section img {
+      height: 45px; }
+    #exp .row .exp_section ul {
+      margin-top: 10px; }
 
 #exp::before {
   top: 0px;
@@ -223,16 +241,24 @@ body {
   box-shadow: none;
   border-bottom: 1px solid gray;
   border-radius: 0; }
-#contact .row .col form #name_container::before {
-  content: "\e139";
-  position: absolute;
-  height: 45px;
-  font-family: 'Glyphicons Halflings';
-  top: 0;
-  left: 0;
-  width: 15px;
-  text-align: center;
-  line-height: 45px; }
+#contact .row .col form .form-group {
+  position: relative; }
+  #contact .row .col form .form-group label {
+    position: absolute;
+    color: gray;
+    left: 12px;
+    font-size: 18px;
+    top: 3px;
+    transition: 0.2s;
+    text-transform: uppercase; }
+  #contact .row .col form .form-group input:focus + label, #contact .row .col form .form-group input:valid + label,
+  #contact .row .col form .form-group textarea:focus + label, #contact .row .col form .form-group textarea:valid + label,
+  #contact .row .col form .form-group label.topper {
+    left: 0px;
+    top: -16px;
+    color: #337ab7; }
+#contact .row .col form #submitButton:hover {
+  color: #337ab7 !important; }
 
 footer {
   background-image: linear-gradient(#e7e7e7, #d2d2d2);
@@ -242,14 +268,18 @@ footer {
   box-shadow: 1px -2px #e2e2da;
   border-top: 1px solid #e7e7e7; }
   footer .row .col img {
-    height: 25px; }
-  footer .row .col a:nth-of-type(2) {
-    vertical-align: -2px; }
-  footer .row .col img:nth-of-type(3) {
-    height: 23px;
-    margin-top: 5px; }
-  footer .row .col a:nth-of-type(3) {
-    vertical-align: -3px; }
+    height: 25px;
+    display: block;
+    margin: 0 auto; }
+  footer .row .col i {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    color: gray; }
+  footer .row .col a {
+    text-align: center; }
+  footer .row .col:hover i {
+    color: black; }
   footer .row p {
     text-align: center; }
   footer .row:first-child {

@@ -7,3 +7,16 @@ sushi - Copia.html
 .vscode/
 .sass-cache/
 todo.txt
+
+
+#Ignore icons
+Styles/icons
+!Styles/icons/cplusplus
+!Styles/icons/java
+!Styles/icons/javascript
+!Styles/icons/html5
+!Styles/icons/mysql
+!Styles/icons/git
+!Styles/icons/linux
+!Styles/icons/docker
+!Styles/icons/ionic

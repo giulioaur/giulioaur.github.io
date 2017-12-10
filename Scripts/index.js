@@ -12,6 +12,7 @@ function init(){
     $(window).scroll(updateNavBar);
     $(window).scroll(showSkills);
     $('#header_collapse a').click(toggleCollapsedMenu);
+    $('#email_container > input').blur(moveLabel);
 
     // Start with nav bar correctly setted.
     updateNavBar();
@@ -83,6 +84,11 @@ function showSkills(){
         $($('.hidden_row')[0]).animate({marginTop:"0", opacity:"1"}, 500);
 }
 
+function moveLabel(){
+    $('#email').val().length == 0 ? $('#email_container > label').removeClass('topper') : 
+                                    $('#email_container > label').addClass('topper')
+}
+
 $(document).on('click', 'a[href^="#"]', function (event) {
     event.preventDefault();
 
@@ -90,7 +96,3 @@ $(document).on('click', 'a[href^="#"]', function (event) {
         scrollTop: $($.attr(this, 'href')).offset().top
     }, 500);
 });
-
-$('section').focusin(() => {
-    console.log("ciao");
-})

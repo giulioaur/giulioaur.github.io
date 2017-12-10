@@ -52,7 +52,7 @@ body{
 @media screen and (min-width: 900px){
     #header{
         #header_collapse{
-           height: 50px !important;
+           height: 52px !important;
         }
     }
 }
@@ -135,7 +135,6 @@ body{
                 height: 80px;
                 top: 15px;
                 left: 10px;
-                border: 4px solid white;
             }            
         } 
     }
@@ -292,9 +291,34 @@ body{
 
 #projects{
     #proj_carousel{
-        .carousel-inner > .item > img{
-            height: 180px;
-            margin: 0 auto;
+        .carousel-inner > .item{
+            a{
+                text-decoration: none !important;
+            }
+
+            .proj_section{
+                position: relative;
+                padding: 45px 135px;
+
+                h1{
+                    text-align: center;
+                    position: relative;
+                    color: #34328e;
+                }
+
+                p{
+                    color: black !important;
+                    position: relative;
+                }
+            }
+            
+            #proj_sann{
+                background-image: url("Images/sann.jpg") !important;
+            }
+
+            .proj_section::before{
+                @include background-opacity(0.5);
+            }
         }
     }
 }
@@ -312,34 +336,28 @@ body{
             margin-bottom: 30px;
             border: 4px solid #a3a2a2;
             border-radius: 30px;
+            padding: 15px;
 
             h1{
                 color: $MAIN-TEXT-COLOR;
+                display: inline;
+                padding-left: 10px;
             }
             
-        }
-
-        #education{
-            i{
+            i, img{
                 display: inline;
                 font-size: 30px;
-            }
-            h1{
-                display: inline;
-            }
-        }
-
-        #work{
-            li{
-                display: block;
+                float: right;
+                margin-right: 22px;
+                font-size: 40px;
             }
 
-            li::before{
-                content:"\e139";
-                font-size: 16px;
-                font-family: 'Glyphicons Halflings';
-                margin:0 5px 0 -15px;
-                position: relative;
+            img{
+                height: 45px;
+            }
+
+            ul{
+                margin-top: 10px;
             }
         }
     }
@@ -360,16 +378,30 @@ body{
                     border-radius: 0;
                 }
 
-                #name_container::before{
-                    content:"\e139";
-                    position: absolute;
-                    height: 45px;
-                    font-family: 'Glyphicons Halflings';
-                    top: 0;
-                    left: 0;
-                    width: 15px;
-                    text-align: center;
-                    line-height: 45px;
+                .form-group{
+                    position: relative;
+
+                    label{
+                        position: absolute;
+                        color: gray;
+                        left: 12px;
+                        font-size: 18px;
+                        top: 3px;
+                        transition: 0.2s;
+                        text-transform: uppercase;
+                    }
+
+                    input:focus + label, input:valid + label,
+                    textarea:focus + label, textarea:valid + label,
+                    label.topper{
+                        left: 0px;
+                        top: -16px;
+                        color: $MAIN-TEXT-COLOR;
+                    }
+                }
+
+                #submitButton:hover{
+                    color: $MAIN-TEXT-COLOR !important;
                 }
             }
         }
@@ -389,20 +421,24 @@ footer{
         .col{
             img{
                 height: 25px;
+                display: block;
+                margin: 0 auto;
             }
 
-            a:nth-of-type(2){
-                vertical-align: -2px;
+            i{
+                display: block;
+                text-align: center;
+                font-size: 30px;
+                color: gray;
             }
 
-            img:nth-of-type(3){
-                height: 23px;
-                margin-top: 5px;
+            a{
+                text-align: center;
             }
+        }
 
-            a:nth-of-type(3){
-                vertical-align: -3px;
-            }
+        .col:hover i{
+            color: black;
         }
 
         p{

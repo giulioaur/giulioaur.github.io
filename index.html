@@ -250,7 +250,7 @@
         </section>
         <section id="projects" class="content-fluid my_section">
             <h1 class="title">Projects</h1>
-            <div id="proj_carousel" class="carousel slide" data-ride="carousel">
+            <div id="proj_carousel" class="carousel slide" data-interval="false">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
                   <li data-target="#proj_carousel" data-slide-to="0" class="active"></li>
@@ -260,17 +260,36 @@
               
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
-                  <div class="item active">
-                    <img src="Styles/Images/me.jpg" alt="Los Angeles">
-                  </div>
-              
-                  <div class="item">
-                    <img src="Styles/Images/me.jpg" alt="Chicago">
-                  </div>
-              
-                  <div class="item">
-                    <img src="Styles/Images/me.jpg" alt="New York">
-                  </div>
+                    <div class="item active">
+                        <a href="http://giulioaur.com" target="_blank">
+                            <section class="proj_section" id="proj_sann">
+                                <h1>Title test</h1>
+                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                    Ut dapibus elit urna, eu imperdiet dolor mollis sit amet. 
+                                    Maecenas a metus ut magna feugiat faucibus. Phasellus fringilla 
+                                    dapibus ipsum pharetra rhoncus. Duis dapibus elit erat, at 
+                                    interdum nisi bibendum in. Cras at augue non nunc egestas 
+                                    dapibus eget vitae tellus. Nullam pretium ultrices molestie. 
+                                    Donec tempor varius ligula, at dapibus lorem. Praesent euismod 
+                                    elit eget gravida fringilla.
+                                        <br/>
+                                    Quisque maximus, sapien in hendrerit hendrerit, magna quam 
+                                    pretium nisl, et facilisis purus quam vel mi. Vivamus ultrices 
+                                    condimentum tincidunt. Proin efficitur rhoncus dapibus. Nulla 
+                                    molestie euismod libero, nec consectetur nunc fermentum sed. 
+                                    Aenean vestibulum eleifend odio eget pellentesque. Vestibulum 
+                                    sit amet elementum orci, vitae fermentum metus. Donec sed 
+                                    condimentum odio, at ornare est. </p>
+                            </section>
+                        </a>
+                    </div>              
+                    <!-- <div class="item">
+                        <img src="Styles/Images/me.jpg" alt="Chicago">
+                    </div>
+                
+                    <div class="item">
+                        <img src="Styles/Images/me.jpg" alt="New York">
+                    </div> -->
                 </div>
               
                 <!-- Left and right controls -->
@@ -288,21 +307,23 @@
             <h1 class="title">Experiences</h1>
             <div class="row">
                 <div id="education" class="col-sm-10 col-sm-offset-1 col-xs-12 exp_section">
-                    <i class="glyphicon glyphicon-education"></i>
                     <h1>Education</h1>
+                    <i class="glyphicon glyphicon-education"></i>
                     <ul>
                         <li>Bachelor degree in Computer Science cum laude at "Prima Universit&agrave; di Napoli Federico II" (September 2013 - October 2016)</li>
                         <li>Master in Computer Science at "Universit&agrave; degli Studi di Pisa" (September 2016 - now)</li>
                     </ul>
                 </div>
                 <div id="work" class="col-sm-10 col-sm-offset-1 col-xs-12 exp_section">
-                    <h1>Work</h1>
+                    <h1>Job</h1>
+                    <i class=" 	glyphicon glyphicon-briefcase"></i>
                     <ul>
                         <li>Development of cross-platform mobile library for a CMS at <a href="http://www.blexin.com/" target="_blank">Blexin Srl</a> (March 2016 - July 2016)</li>
                     </ul>
                 </div>
                 <div id="volunteering" class="col-sm-10 col-sm-offset-1 col-xs-12 exp_section">
                     <h1>Volunteering</h1>
+                    <img src="Styles/Images/dojo.png">
                     <ul>
                         <li>Volunteer at Association <a href="http://pisa.coderdojo.it/" target="_blank">Pisa Coder Dojo</a> (March 2017 - now)</li>
                     </ul>
@@ -313,17 +334,19 @@
             <h1 class="title">Contact Me</h1>
             <div class="row">
                 <div class="col col-sm-10 col-sm-offset-1 col-xs-12 col-sm">
-                    <form id="ajax-contact" action="assets/mailer.php" method="post">
+                    <form id="ajax-contact">
                         <div class="form-group" id="name_container">
-                            <input name="name" class="form-control" id="name" placeholder="NAME" required="required" type="text">
+                            <input name="name" class="form-control" id="name" required="required" type="text">
+                            <label for="name">Name</label>
                         </div>
                         <div class="form-group" id="email_container">
-                            <input name="email" class="form-control" id="email" placeholder="EMAIL" required="required" type="email">
+                            <input name="email" class="form-control" id="email" required="required" type="email">
+                            <label for="name">Email</label>
                         </div>
                         <div class="form-group" id="text_container"> 
-                            <textarea rows="5" name="message" class="form-control" id="message" placeholder="MESSAGE" required="required"></textarea>
+                            <textarea rows="5" name="message" class="form-control" id="message" required="required"></textarea>
+                            <label for="name">Message</label>
                         </div>
-
                         <div class="actions">
                             <input value="Send Now" name="submit" id="submitButton" class="btn dark" title="Submit Your Message!" type="submit">
                         </div>
@@ -333,16 +356,24 @@
         </section>
         <footer>
             <div class="row">
-                <div class="col col-sm-6">
-                    <img src="Styles\Images\email.svg" /> 
-                    <a href="mailto:giulioaur@hotmail.com">giulioaur@hotmail.com</a>
-                    <br/>
-                    <img src="Styles\Images\fb.png" /> 
-                    <a href="https://www.facebook.com/profile.php?id=100009066260959" target="_blank">facebook/giulioaur</a>
-                    <br />
-                    <img src="Styles\Images\web.png" /> 
-                    <a href="http://mstudios.altervista.org" target="_blank">Maurizio Cimino</a>                    
-                </div>
+                <a href="https://github.com/giulioaur" target="_blank">
+                    <div class="col col-sm-2 col-xs-4 col-sm-offset-3">
+                        <i class="devicon-github-plain"></i>
+                        <p>giulioaur</p>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100009066260959" target="_blank">
+                    <div class="col col-sm-2 col-xs-4">
+                        <i class="devicon-facebook-plain"> </i>
+                        <p>facebook/giulioaur</p>
+                    </div>
+                </a>
+                <a href="http://mstudios.altervista.org" target="_blank">
+                    <div class="col col-sm-2 col-xs-4">
+                        <i class="glyphicon glyphicon-modal-window"> </i>
+                        <p>Maurizio Cimino</p>  
+                    </div>
+                </a>
             </div>
             <div class="row">
                 <p>This site is full responsive thanks to 
