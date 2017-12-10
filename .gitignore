@@ -10,7 +10,7 @@ todo.txt
 
 
 #Ignore icons
-Styles/icons
+Styles/icons/*
 !Styles/icons/cplusplus
 !Styles/icons/java
 !Styles/icons/javascript
