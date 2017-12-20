@@ -1,4 +1,5 @@
 @import url("http://fonts.googleapis.com/css?family=Open+Sans");
+@import "icomoon-style";
 
 $HEADER-BACKGROUND : linear-gradient(#d2d2d2, #e7e7e7);
 $FOOTER-BACKGROUND : linear-gradient(#e7e7e7, #d2d2d2);
@@ -57,6 +58,39 @@ body{
     }
 }
 
+@media screen and (max-width: 900px){
+    #top_arrow{
+        display: block !important;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        color: gray;
+        z-index: 1030;
+        text-decoration: none !important;
+
+        div{
+            background-color: black;
+            border-radius: 100%;
+            padding-bottom: 10px !important;
+            padding: 0 4px;
+
+            p{
+                color: green;
+                font-size: 40px;
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+                padding: 4px;
+                line-height: 20px;
+            }
+        }
+    }
+}
+
+#top_arrow{
+    display: none;
+}
+
 #header{
     background-image: $HEADER-BACKGROUND;
     box-shadow: -1px 1px $SHADOW-BOX-GRADIENT;
@@ -96,6 +130,96 @@ body{
     }
 }
 
+@media screen and (max-width: 900px){
+    #preface{
+        #photo_content{
+            display: block;
+            clear: both;
+            min-height: 0px;
+            max-height: 200px;
+
+            #me_photo{
+                height: 50px
+            }
+        }
+    }
+}
+
+#preface{
+    @include parallaxes-background("Images/mybackground.jpg");
+    height: 500px;
+    position: relative;
+
+    #photo_content{
+        position: relative;
+
+        #me_photo{
+            margin: 0 auto;
+        }
+    }
+
+    #text_container{
+        position: relative;
+        text-align: center;
+        color: #1d4668;
+        text-shadow: 0.2px 0.2px #5454ec,
+                    -0.2px -0.2px #5454ec;
+    }
+
+    @media screen and (max-width: 900px){
+        #photo_content{
+            width: 100%;
+            margin-top: 25px;
+            
+            #me_photo{
+                height: 200px;
+                display: block;
+            }
+        }
+    }
+
+    @media screen and (min-width: 900px){
+        #photo_content{
+            min-height: 300px;
+            margin-top: 50px;
+            float: left;
+            width: 30%;
+    
+            #me_photo{
+                height: 280px;
+                display: block;                
+                transition: all 0.3s ease;
+                float: right;
+            }
+    
+            @media only screen and (min-width: 1080px){
+                #me_photo.sticky{
+                    position: fixed;
+                    z-index: 10000;
+                    height: 80px;
+                    top: 15px;
+                    left: 10px;
+                }            
+            }
+        }
+            
+        #text_container{
+            float: left;
+            width: 50%;
+    
+            div{
+                float: left;
+                margin-top: 130px;
+                margin-left: 50px;
+            }
+        }
+    }
+}
+
+#preface::before{
+    @include background-opacity(0.2);
+}
+
 .my_section{
     padding: 50px 0;
 
@@ -106,58 +230,6 @@ body{
         margin-bottom: 50px;
         text-transform: uppercase;
     }
-}
-
-#preface{
-    @include parallaxes-background("Images/mybackground.jpg");
-    height: 500px;
-    position: relative;
-
-    #photo_content{
-        min-height: 300px;
-        margin-top: 50px;
-        position: relative;
-        float: left;
-        width: 30%;
-
-        #me_photo{
-            height: 300px;
-            display: block;
-            margin: 0 auto;
-            transition: all 0.3s ease;
-            float: right;
-        }
-
-        @media only screen and (min-width: 1080px){
-            #me_photo.sticky{
-                position: fixed;
-                z-index: 10000;
-                height: 80px;
-                top: 15px;
-                left: 10px;
-            }            
-        } 
-    }
-
-    #text_container{
-        position: relative;
-        text-align: center;
-        color: #1d4668;
-        float: left;
-        width: 50%;
-        text-shadow: 0.2px 0.2px #5454ec,
-                    -0.2px -0.2px #5454ec;
-
-        div{
-            float: left;
-            margin-top: 130px;
-            margin-left: 50px;
-        }
-    }
-}
-
-#preface::before{
-    @include background-opacity(0.2);
 }
 
 #about_me{
@@ -184,13 +256,21 @@ body{
         position: relative;
     }
 
-    // .skill_container{
-    //     transition: opacity 0.3s ease;
-    // }
-
     .hidden_row{
         opacity: 0;
         margin-top: 200px;
+    }
+
+    .skill_container{
+        i.icon-moon-webgl-logo{
+            font-size: 60px;
+        }
+
+        svg.icon-moon-webgl-logo{
+            height: 60px;
+            width: 140px;
+            margin-bottom: 29px;
+        }
     }
 
     @media screen and (min-width: 765px){
@@ -202,11 +282,16 @@ body{
                 font-size: 90px;
                 visibility: visible;
                 position: absolute;
+                color: #303030
             }
 
             svg, img{
                 width: 90px;
                 visibility: hidden;
+            }
+
+            .icon-moon-belt{
+                height: 88px;
             }
 
             h2{
@@ -298,7 +383,11 @@ body{
 
             .proj_section{
                 position: relative;
-                padding: 45px 135px;
+                padding: 45px 150px;
+                min-height: 400px;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
 
                 h1{
                     text-align: center;
@@ -309,15 +398,20 @@ body{
                 p{
                     color: black !important;
                     position: relative;
+                    text-align: justify;
                 }
             }
             
+            #proj_cg{
+                background-image: url("Images/cg.jpg") !important;
+            }
+
             #proj_sann{
                 background-image: url("Images/sann.jpg") !important;
             }
 
             .proj_section::before{
-                @include background-opacity(0.5);
+                @include background-opacity(0.6);
             }
         }
     }
@@ -368,43 +462,81 @@ body{
 }
 
 #contact{
+    // .row{
+    //     .col{
+    //         form{
+    //             input, textarea{
+    //                 border: 0;
+    //                 box-shadow: none;
+    //                 border-bottom: 1px solid gray;
+    //                 border-radius: 0;
+    //             }
+
+    //             .form-group{
+    //                 position: relative;
+
+    //                 label{
+    //                     position: absolute;
+    //                     color: gray;
+    //                     left: 12px;
+    //                     font-size: 18px;
+    //                     top: 3px;
+    //                     transition: 0.2s;
+    //                     text-transform: uppercase;
+    //                 }
+
+    //                 input:focus + label, input:valid + label,
+    //                 textarea:focus + label, textarea:valid + label,
+    //                 label.topper{
+    //                     left: 0px;
+    //                     top: -16px;
+    //                     color: $MAIN-TEXT-COLOR;
+    //                 }
+    //             }
+
+    //             #submitButton:hover{
+    //                 color: $MAIN-TEXT-COLOR !important;
+    //             }
+    //         }
+    //     }
+    // }
+
     .row{
-        .col{
-            form{
-                input, textarea{
-                    border: 0;
-                    box-shadow: none;
-                    border-bottom: 1px solid gray;
-                    border-radius: 0;
-                }
+        padding: 0 100px;
+        font-size: 20px;
 
-                .form-group{
-                    position: relative;
+        i{
+            margin-right: 20px;
+        }
 
-                    label{
-                        position: absolute;
-                        color: gray;
-                        left: 12px;
-                        font-size: 18px;
-                        top: 3px;
-                        transition: 0.2s;
-                        text-transform: uppercase;
-                    }
+        h3{
+            display: inline;
 
-                    input:focus + label, input:valid + label,
-                    textarea:focus + label, textarea:valid + label,
-                    label.topper{
-                        left: 0px;
-                        top: -16px;
-                        color: $MAIN-TEXT-COLOR;
-                    }
-                }
-
-                #submitButton:hover{
-                    color: $MAIN-TEXT-COLOR !important;
-                }
+            small{
+                font-size: 20px;
+                color: rgb(65, 63, 63);
             }
         }
+
+        .contact_var{
+            color: blue;
+        }
+
+        .contact_keyword{
+            color: green;
+        }
+
+        .contact_func{
+            color: rgb(255, 217, 0);
+        }
+    }
+
+    .row:nth-child(4), .row:nth-child(6), .row:nth-child(10){
+        padding-left: 140px;
+    }
+
+    .row:nth-child(8){
+        padding-left: 225px;
     }
 }
 
@@ -432,6 +564,15 @@ footer{
                 color: gray;
             }
 
+            svg{
+                height: 25px;
+                width: 32px;
+                margin-left: 38px;
+                fill: gray;
+                display: block;
+                margin: 0 auto;
+            }
+
             a{
                 text-align: center;
             }
@@ -441,8 +582,24 @@ footer{
             color: black;
         }
 
+        .col:hover svg{
+            fill: black;
+        }
+
         p{
             text-align: center;
+        }
+    }
+
+    .row{
+        margin: 0;
+
+        p{
+            margin: 0;
+        }
+
+        a:visited, a:active{
+            text-transform: none;
         }
     }
 
@@ -452,10 +609,6 @@ footer{
 
     .row:nth-child(2){
         margin-top: 10px;
-
-        p{
-            margin: 0;
-        }
     }
 }
 
