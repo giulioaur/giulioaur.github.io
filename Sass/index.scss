@@ -24,22 +24,6 @@ $MAIN-TEXT-COLOR : #337ab7;
     background: rgba(255, 255, 255, $opacity);
 }
 
-@media screen and (max-width: 750px){
-    body > *{
-        display: none;
-    }
-
-    #mobile_msg{
-        display: block;
-    }
-}
-
-@media screen and (min-width: 750px){
-    #mobile_msg{
-        display: none;
-    }
-}
-
 body{
     font-size: 20px;
     font-family: 'Open Sans';
@@ -177,9 +161,9 @@ body{
     #text_container{
         position: relative;
         text-align: center;
-        color: #1d4668;
-        text-shadow: 0.2px 0.2px #5454ec,
-                    -0.2px -0.2px #5454ec;
+        color: white;
+        text-shadow: 0.2px 0.2px #c9c9cc,
+                    -0.2px -0.2px #c9c9cc;
     }
 
     @media screen and (max-width: 900px){
@@ -262,6 +246,12 @@ body{
     article{
         text-align: justify;
     }
+
+    @media screen and (max-width: 580px) {
+        #citation, article{
+            font-size: 16px;
+        }
+    }
 }
 
 #skills{
@@ -278,6 +268,9 @@ body{
     }
 
     .skill_container{
+        text-align: center;
+        color: rgb(30, 30, 30);
+
         i.icon-moon-webgl-logo{
             font-size: 60px;
         }
@@ -287,12 +280,14 @@ body{
             width: 140px;
             margin-bottom: 29px;
         }
+
+        p{
+            text-align: justify;
+        }
     }
 
     @media screen and (min-width: 765px){
         .skill_container{
-            text-align: center;
-            color: rgb(30, 30, 30);
 
             i{
                 font-size: 90px;
@@ -310,12 +305,14 @@ body{
                 height: 88px;
             }
 
-            h2{
-                margin-top: 0px;
-            }
-            
-            p{
-                text-align: justify;
+            .text_container{
+                svg{
+                    display: none;
+                }
+
+                h2{
+                    margin-top: 0px;
+                }
             }
         }
 
@@ -330,7 +327,7 @@ body{
         }
     }
 
-    @media screen and (max-width: 765px){
+    @media screen and (min-width: 580px) and (max-width: 765px){
         .row{
             .col-sm-10{
                 margin-bottom: 0 !important;
@@ -340,8 +337,6 @@ body{
                         margin-bottom: 10px;
 
                         .skill_container{
-                            text-align: center;
-                            color: rgb(30, 30, 30);
                             position: relative;
                 
                             i{
@@ -358,14 +353,14 @@ body{
                             .text_container{
                                 width: 85%;
                                 margin-left: 15%;
+
+                                svg{
+                                    display: none;
+                                }
                 
                                 h2{
                                     text-align: left;
                                     margin-top: 0px;
-                                }
-                                
-                                p{
-                                    text-align: justify;
                                 }
                             }
                         }
@@ -376,6 +371,48 @@ body{
         
     }
     
+    @media screen and (max-width: 580px){
+        .row{
+            .col-sm-10{
+                margin-bottom: 0 !important;
+
+                .row{
+                    .col{
+                        margin-bottom: 10px;
+
+                        .skill_container{
+                            position: relative;
+                
+                            i, svg, img{
+                                display: none;
+                            }
+                
+                            .text_container{
+                                svg{
+                                    display: inline;
+                                    width: 30px;
+                                    margin: 0;
+                                }
+
+                                svg.icon{
+                                    height: 27px;
+                                }
+                
+                                h2{
+                                    display: inline;
+                                    padding-right: 15px;
+                                    margin-top: 0px;
+                                    font-size: 22px;
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
 
     .row{
         margin-bottom: 20px;
@@ -400,7 +437,7 @@ body{
             .proj_section{
                 position: relative;
                 padding: 45px 150px;
-                min-height: 400px;
+                min-height: 450px;
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: cover;
@@ -428,6 +465,13 @@ body{
 
             .proj_section::before{
                 @include background-opacity(0.6);
+            }
+
+            @media screen and (max-width: 580px) {
+                .proj_section{
+                    font-size: 16px;
+                    padding: 45px 10px;
+                }
             }
         }
     }
@@ -468,6 +512,24 @@ body{
 
             ul{
                 margin-top: 10px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 580px) {
+        .row{
+            .exp_section{
+                i{
+                    font-size: 35px;
+                }
+
+                h1{
+                    font-size: 28px;
+                }
+                
+                ul{
+                    font-size: 16px;
+                }               
             }
         }
     }
@@ -518,11 +580,14 @@ body{
     // }
 
     .row{
-        padding: 0 100px;
         font-size: 20px;
 
         i{
             margin-right: 20px;
+        }
+
+        i#code_mail{
+            margin-right: 0;
         }
 
         h3{
@@ -532,6 +597,10 @@ body{
                 font-size: 20px;
                 color: rgb(65, 63, 63);
             }
+        }
+
+        span.tab{
+            padding-left: 50px;
         }
 
         .contact_var{
@@ -547,12 +616,44 @@ body{
         }
     }
 
-    .row:nth-child(4), .row:nth-child(6), .row:nth-child(10){
-        padding-left: 140px;
+    @media screen and (min-width: 580px){
+        .row{
+            span.tab.mobile{
+                display: none;
+            }
+        }
     }
 
-    .row:nth-child(8){
-        padding-left: 225px;
+    @media screen and (max-width: 580px){
+        .row{
+            i{
+                display: none
+            }
+
+            i#code_mail{
+                display: inline;
+            }
+
+            h3{
+                font-size: 15px;
+                
+                small{
+                    font-size: 12px;
+                }
+            }
+            
+            span.tab{
+                padding-left: 30px;
+            }
+
+            span.tab.mobile{
+                display: inline;
+            }
+        }
+
+        br{
+            display: none;
+        }
     }
 }
 
