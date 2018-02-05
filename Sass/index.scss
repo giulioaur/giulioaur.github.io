@@ -463,6 +463,10 @@ body{
                 background-image: url("Images/sann.jpg") !important;
             }
 
+            #proj_srt{
+                background-image: url("Images/srt.jpg") !important;
+            }
+
             .proj_section::before{
                 @include background-opacity(0.6);
             }

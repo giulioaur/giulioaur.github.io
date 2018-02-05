@@ -306,6 +306,8 @@ body {
   background-image: url("Images/cg.jpg") !important; }
 #projects #proj_carousel .carousel-inner > .item #proj_sann {
   background-image: url("Images/sann.jpg") !important; }
+#projects #proj_carousel .carousel-inner > .item #proj_srt {
+  background-image: url("Images/srt.jpg") !important; }
 #projects #proj_carousel .carousel-inner > .item .proj_section::before {
   top: 0px;
   left: 0px;
