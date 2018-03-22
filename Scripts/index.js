@@ -3,6 +3,7 @@ var $GLOBAL = {};
 function init(){
     $GLOBAL.collapseHeader = parseInt($('#header_collapse').css('margin-top'));
     $GLOBAL.fixPhoto = $('#me_photo').position().top + parseInt($('#me_photo').css('height')) - 85;
+    $GLOBAL.hiddenRows = $('.hidden_row');
 
     //Recall function to init components.
     initElement();
@@ -21,14 +22,11 @@ function init(){
 function initElement(){
     // Make the skills visible.
     let windowScroll = $(window)[0].scrollY,
-    skillTop = $('#skills').offset().top;
+        skillTop = $('#skills').offset().top;
 
-    if(windowScroll >= skillTop + 450)
-        $($('.hidden_row')[2]).css({marginTop:"0", opacity:"1"});
-    if(windowScroll >= skillTop + 100)
-        $($('.hidden_row')[1]).css({marginTop:"0", opacity:"1"});
-    if(windowScroll >= skillTop - 250)
-        $($('.hidden_row')[0]).css({marginTop:"0", opacity:"1"});
+    for(i = 0; i < $GLOBAL.hiddenRows.length; ++i)
+        if(windowScroll >= skillTop + -250 + 350 * i)
+            $($GLOBAL.hiddenRows[i]).css({marginTop:"0", opacity:"1"});
 
     fixElement();
 }
@@ -73,15 +71,13 @@ function updateNavBar(){
 
 function showSkills(){
     let windowScroll = $(window)[0].scrollY,
-        skillTop = $('#skills').offset().top;
-
+        skillTop = $('#skills').offset().top,
+        start = -250,
+        end = start + 350 * ($GLOBAL.hiddenRows.length - 1);
     
-    if(windowScroll >= skillTop + 450)
-        $($('.hidden_row')[2]).animate({marginTop:"0", opacity:"1"}, 500);
-    else if(windowScroll >= skillTop + 100)
-        $($('.hidden_row')[1]).animate({marginTop:"0", opacity:"1"}, 500);
-    else if(windowScroll >= skillTop - 250)
-        $($('.hidden_row')[0]).animate({marginTop:"0", opacity:"1"}, 500);
+    for(i = $GLOBAL.hiddenRows.length - 1; i >= 0; --i)
+        if(windowScroll >= skillTop + start + 350 * i)
+            $($GLOBAL.hiddenRows[i]).animate({marginTop:"0", opacity:"1"}, 500);
 }
 
 function moveLabel(){
