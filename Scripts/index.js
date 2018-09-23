@@ -1,5 +1,6 @@
 var $GLOBAL = {};
 
+// Initialization function.
 function init(){
     $GLOBAL.collapseHeader = parseInt($('#header_collapse').css('margin-top'));
     $GLOBAL.fixPhoto = $('#me_photo').position().top + parseInt($('#me_photo').css('height')) - 85;
@@ -19,6 +20,7 @@ function init(){
     updateNavBar();
 }
 
+// Initializes dynamic elements in correct position.
 function initElement(){
     // Make the skills visible.
     let windowScroll = $(window)[0].scrollY,
@@ -31,6 +33,7 @@ function initElement(){
     fixElement();
 }
 
+// Sticky elementes.
 function fixElement(){
     var $window = $(window)[0];
     // Fix and unfix nav bar.
@@ -54,6 +57,7 @@ function toggleCollapsedMenu(){
         $('.navbar-toggle').click();
 }
 
+// Colors navbar based on current scroll position.
 function updateNavBar(){
     let sections = $('.my_section');
     let currentScroll = $(document).scrollTop();
@@ -69,10 +73,11 @@ function updateNavBar(){
     $('#header_collapse li a[href=\'#' + currentSection + '\']').addClass('current');
 }
 
+// Lets skills section appear gradually.
 function showSkills(){
     let windowScroll = $(window)[0].scrollY,
         skillTop = $('#skills').offset().top,
-        start = -250,
+        start = -380,
         end = start + 350 * ($GLOBAL.hiddenRows.length - 1);
     
     for(i = $GLOBAL.hiddenRows.length - 1; i >= 0; --i)

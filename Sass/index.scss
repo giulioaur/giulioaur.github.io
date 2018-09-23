@@ -1,7 +1,6 @@
 @import url("http://fonts.googleapis.com/css?family=Open+Sans");
 @import "icomoon-style";
 
-
 //*****************************************************************************************//
 //*****************************************************************************************//
 //*************************************** VARIABLES ***************************************//
@@ -239,14 +238,14 @@ body{
         #photo_content{
             min-height: 300px;
             margin-top: 50px;
-            float: left;
+            float: right;
             width: 30%;
     
             #me_photo{
                 height: 280px;
                 display: block;                
                 transition: all 0.3s ease;
-                float: right;
+                float: left;
             }
     
             @media only screen and (min-width: 1080px){
@@ -255,19 +254,19 @@ body{
                     z-index: 10000;
                     height: 80px;
                     top: 15px;
-                    left: 10px;
+                    right: 10px;
                 }            
             }
         }
             
         #text_container{
-            float: left;
+            float: right;
             width: 50%;
     
             div{
-                float: left;
+                float: right;
                 margin-top: 130px;
-                margin-left: 50px;
+                margin-right: 50px;
             }
         }
     }
@@ -302,7 +301,7 @@ body{
 @media screen and (min-width: 900px){
     #preface{
         @include parallaxes-background("Images/mybackground.jpg");
-        height: 500px;
+        height: 550px;
     }
 }
 
@@ -373,7 +372,7 @@ body{
             margin-bottom: 29px;
         }
 
-        svg.icon-icons8-unreal{
+        svg.icon-icons8-unreal, svg.icon-unity-logo{
             height: 90px;
         }
 
@@ -569,6 +568,10 @@ body{
 
             #proj_srt{
                 background-image: url("Images/srt.jpg") !important;
+            }
+
+            #proj_vr{
+                background-image: url("Images/chatvrroom.png") !important;
             }
 
             .proj_section::before{
