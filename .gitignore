@@ -23,6 +23,9 @@ Styles/icons/*
 !Styles/icons/javascript
 !Styles/icons/mysql
 
+#Ignore css not minified
+Styles/*.map
+
 #Ignore images
 Styles/Images/mybackground (copy 1).jpg
 Styles/Images/mybackground (copy 2).jpg

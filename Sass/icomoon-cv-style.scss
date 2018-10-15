@@ -1,0 +1,174 @@
+@import "icomoon-cv-variables";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?91ctzt');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?91ctzt#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?91ctzt') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?91ctzt') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?91ctzt##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+i.icon-cv {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-dex .path1 {
+  &:before {
+    content: $icon-dex-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-dex .path2 {
+  &:before {
+    content: $icon-dex-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-dex_t {
+  &:before {
+    content: $icon-dex_t;     
+    color: #fff;
+  }
+}
+.icon-cha .path1 {
+  &:before {
+    content: $icon-cha-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-cha .path2 {
+  &:before {
+    content: $icon-cha-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-fist .path1 {
+  &:before {
+    content: $icon-fist-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-fist .path2 {
+  &:before {
+    content: $icon-fist-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-str_t {
+  &:before {
+    content: $icon-str_t;     
+    color: #fff;
+  }
+}
+.icon-int .path1 {
+  &:before {
+    content: $icon-int-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-int .path2 {
+  &:before {
+    content: $icon-int-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-int_t {
+  &:before {
+    content: $icon-int_t;     
+    color: #fff;
+  }
+}
+.icon-con .path1 {
+  &:before {
+    content: $icon-con-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-con .path2 {
+  &:before {
+    content: $icon-con-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-con_t {
+  &:before {
+    content: $icon-con_t;     
+    color: #fff;
+  }
+}
+.icon-sag .path1 {
+  &:before {
+    content: $icon-sag-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-sag .path2 {
+  &:before {
+    content: $icon-sag-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-sag_t {
+  &:before {
+    content: $icon-sag_t;     
+    color: #fff;
+  }
+}
+.icon-con2 .path1 {
+  &:before {
+    content: $icon-con2-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-con2 .path2 {
+  &:before {
+    content: $icon-con2-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-cha_t {
+  &:before {
+    content: $icon-cha_t;     
+    color: #fff;
+  }
+}
+.icon-knapsack .path1 {
+  &:before {
+    content: $icon-knapsack-path1;  
+    color: rgb(0, 0, 0);
+  }
+}
+.icon-knapsack .path2 {
+  &:before {
+    content: $icon-knapsack-path2;  
+    margin-left: -1em;  
+    color: rgb(255, 255, 255);
+  }
+}
+.icon-knapsack_t {
+  &:before {
+    content: $icon-knapsack_t;     
+    color: #fff;
+  }
+}
