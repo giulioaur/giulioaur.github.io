@@ -236,7 +236,7 @@ body {
     margin-top: 25px;
   }
   #preface #photo_content #me_photo {
-    height: 200px;
+    height: 180px;
     display: block;
   }
 }
@@ -244,12 +244,12 @@ body {
 @media screen and (min-width: 900px) {
   #preface #photo_content {
     min-height: 300px;
-    margin-top: 50px;
+    margin-top: 100px;
     float: right;
     width: 30%;
   }
   #preface #photo_content #me_photo {
-    height: 280px;
+    height: 230px;
     display: block;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -274,7 +274,7 @@ body {
   }
   #preface #text_container div {
     float: right;
-    margin-top: 130px;
+    margin-top: 150px;
     margin-right: 50px;
   }
 }

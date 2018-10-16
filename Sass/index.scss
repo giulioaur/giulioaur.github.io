@@ -228,7 +228,7 @@ body{
             margin-top: 25px;
             
             #me_photo{
-                height: 200px;
+                height: 180px;
                 display: block;
             }
         }
@@ -237,12 +237,12 @@ body{
     @media screen and (min-width: 900px){
         #photo_content{
             min-height: 300px;
-            margin-top: 50px;
+            margin-top: 100px;
             float: right;
             width: 30%;
     
             #me_photo{
-                height: 280px;
+                height: 230px;
                 display: block;                
                 transition: all 0.3s ease;
                 float: left;
@@ -265,7 +265,7 @@ body{
     
             div{
                 float: right;
-                margin-top: 130px;
+                margin-top: 150px;
                 margin-right: 50px;
             }
         }

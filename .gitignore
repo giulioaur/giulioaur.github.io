@@ -8,21 +8,6 @@ sushi - Copia.html
 .sass-cache/
 todo.txt
 
-
-#Ignore icons
-Styles/icons/*
-!Styles/icons/cplusplus
-!Styles/icons/docker
-!Styles/icons/facebook
-!Styles/icons/git
-!Styles/icons/github
-!Styles/icons/html5
-!Styles/icons/ionic
-!Styles/icons/linux
-!Styles/icons/java
-!Styles/icons/javascript
-!Styles/icons/mysql
-
 #Ignore css not minified
 Styles/*.map
 
