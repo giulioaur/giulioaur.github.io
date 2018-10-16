@@ -229,7 +229,7 @@ public class HelloWorld : MonoBehaviour {
 }
 \\NODEI[1]> Compiling Unreal...
 \\NODEP[2][2000]
-\\NODEE[3]$('<img id="unreal_crash" src="Styles/Images/pgs/ue4_crash.png" />')
+\\NODEE[3]$('<img id="unreal_crash" src="Styles/Images/pgs/ue4_crash_screen.png" />')
         .css({ 'position': 'absolute', 'width': '60vw', 'height': '30vw', 'background-color': 'white', 'right': '20vw', 'top': '10vw', 'z-index': '2000', 'cursor': 'wait' })
         .appendTo($('body'))
         setTimeout(() => { $('#unreal_crash').remove()}, 3000);`
