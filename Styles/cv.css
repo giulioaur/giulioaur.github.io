@@ -149,6 +149,10 @@ i.icon-cv {
   src: url(fonts/LifeCraft_Font.ttf);
 }
 
+body {
+  overflow: hidden;
+}
+
 .fake_body {
   background-repeat: no-repeat;
   background-size: 100vw 100vh;
@@ -188,7 +192,9 @@ i.icon-cv {
 }
 
 #selection .pg_info {
+  cursor: pointer;
   height: 230px;
+  width: 100%;
 }
 
 #selection .pg_info .pg_avatar img {
@@ -306,6 +312,7 @@ i.icon-cv {
   background-color: rgba(255, 255, 255, 0.4);
   border: 5px ridge lightgray;
   border-radius: 10px;
+  padding: 5px 10px;
 }
 
 #character #character_header #character_stats .icon-stats {
@@ -340,7 +347,6 @@ i.icon-cv {
 
 #character #character_body #character_equip .equip {
   border: 3px ridge gray;
-  border-radius: 10px;
   height: 8vh;
   position: absolute;
   width: 8vh;
@@ -352,7 +358,7 @@ i.icon-cv {
 }
 
 #character #character_body #character_talents ul a.active, #character #character_body #character_talents #talents_categories {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: white;
 }
 
 #character #character_body #character_talents ul {
@@ -363,6 +369,18 @@ i.icon-cv {
   border: 5px ridge lightgray;
   border-bottom: none;
   border-radius: 10px 10px 0 0;
+}
+
+@media only screen and (max-width: 1650px) {
+  #character #character_body #character_talents ul {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  #character #character_body #character_talents ul {
+    font-size: 11px;
+  }
 }
 
 #character #character_body #character_talents #talents_categories {
@@ -382,7 +400,7 @@ i.icon-cv {
 
 #character #character_body #character_talents #talents_categories #talents_general > .row {
   cursor: pointer;
-  height: 18%;
+  height: 19%;
   margin: 1% 0;
   padding: 3px 10px;
 }
@@ -444,6 +462,10 @@ i.icon-cv {
   width: 100%;
 }
 
+#character #character_body #character_inventory #inventory_space img {
+  background-color: black;
+}
+
 #character #character_body #character_inventory #inventory_button {
   height: 15%;
   margin-top: 5px;
@@ -481,7 +503,6 @@ i.icon-cv {
   color: white;
   font-family: fantasy;
   font-size: 23px;
-  font-weight: bold;
   position: absolute;
   right: 2px;
   top: 0px;
@@ -501,6 +522,10 @@ i.icon-cv {
 #character #character_abilities #abilities_bar .col-1 .loading_screen.loading {
   -webkit-animation: loading 1s linear;
           animation: loading 1s linear;
+}
+
+#character #character_abilities #abilities_bar .col-1.set {
+  background-color: black;
 }
 
 #character #character_abilities #abilities_bar .col-1.activated {
@@ -552,7 +577,7 @@ i.icon-cv {
   display: none;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1200px) {
   #selection, #character, .fake_body, #fake_character_info, #fake_character_avatar {
     display: none !important;
   }

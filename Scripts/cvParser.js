@@ -1,6 +1,6 @@
 //////////////////////////////////////// CONSTANTS ////////////////////////////////////////
 const WRITING_SPEED = 20;                           
-const NODE_TYPES = ['NODEC', 'NODET', 'NODED', 'NODEI', 'NODEP'];     // I know that this is not properly constant.
+const NODE_TYPES = ['NODEC', 'NODET', 'NODED', 'NODEI', 'NODEP', 'NODEE'];     // I know that this is not properly constant.
 const EVENT_NAME = "execute";
 const HTML_WORDS = { '\n': '<br>', '\t': '&emsp;', '<': '&lsaquo;', '>': '&rsaquo;'}
 var ELEMENTS;
@@ -22,8 +22,103 @@ class Node{
     constructor(idx, content = '', $father = null, type = 'D'){
         this._idx = idx;
         this._type = type;
-        this._content = content;
-        this._element = $father != null ? $('<span id="node_' + idx + '"></span>').appendTo($father) : null;
+        let $element = $father != null ? $('<span id="node_' + idx + '"></span>').appendTo($father) : null;
+
+        switch(type){
+            case 'C': case 'T': case 'I':
+                this.execute = () => {
+                    let str = content;
+
+                    return new Promise((resolve, reject) => {
+                        let currentStr = "", currentIdx = 0;
+
+                        // Format tabs.
+                        str = str.split('    ').join('\t');
+
+                        // Move cursor.
+                        ELEMENTS.$CURSOR.insertAfter($element);
+
+                        if (type == 'I') {           // Write all text at once.
+                            for (var i = 0; i < str.length; i++)
+                                currentStr += HTML_WORDS.hasOwnProperty(str[i]) ? HTML_WORDS[str[i]] : str[i];
+
+                            $element.html(currentStr);
+                            resolve();
+                        }
+                        else {                                      // Write the text incrementally.
+                            let addLetter = setInterval(() => {
+                                if (currentIdx < str.length && !parserGlobal.stopExecution) {
+                                    let ch = str[currentIdx];
+
+                                    if (HTML_WORDS.hasOwnProperty(ch)) currentStr += HTML_WORDS[ch];            // Break line.          
+                                    else currentStr += ch;                                                      // Normal letter.
+
+                                    ++currentIdx;
+                                    $element.html(currentStr);
+
+                                    if (type == 'T')    $('#code_terminal').scrollTop($('#code_terminal > div').prop("scrollHeight"));
+                                }
+                                else {
+                                    clearInterval(addLetter);
+                                    if (parserGlobal.stopExecution) reject();
+                                    else                            resolve();
+                                }
+                            }, WRITING_SPEED);
+                        }
+                    });
+                }
+                break;
+            case 'D':
+                this.execute = () => {
+                    return new Promise((resolve, reject) => {
+                        let toDelete = content.split(',');
+
+                        ELEMENTS.$CURSOR.insertAfter($('#node_' + toDelete[toDelete.length - 1]));
+
+                        setTimeout(() => {
+                            let $nodes = $(toDelete.map(x => '#node_' + x).join(', '));
+                            $nodes.css('background-color', 'gray');
+                            ELEMENTS.$CURSOR.insertBefore($nodes.eq(0));
+
+                            setTimeout(() => {
+                                $nodes.remove();
+                                resolve();
+                            }, 200)
+                        }, 200);
+                    });
+                }
+                break;
+            case 'P':
+                this.execute = () => {
+                    let time = parseInt(content);
+
+                    return new Promise((resolve, reject) => {
+                        // Set pause.
+                        let timeout = setTimeout(() => {
+                            resolve();
+                            clearInterval(interval);
+                        }, time);
+
+                        // Check if interruption happens.
+                        let interval = setInterval(() => {
+                            if (parserGlobal.stopExecution) {
+                                clearTimeout(timeout);
+                                clearInterval(interval);
+                                reject();
+                            }
+                        }, WRITING_SPEED);
+                    });
+                }
+                break;
+            case 'E':
+                this.execute = () => {
+                    return new Promise((resolve, reject) => {
+                        eval(content);
+                        resolve();
+                    });
+                }
+                break;
+        }
     }
 
     /**
@@ -36,16 +131,16 @@ class Node{
      */
     get type() { return this._type; }
  
-    /**
-     * The element containing the node content.
-     */
-    get $element() { return this._element; }
+    // /**
+    //  * The element containing the node content.
+    //  */
+    // get $element() { return this._element; }
 
-    /**
-     * The content of the node.
-     */
-    get content() { return this._content; }
-    set content(cont) { this._content = cont; }
+    // /**
+    //  * The content of the node.
+    //  */
+    // get content() { return this._content; }
+    // set content(cont) { this._content = cont; }
 }
 
 var parser = {
@@ -55,7 +150,6 @@ var parser = {
  */
 init(){
     ELEMENTS = Object.freeze({ROOT : document.getElementById('character_code_environment'), $CURSOR : $('#blinking_cursor')});
-    ELEMENTS.ROOT.addEventListener(EVENT_NAME, this.execute);
 },
 
 /**
@@ -70,7 +164,8 @@ parse(str){
 
     // Start node execution.
     parserGlobal.isExecuting = true;
-    ELEMENTS.ROOT.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: {parser: this, list: list, index : 0} }));
+    parserGlobal.stopExecution = false;
+    this.execute(list);
 },
 
 /**
@@ -123,10 +218,10 @@ parseNode(str, pos, list, type){
 
     // Check type of node and parse it.
     closure++;
-    if (type == 'C' || type == 'T' || type == 'I'){        // Text node.
+    if (type == 'C' || type == 'T' || type == 'I' || type == 'E'){        // Text node.
         let newPos = str.indexOf('\\NODE', closure);
         let content = str.substr(closure, (newPos > 0 ? newPos : str.length) - closure);
-        list.push(new Node(parseInt(index), content, type == 'C' ? $('#code_paper .node_father') : $('#code_terminal .node_father'), type));
+        list.push(new Node(parseInt(index), content, type == 'E' ? null : type == 'C' ? $('#code_paper .node_father') : $('#code_terminal .node_father'), type));
         return newPos;
     }
     else if (type == 'D' || type == 'P'){                  // Deleter and pause node.
@@ -143,122 +238,23 @@ parseNode(str, pos, list, type){
 },
 
 /**
- * Executes a node.
+ * Executes the nodes list.
  * 
- * @param {{detail: {parser: {}, list: array, index: number}}} container The object containing list of events and index of current node.
+ * @param {Node[]} list The list of nodes to execute.
  */
-execute(container){
-    let list = container.detail.list, index = container.detail.index;
+async execute(list){
+    for (let i = 0; parserGlobal.isExecuting && !parserGlobal.stopExecution && i < list.length; ++i){
+        let node = list[i];
 
-    if (!parserGlobal.stopExecution && index < list.length){
-        let type = list[index].type;
-
-        // Call the right execution method.
-        switch(type){
-            case 'C': case 'T': case 'I':
-                container.detail.parser.textNode(list, index); break;
-            case 'D':
-                container.detail.parser.deleterNode(list, index); break;
-            case 'P':
-                container.detail.parser.pauseNode(list, index); break;
+        try {
+            await node.execute();
+        }
+        catch {
+            parserGlobal.isExecuting = false;
         }
     }
-    else{
-        parserGlobal.isExecuting = false;
-    }
-},
 
-/**
- * Executes a text node.
- * 
- * @param {Node[]} nodeList The list of nodes.
- * @param {number} index The index of the current node.
- */
-textNode(nodeList, index) {
-    let str = nodeList[index].content, $element = nodeList[index].$element;
-    let currentStr = "", currentIdx = 0;
-
-    // Format tabs.
-    str = str.split('    ').join('\t');
-
-    // Move cursor.
-    ELEMENTS.$CURSOR.insertAfter($element);
-
-    if (nodeList[index].type == 'I'){           // Write all text at once.
-        for (var i = 0; i < str.length; i++)
-            currentStr += HTML_WORDS.hasOwnProperty(str[i]) ? HTML_WORDS[str[i]] : str[i];
-
-        $element.html(currentStr);
-        ELEMENTS.ROOT.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: { parser: this, list: nodeList, index: index + 1 } }));
-    }
-    else {                                      // Write the text incrementally.
-        let addLetter = setInterval(() => {
-            if (currentIdx < str.length && !parserGlobal.stopExecution) {
-                let ch = str[currentIdx];
-
-                if (HTML_WORDS.hasOwnProperty(ch)) currentStr += HTML_WORDS[ch];           // Break line.          
-                else currentStr += ch;                                                      // Normal letter.
-
-                ++currentIdx;
-                $element.html(currentStr);
-
-                if (nodeList[index].type == 'T'){
-                    $('#code_terminal').scrollTop($('#code_terminal > div').prop("scrollHeight"));
-                }
-            }
-            else {
-                clearInterval(addLetter);
-                ELEMENTS.ROOT.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: { parser: this, list: nodeList, index: index + 1 } }));
-            }
-        }, WRITING_SPEED);
-    }
-    
-},
-
-/**
- * Executes a deleter node.
- * 
- * @param {Node[]} nodeList The list of nodes.
- * @param {number} index The index of the current node.
- */
-deleterNode(nodeList, index){
-    let toDelete = nodeList[index].content.split(',');
-
-    ELEMENTS.$CURSOR.insertAfter($('#node_' + toDelete[toDelete.length - 1]));
-
-    setTimeout(() => {
-        let $nodes = $(toDelete.map(x => '#node_' + x).join(', '));
-        $nodes.css('background-color', 'gray');
-        ELEMENTS.$CURSOR.insertBefore($nodes.eq(0));
-
-        setTimeout(() => {
-            $nodes.remove();
-            ELEMENTS.ROOT.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: { parser: this, list: nodeList, index: index + 1 } }));
-        }, 200)
-    }, 200);
-},
-
-/**
- * Executes a pause node.
- * 
- * @param {Node[]} nodeList The list of nodes.
- * @param {number} index The index of the current node.
- */
-pauseNode(nodeList, index){
-    // Set pause.
-    let timeout = setTimeout(() => {
-        ELEMENTS.ROOT.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: { parser: this, list: nodeList, index: index + 1 } }));
-        clearInterval(interval);
-    }, parseInt(nodeList[index].content));
-
-    // Check if interruption happens.
-    let interval = setInterval(() => {
-        if (parserGlobal.stopExecution){
-            clearTimeout(timeout);
-            clearInterval(interval);
-            ELEMENTS.ROOT.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: { parser: this, list: nodeList, index: index + 1 } }));
-        }
-    }, WRITING_SPEED);
+    parserGlobal.isExecuting = false;
 },
 
 /**
@@ -281,12 +277,12 @@ stopPreviousExecution: async () => {
 
         await stopper;
         parserGlobal.stopExecution = false;
-
-        // Clean up all.
-        ELEMENTS.$CURSOR.appendTo(ELEMENTS.ROOT);
-        $('#code_paper .node_father, #code_terminal .node_father').empty();
-        ELEMENTS.$CURSOR.appendTo($('#code_paper .node_father'));
     }
+
+    // Clean up all.
+    ELEMENTS.$CURSOR.appendTo(ELEMENTS.ROOT);
+    $('#code_paper .node_father, #code_terminal .node_father').empty();
+    ELEMENTS.$CURSOR.appendTo($('#code_paper .node_father'));
 }
 
 }

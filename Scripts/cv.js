@@ -2,7 +2,9 @@
 ///////////////////////////////////// GLOBAL /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
-var input_map = { '73' : () => { parser.stopPreviousExecution(); toggle_talents_tree(true); }};
+var input_map = { 
+    '73' : () => { parser.stopPreviousExecution(); toggle_talents_tree(true); },        // Talents tree.
+};
 var global = { acceptInput : true }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -22,13 +24,6 @@ function init() {
     parser.init();
 
     // set_character(0);
-
-    // // parser.writeString(`int main(){
-    // //                             int x = 2;
-    // //                             printf("%d", x);
-    // //                         }`, $('#test_span'))
-    // $('#character_talents').hide();
-    // parser.parse(pgs.list[0].abilities[0].code);
 }
 
 /**
@@ -54,7 +49,7 @@ function resize(){
  * @param {Event} event The event.
  */
 function handle_input(event){
-    if (global.acceptInput && input_map.hasOwnProperty(event.keyCode)){
+    if (global.acceptInput && event.keyCode in input_map){
         // Execute ability.
         global.acceptInput = false;
         input_map[event.keyCode]();
@@ -343,13 +338,6 @@ function resize_talents_categories(){
     $('.talents_category').height($('#character_talents').height() - $('#character_talents ul').height() - 10);
 
     $('.talents_category .talent_info > .col-3 > img').resize(() => {console.log("Ok");});
-}
-
-/**
- * Toggles popus on items.
- */
-function toggle_popup(){
-    $(event.target).popover('toggle');
 }
 
 /**

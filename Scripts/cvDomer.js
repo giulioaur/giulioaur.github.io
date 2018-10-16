@@ -82,13 +82,15 @@ setObjects(equips, inventory){
     for (let piece in equips) {
         let $img = $('#equip_' + piece + ' > img');
 
-        $img.attr({ 'src': equips[piece].src, 'data-content': equips[piece].descr, 'onmouseover': 'toggle_popup()', 'onmouseout': 'toggle_popup()' });
+        $img.attr({ 'src': equips[piece].src, 'data-content': equips[piece].descr });
+        $img.popover();
     }
 
     // Set inventory.
     let $inventoryObj = $('#inventory_internal .row img');
     for (let i = 0, n1 = inventory.length, n2 = $inventoryObj.length; i < n1 && i < n2; ++i) {
-        $inventoryObj.eq(i).attr({ 'src': inventory[i].src, 'data-content': inventory[i].descr, 'onmouseover': 'toggle_popup()', 'onmouseout': 'toggle_popup()' })
+        $inventoryObj.eq(i).attr({ 'src': inventory[i].src, 'data-content': inventory[i].descr });
+        $inventoryObj.eq(i).popover();
     }
 },
 
@@ -169,6 +171,7 @@ setAbilities(abilities){
 
         // Draw the ability.
         $abilitySpace.eq(i).attr('id', 'ability_' + keyCode);
+        $abilitySpace.eq(i).addClass('set');
         $abilitySpace.eq(i).css('background-image', 'url("' + ability.icon + '")');
         $abilitySpace.eq(i).append($(`<h1>${ability.shortcut}</h1>`));
 

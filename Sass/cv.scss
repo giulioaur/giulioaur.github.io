@@ -20,6 +20,10 @@ $default-border-radius: 10px;
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+body{
+    overflow: hidden;
+}
+
 .fake_body{
     background-repeat: no-repeat;
     background-size: 100vw 100vh;
@@ -64,7 +68,9 @@ $default-border-radius: 10px;
     }
 
     .pg_info{
+        cursor: pointer;
         height: 230px;
+        width:  100%;
 
         .pg_avatar{
             img{
@@ -202,6 +208,7 @@ $default-border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.4);
             border: 5px ridge lightgray;
             border-radius: $default-border-radius;
+            padding: 5px 10px;
 
             .icon-stats{
                 font-size: 35px;
@@ -239,7 +246,6 @@ $default-border-radius: 10px;
 
             .equip{
                 border: 3px ridge gray;
-                border-radius: $default-border-radius;
                 height: 8vh;
                 position: absolute;
                 width: 8vh;
@@ -251,7 +257,7 @@ $default-border-radius: 10px;
             padding: 0;
 
             ul a.active, #talents_categories{
-                background-color: rgba(255, 255, 255, 0.6);
+                background-color: rgba(255, 255, 255, 1);
             }
 
             ul{
@@ -261,6 +267,18 @@ $default-border-radius: 10px;
                     border: $default-border;
                     border-bottom: none;
                     border-radius: $default-border-radius $default-border-radius 0 0;
+                }
+            }
+
+            @media only screen and (max-width: 1650px){
+                ul{
+                    font-size: 14px;
+                }
+            }
+
+            @media only screen and (max-width: 1500px){
+                ul{
+                    font-size: 11px;
                 }
             }
             
@@ -279,7 +297,7 @@ $default-border-radius: 10px;
 
                     > .row{
                         cursor: pointer;
-                        height: 18%;
+                        height: 19%;
                         margin: 1% 0;
                         padding: 3px 10px;
 
@@ -355,6 +373,10 @@ $default-border-radius: 10px;
             #inventory_space{
                 height: 85%;
                 width: 100%;
+
+                img{
+                    background-color: black;
+                }
             }
 
             #inventory_button{
@@ -394,17 +416,10 @@ $default-border-radius: 10px;
                 border-right: 5px ridge gray;
                 padding: 0;
 
-                // img{
-                //     height: 100%;
-                //     width: 100%;
-                //     z-index: 1000;
-                // }
-
                 h1{
                     color: white;
                     font-family: fantasy;
                     font-size: 23px;
-                    font-weight: bold;
                     position: absolute;
                     right: 2px;
                     top: 0px;
@@ -423,6 +438,10 @@ $default-border-radius: 10px;
                 .loading_screen.loading{
                     animation: loading 1s linear;
                 }
+            }
+
+            .col-1.set{
+                background-color: rgba(0, 0, 0, 1); 
             }
 
             .col-1.activated{
@@ -484,7 +503,7 @@ $default-border-radius: 10px;
     display: none;
 }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 1200px){
     #selection, #character, .fake_body, #fake_character_info, #fake_character_avatar{
         display: none !important;
     }
