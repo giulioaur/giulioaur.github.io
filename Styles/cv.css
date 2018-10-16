@@ -145,8 +145,8 @@ i.icon-cv {
 }
 
 @font-face {
-  font-family: fantasy;
-  src: url(fonts/LifeCraft_Font.ttf);
+  font-family: "fantasy";
+  src: url("/Styles/fonts/LifeCraft_Font.ttf") format("opentype");
 }
 
 body {
@@ -257,6 +257,10 @@ body {
 
 #character #character_header {
   padding: 10px 0;
+}
+
+#character #character_header > div {
+  height: 100%;
 }
 
 #character #character_header #character_avatar {
@@ -388,6 +392,10 @@ body {
   border-radius: 0 10px 10px 10px;
   margin-top: -5px;
   z-index: 1000;
+}
+
+#character #character_body #character_talents #talents_categories div[class^="col-"], #character #character_body #character_talents #talents_categories div[class*=" col-"] {
+  max-height: 100%;
 }
 
 #character #character_body #character_talents #talents_categories #talents_general {

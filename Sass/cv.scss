@@ -10,8 +10,8 @@ $default-border-radius: 10px;
 //*****************************************************************************************//
 
 @font-face {
-    font-family: fantasy;
-    src: url(fonts/LifeCraft_Font.ttf);
+    font-family: "fantasy";
+    src: url("/Styles/fonts/LifeCraft_Font.ttf") format("opentype");
 }
 
 //*****************************************************************************************//
@@ -155,6 +155,10 @@ body{
 
         padding: 10px 0;
 
+        >div{
+            height: 100%;
+        }
+
         #character_avatar{
             padding: 0;
             z-index: 1000;
@@ -287,6 +291,11 @@ body{
                 border-radius: 0 $default-border-radius $default-border-radius $default-border-radius;
                 margin-top: -5px;
                 z-index: 1000;
+
+                div[class^="col-"], div[class*=" col-"]{
+                    max-height: 100%;
+                }
+
 
                 #talents_general{
                     padding: 0;

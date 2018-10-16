@@ -249,7 +249,7 @@ async execute(list){
         try {
             await node.execute();
         }
-        catch {
+        catch (err) {
             parserGlobal.isExecuting = false;
         }
     }
