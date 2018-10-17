@@ -182,11 +182,11 @@ body{
             > div{
                 background-color: lightgray;
                 border-radius: $default-border-radius;
-                margin-left: -2.5vh;
+                margin-left: -2.5vw;
             }
 
             #character_name{
-                margin-left: 2.5vh;
+                margin-left: 2.5vw;
             }
 
             #character_mana, #character_health{
@@ -214,8 +214,14 @@ body{
             border-radius: $default-border-radius;
             padding: 5px 10px;
 
-            .icon-stats{
+            .icon-stats, .stats_container{
                 font-size: 35px;
+            }
+
+            @media only screen and (max-height: 800px){
+                .icon-stats, .stats_container{
+                    font-size: 30px; 
+                }
             }
 
             .icon-stats::before{
@@ -225,7 +231,6 @@ body{
             .stats_container{
                 color: #ffbf00;
                 font-family: fantasy;
-                font-size: 35px;
                 font-weight: bold;
                 text-align: center;
                 cursor: default;

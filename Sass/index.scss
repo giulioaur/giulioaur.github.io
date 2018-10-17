@@ -222,6 +222,20 @@ body{
                     -0.2px -0.2px #c9c9cc;
     }
 
+    #tmp_message{
+        top: 30px;
+        position: relative;
+        font-size: 31px;
+        font-weight: bold;
+        left: 50%;
+    }
+
+    @media screen and (max-width: 1200px){
+        #tmp_message{
+            display: none;
+        }
+    }
+
     @media screen and (max-width: 900px){
         #photo_content{
             width: 100%;
@@ -572,6 +586,10 @@ body{
 
             #proj_vr{
                 background-image: url("Images/chatvrroom.png") !important;
+            }
+
+            #proj_rpg{
+                background-image: url("Images/rpg.png") !important;
             }
 
             .proj_section::before{

@@ -105,20 +105,25 @@
             </div>
         </a>
         <section id="preface" class="content-fluid my_section">
-            <div id="background"></div>
-            <div id="photo_content">
-                <img id="me_photo" class="img-circle" src="Styles\Images\me.jpg" />
-            </div>
-            <div id="text_container">
-                <div>
-                    <h1>Giulio Auriemma<br>Computer Scientist</h1>
+            <a href="cv.html">
+                <div id="background"></div>
+                <div id="photo_content" >
+                    <img data-container="body"  id="me_photo" class="img-circle" src="Styles\Images\me.jpg" />
                 </div>
-            </div>
+                <div id="text_container">
+                    <div>
+                        <h1>Giulio Auriemma<br>Computer Scientist</h1>
+                    </div>
+                </div>
+                <div id="tmp_message">
+                    CLICK THIS HEADER
+                </div>
+            </a>
         </section>
         <section id="about_me" class="content-fluid my_section">
             <h1 class="title">About me</h1>
             <div class="row">
-                <div class="col-sm-1"></div>
+                <div class="col-sm-1" ></div>
                 <div class="col-sm-10">
                     <h4 id="citation"><i>"I believe that computer science represent the future, and I'm studying it to build my own one in the best possible way."</i></h4>
                 </div>
@@ -373,7 +378,8 @@
                   <li data-target="#proj_carousel" data-slide-to="0"></li>
                   <li data-target="#proj_carousel" data-slide-to="1"></li>
                   <li data-target="#proj_carousel" data-slide-to="2"></li>
-                  <li data-target="#proj_carousel" data-slide-to="3" class="active"></li>
+                  <li data-target="#proj_carousel" data-slide-to="3"></li>
+                  <li data-target="#proj_carousel" data-slide-to="4" class="active"></li>
                 </ol>
               
                 <!-- Wrapper for slides -->
@@ -424,7 +430,7 @@
                             </section>
                         </a>
                     </div>
-                    <div class="item active">
+                    <div class="item">
                         <a href="https://github.com/VRcolVento/ChatVRoom" target="_blank">
                             <section class="proj_section" id="proj_vr">
                                 <h1>ChatVRoom</h1>
@@ -435,6 +441,20 @@
                                     Here we also try to experiment different kind of VR interaction with the 3D object.
                                     Unfortunately, the multiplayer part did never see the light due to lack of equipment, 
                                     nevertheless we are very proud of the result.
+                                </p>
+                            </section>
+                        </a>
+                    </div>
+                    <div class="item active">
+                        <a href="https://github.com/giulioaur/giulioaur.github.io" target="_blank">
+                            <section class="proj_section" id="proj_rpg">
+                                <h1>RPG: RPG Portfolio of Giulio</h1>
+                                <p>A new funny and interactive way to show my cv in a RPG style. It could be played clicking on the header.
+                                    The interface is inspired by my preferite RPG game, but since I am not a UI designer, there are still
+                                    some imperfections I will try to fix in future versions. It is fully realised with HTML and JS, with the help of
+                                    Bootstrap and Jquery. All the visualized stuff about the pg is dinamically recovered from a JSON file, so
+                                    new characters can be easily added just modifying it and without touching neither HTML or JS files. I have
+                                    also implemented a simple parser for the basic pseudo-code used to show abilitie's animation.   
                                 </p>
                             </section>
                         </a>

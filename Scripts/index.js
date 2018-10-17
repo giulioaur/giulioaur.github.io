@@ -18,6 +18,8 @@ function init(){
 
     // Start with nav bar correctly setted.
     updateNavBar();
+
+    $('#about_me').popover();
 }
 
 // Initializes dynamic elements in correct position.

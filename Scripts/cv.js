@@ -16,8 +16,8 @@ var global = { acceptInput : true }
  */
 function init() {
     // Hide sections.
-    $('#character').hide();
     $('#character_code_environment').hide();
+    $('#character').hide();
 
     // Create pgs for selection.
     create_pg();

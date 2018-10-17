@@ -230,6 +230,20 @@ body {
   text-shadow: 0.2px 0.2px #c9c9cc, -0.2px -0.2px #c9c9cc;
 }
 
+#preface #tmp_message {
+  top: 30px;
+  position: relative;
+  font-size: 31px;
+  font-weight: bold;
+  left: 50%;
+}
+
+@media screen and (max-width: 1200px) {
+  #preface #tmp_message {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 900px) {
   #preface #photo_content {
     width: 100%;
@@ -529,6 +543,10 @@ body {
 
 #projects #proj_carousel .carousel-inner > .item #proj_vr {
   background-image: url("Images/chatvrroom.png") !important;
+}
+
+#projects #proj_carousel .carousel-inner > .item #proj_rpg {
+  background-image: url("Images/rpg.png") !important;
 }
 
 #projects #proj_carousel .carousel-inner > .item .proj_section::before {

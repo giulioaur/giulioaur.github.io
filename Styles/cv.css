@@ -287,11 +287,11 @@ body {
 #character #character_header #character_info > div {
   background-color: lightgray;
   border-radius: 10px;
-  margin-left: -2.5vh;
+  margin-left: -2.5vw;
 }
 
 #character #character_header #character_info #character_name {
-  margin-left: 2.5vh;
+  margin-left: 2.5vw;
 }
 
 #character #character_header #character_info #character_mana, #character #character_header #character_info #character_health {
@@ -319,8 +319,14 @@ body {
   padding: 5px 10px;
 }
 
-#character #character_header #character_stats .icon-stats {
+#character #character_header #character_stats .icon-stats, #character #character_header #character_stats .stats_container {
   font-size: 35px;
+}
+
+@media only screen and (max-height: 800px) {
+  #character #character_header #character_stats .icon-stats, #character #character_header #character_stats .stats_container {
+    font-size: 30px;
+  }
 }
 
 #character #character_header #character_stats .icon-stats::before {
@@ -330,7 +336,6 @@ body {
 #character #character_header #character_stats .stats_container {
   color: #ffbf00;
   font-family: fantasy;
-  font-size: 35px;
   font-weight: bold;
   text-align: center;
   cursor: default;
