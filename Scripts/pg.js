@@ -6,7 +6,7 @@ var pgs = {
             race : "Human",
             spec : "Programmer",
             background: "Styles/Images/mybackground.jpg",
-            statistics : [10, 16, 8, 18, 12, 16],
+            statistics : [10, 14, 8, 18, 12, 16],
             equips : { 
                 helmet: { src: "Styles/Images/pgs/beard.png", descr: "There is nothing cooler than a great and clan beard." },
                 right_hand: { src: "Styles/Images/pgs/keyboard.png", descr: "Essential to write code." },
