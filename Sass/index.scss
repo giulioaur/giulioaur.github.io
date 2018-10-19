@@ -89,7 +89,6 @@ body{
     font-family: 'Open Sans';
 }
 
-
 //*****************************************************************************************//
 //*****************************************************************************************//
 //*************************************** TOP BUTTON **************************************//
@@ -194,6 +193,30 @@ body{
         margin-top: 0px;
     }
 }
+
+
+.popover{
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 13px;
+    border: 2px groove #afafaf;
+    z-index: 1000;
+
+    .arrow{
+        display: none;
+    }
+
+    .popover-content{
+        color: #feffd8;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .popover{
+        display: none !important;
+    }
+}
+
 
 
 //*****************************************************************************************//

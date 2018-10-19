@@ -19,7 +19,7 @@ function init(){
     // Start with nav bar correctly setted.
     updateNavBar();
 
-    $('#about_me').popover();
+    $('[data-toggle="popover"]').popover('show');
 }
 
 // Initializes dynamic elements in correct position.
@@ -33,6 +33,11 @@ function initElement(){
             $($GLOBAL.hiddenRows[i]).css({marginTop:"0", opacity:"1"});
 
     fixElement();
+}
+
+// Resize function.
+function resize() { 
+    $('[data-toggle="popover"]').popover('show');
 }
 
 // Sticky elementes.
