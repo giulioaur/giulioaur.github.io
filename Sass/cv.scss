@@ -14,6 +14,11 @@ $default-border-radius: 10px;
     src: url("/Styles/fonts/LifeCraft_Font.ttf") format("opentype");
 }
 
+@font-face{
+    font-family: "ds";
+    src: url("/Styles/fonts/ds.ttf") format("opentype");
+}
+
 //*****************************************************************************************//
 //*****************************************************************************************//
 //**************************************** GENERAL ****************************************//
@@ -43,6 +48,32 @@ body{
     position: absolute;
     top: 0px;
     width: 100%;
+}
+
+#dead{
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%; 
+    z-index: 2000;
+
+    div{
+        background-color: rgba(0, 0, 0, 1);
+        height: 170px;
+        text-align: center;
+        top: 43%;
+        width: 100%;
+
+        h1{
+            color: #671414;
+            font-family: ds;
+            font-size: 135px;
+            line-height: 170px;
+        }
+    }
 }
 
 //*****************************************************************************************//
@@ -199,13 +230,51 @@ body{
             }
 
             #character_health{
-                background-color: #65bf65;
-                color: #0d870d; 
+                background-color: black;
+
+                #health_indicator{
+                    color: #65bf65;
+                }
+                #current_health{
+                    background-color: #65bf65;
+                    color: #65bf65;
+                    border-radius: 5px;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            #character_health:hover{
+                #health_indicator{
+                    color: #0d870d; 
+                }
             }
 
             #character_mana{
-                background-color: #6565bf;
-                color: #0d0d87;
+                background-color: black;
+
+                #mana_indicator{
+                    color: #6565bf;
+                }
+
+                #current_mana{
+                    background-color: #6565bf;
+                    color: #6565bf;
+                    border-radius: 5px;
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            #character_mana:hover{
+                #mana_indicator{
+                    color: #0d0d87;
+                }
+            }
+
+            .indicator{
+                position: absolute;
+                width: 100%;
             }
         }
         
@@ -273,10 +342,15 @@ body{
             ul{
                 z-index: 1001;
 
-                a.active{
-                    border: $default-border;
-                    border-bottom: none;
-                    border-radius: $default-border-radius $default-border-radius 0 0;
+                li{
+                    text-align: center;
+                    width: 16.5%;
+
+                    a.active{
+                        border: $default-border;
+                        border-bottom: none;
+                        border-radius: $default-border-radius $default-border-radius 0 0;
+                    }
                 }
             }
 

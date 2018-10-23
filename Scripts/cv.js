@@ -2,10 +2,12 @@
 ///////////////////////////////////// GLOBAL /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
+const MANA_PER_SECOND = 100;
 var input_map = { 
-    '73' : () => { parser.stopPreviousExecution(); toggle_talents_tree(true); },        // Talents tree.
+    '73': () => { parser.stopPreviousExecution(); toggle_talents_tree(true); },        // Talents tree.
+    '27': () => { parser.stopPreviousExecution(); go_back(); },
 };
-var global = { acceptInput : true }
+var global = { acceptInput : true, recoveringMana : null };
 
 //////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// GENERAL ////////////////////////////////////
@@ -97,7 +99,7 @@ function create_pg(){
  * 
  * @param {number} idx The index of the character in the characters array.
  */
-async function choose_character(idx){
+function choose_character(idx){
     // Start rendering pg in background.
     var promise = set_character(idx);
 
@@ -194,6 +196,7 @@ function create_fake_border() {
         'width': $chInfo.width() + borderSize * 2, 'height': $chInfo.height() + borderSize * 2, 'border': borderSize + 'px ridge gray',
         'border-radius': '10px'
     });
+    $fakeCI.empty();
 
     // Border for avatar.
     let $chImg = $("#character_avatar > img");
@@ -206,6 +209,7 @@ function create_fake_border() {
         'width': $chImg.width() + (borderSize + imgBorder) * 2, 'height': $chImg.height() + (borderSize + imgBorder) * 2, 'border': borderSize + 'px ridge gray',
         'border-radius': '100%'
     });
+    $fakeCA.empty();
 }
 
 /**
@@ -357,4 +361,91 @@ function toggle_talents_tree(showTalentsWindow){
             $talents.hide(); $abilities.show();
         }
     }
+}
+
+/**
+ * Sets the value of your mana points.
+ * 
+ * @param {number} newValue The new mana.
+ */
+function set_mana(newValue){
+    let max = Number($('#mana_indicator > span:nth-child(2)').text());
+    
+    if (newValue >= 0 && newValue <= max) {              
+        $('#current_mana').css('width', (newValue / max * 100) + '%'); 
+        $('#mana_indicator > span:first-child').text(newValue); 
+    }
+}
+
+/**
+ * Sets the value of your health points.
+ * 
+ * @param {number} newValue The new health.
+ */
+function set_health(newValue) {
+    let max = Number($('#health_indicator > span:nth-child(2)').text());
+
+    if (newValue >= 0 && newValue <= max) {
+        $('#current_health').css('width', (newValue / max * 100) + '%');
+        $('#health_indicator > span:first-child').text(newValue);
+    }
+}
+
+/**
+ * Recovers mana gradually.
+ */
+function recover_mana(){
+    if (global.recoveringMana == null){
+        global.recoveringMana = setInterval(() => {
+            let max = Number($('#mana_indicator > span:nth-child(2)').text());
+            let next = Math.max(Math.min(Number($('#mana_indicator > span:first-child').text()) + MANA_PER_SECOND, max), 0);
+            set_mana(next);
+
+            if (next == Number($('#mana_indicator > span:nth-child(2)').text())){
+                clearInterval(global.recoveringMana);
+                global.recoveringMana = null;
+            }
+        }, 1000);
+    }
+}
+
+/**
+ * Shows the dead screen and reset life and mana.
+ */
+function die() {
+    // Show animation.
+    $('#dead h1').css({ 'font-size': '100px' });
+    $('#dead').fadeIn(2000);
+    $('#dead h1').animate({'font-size': '135px'}, 2000, () => {
+        // After 2 seconds reset life and mana.
+        setTimeout(() => {
+            $('#dead').hide();
+            set_health(Number($('#health_indicator > span:nth-child(2)').text()));
+            set_mana(Number($('#mana_indicator > span:nth-child(2)').text()));
+        }, 2000);
+    });
+}
+
+function go_back(){
+    // Move avatar.
+    let $old = $('#character_avatar img');
+
+    // First we copy the image a couple of time.
+    let $new = $('#pg_1 img');
+    let $temp = $old.clone().appendTo('body');
+
+    // // Store attributes.
+    // let newOffset = $new.offset(), newDim = $new.css('width');
+    // let oldOffset = $old.offset();
+
+    // hide new and old and move $temp to position
+    // also big z-index, make sure to edit this to something that works with the page
+    // $temp.css({ 'position': 'absolute', 'left': oldOffset.left, 'top': oldOffset.top, 'zIndex': 1000 });
+    $old.remove();
+
+    // Start fade and movement animations.
+    $('#character').hide(400);
+    // $temp.animate({ 'top': newOffset.top, 'left': newOffset.left, 'width': newDim }, 'slow', function () {
+    //     // Wait the pg to be rendered.
+    // });
 }

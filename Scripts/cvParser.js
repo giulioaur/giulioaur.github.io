@@ -1,6 +1,6 @@
 //////////////////////////////////////// CONSTANTS ////////////////////////////////////////
 const WRITING_SPEED = 20;                           
-const NODE_TYPES = ['NODEC', 'NODET', 'NODED', 'NODEI', 'NODEP', 'NODEE'];     // I know that this is not properly constant.
+const NODE_TYPES = ['NODEC', 'NODET', 'NODED', 'NODEI', 'NODEP', 'NODEE', 'NODEM', 'NODEH'];     // I know that this is not properly constant.
 const EVENT_NAME = "execute";
 const HTML_WORDS = { '\n': '<br>', '\t': '&emsp;', '<': '&lsaquo;', '>': '&rsaquo;'}
 var ELEMENTS;
@@ -118,6 +118,42 @@ class Node{
                     });
                 }
                 break;
+            case 'H':
+                this.execute = () => {
+                    return new Promise((resolve, reject) => {
+                        let max = Number($('#health_indicator > span:nth-child(2)').text());
+                        let next = Math.max(Math.min(Number($('#health_indicator > span:first-child').text()) + Number(content), max), 0);
+                        console.log(next);
+                        set_health(next);
+
+                        if (next > 0){              // Still alive.
+                            resolve();
+                        }
+                        else{                       // Dead.
+                            die();
+                            reject();
+                        }
+                    });
+                }
+                break;
+            case 'M': 
+                this.execute = () => {
+                    return new Promise((resolve, reject) => {
+                        let max = Number($('#mana_indicator > span:nth-child(2)').text());
+                        let next = Math.max(Math.min(Number($('#mana_indicator > span:first-child').text()) - Number(content), max), 0);
+                        
+                        if (next > 0) {              // Enough mana.
+                            set_mana(next);
+                            recover_mana();
+                            resolve();
+                        }
+                        else {                       // No mana.
+                            $('#code_terminal .node_father').text('Not enough mana.');
+                            reject();
+                        }
+                    });
+                }
+                break;
         }
     }
 
@@ -224,10 +260,10 @@ parseNode(str, pos, list, type){
         list.push(new Node(parseInt(index), content, type == 'E' ? null : type == 'C' ? $('#code_paper .node_father') : $('#code_terminal .node_father'), type));
         return newPos;
     }
-    else if (type == 'D' || type == 'P'){                  // Deleter and pause node.
+    else if (type == 'D' || type == 'P' || type == 'M' || type == 'H'){                  // Deleter and pause node.
         let closure2 = str.indexOf(']', closure);
         if (str[closure] != '[' || closure2 < closure)
-            throw Error('Expected "[/list_of_nodes_to_delete/]" at position ' + closure + '.');
+            throw Error('Expected "[/parameters/]" at position ' + closure + '.');
         
         list.push(new Node(parseInt(index), str.substr(closure + 1, closure2 - closure - 1), null, type));
         return str.indexOf('\\NODE', closure2 + 1);

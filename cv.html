@@ -17,6 +17,7 @@
         <!-- Mine -->
         <link rel="stylesheet" href="Styles/cv.css" />
         <script type="text/javascript" src="Scripts/pg.js"></script>
+        <script type="text/javascript" src="Scripts/cvOnighiriAttack.js"></script>
         <script type="text/javascript" src="Scripts/cvDomer.js"></script>
         <script type="text/javascript" src="Scripts/cvParser.js"></script>
         <script type="text/javascript" src="Scripts/cv.js"></script>
@@ -57,8 +58,14 @@
                 <div id="character_info" class="col-3 d-flex align-items-center">
                     <div style="width: 100%">
                         <div id="character_name"></div>
-                        <div id="character_health">Hp: 100k</div>
-                        <div id="character_mana">Mana: 10k</div>
+                        <div id="character_health"> 
+                            <div id="health_indicator" class="indicator"><span>8000</span>/<span>8000</span></div> 
+                            <div id="current_health"> . </div> 
+                        </div>
+                        <div id="character_mana"> 
+                            <div id="mana_indicator" class="indicator"><span>2500</span>/<span>2500</span></div> 
+                            <div id="current_mana"> . </div> 
+                        </div>
                     </div>
                 </div>
                 <div id="character_stats" class="col-8">
@@ -282,6 +289,11 @@
         </section>
         <section id="mobile">
             <h1>This application is not available for mobile yet.</h1>
+        </section>
+        <section id="dead" class="row h-100 justify-content-center align-items-center">
+            <div class="col-sm-12 my-auto">
+                <h1>YOU DIED</h1>
+            </div>
         </section>
     </body>
 </html>
