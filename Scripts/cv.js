@@ -7,7 +7,7 @@ var input_map = {
     '73': () => { parser.stopPreviousExecution(); toggle_talents_tree(true); },        // Talents tree.
     '27': () => { parser.stopPreviousExecution(); go_back(); },
 };
-var global = { acceptInput : true, recoveringMana : null };
+var global = { acceptInput : true, recoveringMana : null, currentPg : 0 };
 
 //////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// GENERAL ////////////////////////////////////
@@ -164,6 +164,7 @@ function set_character(index){
     let $ch = $('#character');
     $ch.show();
     $ch.css('z-index', '-1');
+    global.currentPg = index;
     
     return new Promise( (resolve) => {
         domer.showPg(pgs.list[index]);
@@ -431,21 +432,33 @@ function go_back(){
     let $old = $('#character_avatar img');
 
     // First we copy the image a couple of time.
-    let $new = $('#pg_1 img');
+    let $new = $('#pg_' + global.currentPg + ' img');
     let $temp = $old.clone().appendTo('body');
 
-    // // Store attributes.
-    // let newOffset = $new.offset(), newDim = $new.css('width');
-    // let oldOffset = $old.offset();
+    // Store attributes.
+    $new.show();
+    $('#selection').show();
+    let newOffset = $new.offset(), newDim = $new.css('width');
+    let oldOffset = $old.offset();
+    $new.hide();
+    $('#selection').hide();
 
     // hide new and old and move $temp to position
     // also big z-index, make sure to edit this to something that works with the page
-    // $temp.css({ 'position': 'absolute', 'left': oldOffset.left, 'top': oldOffset.top, 'zIndex': 1000 });
-    $old.remove();
+    $temp.css({ 'position': 'absolute', 'left': oldOffset.left, 'top': oldOffset.top, 'zIndex': 1000, 'width': $old.css('width') });
+    $old.hide();
 
     // Start fade and movement animations.
-    $('#character').hide(400);
-    // $temp.animate({ 'top': newOffset.top, 'left': newOffset.left, 'width': newDim }, 'slow', function () {
-    //     // Wait the pg to be rendered.
-    // });
+    $('body > #inventory_internal').remove();
+    $('#fake_character_info').remove();
+    $('#fake_character_avatar').remove();
+    $('#character').hide(400, () => {
+        domer.clean();
+    });
+    $temp.animate({ 'top': newOffset.top, 'left': newOffset.left, 'width': newDim, 'opacity': $new.css('opacity') }, 'slow', function () {
+        // Wait the pg to be rendered.
+        $('#selection').show();
+        $temp.remove();
+        $new.show();
+    });
 }

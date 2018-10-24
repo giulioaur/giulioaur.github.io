@@ -2,6 +2,8 @@
 let STATS = Object.freeze({ "str": 0, "con": 1, "dex": 2, "int": 3, "sag": 4, "cha": 5});     // Pg stats enumeration.
 
 var domer = {   
+
+$cleanInterface: null,
     
 /**
  * Creates a new avatar row for the character selection.
@@ -45,6 +47,9 @@ createPg (avatar, name, race, spec, back){
  * @param {Element} pg The selected pg.
  */
 showPg (pg){
+    if  (this.$cleanInterface == null)
+        this.$cleanInterface = $('#character').html();
+
     this.setStats(pg.name, pg.statistics);
     this.setObjects(pg.equips, pg.inventory);
     this.setTalents(pg.talentCategories);
@@ -181,6 +186,13 @@ setAbilities(abilities){
             parser.stopPreviousExecution().then(() => parser.parse(ability.code));
         }
     }
+},
+
+/**
+ * Cleans the show interface.
+ */
+clean(){
+    $('#character').html(this.$cleanInterface);
 }
 
 }

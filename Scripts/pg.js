@@ -379,8 +379,8 @@ public class HelloWorld : MonoBehaviour {
                 icon: "Styles/Images/pgs/Sushi/fireball.png",
                 shortcut: "Q",
                 code:
-`\\NODEM[1][600]
-\\NODEC[0]FIREEEEEEEEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL
+`\\NODEM[0][600]
+\\NODEC[1]FIREEEEEEEEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL
 \\NODEH[2][-1000]
 \\NODEE[3]spawner.shootAll();
 \\NODEI[4]You hit every hittable thing, included yourself.`
@@ -389,8 +389,8 @@ public class HelloWorld : MonoBehaviour {
                 icon: "Styles/Images/pgs/Sushi/healing.png",
                 shortcut: "W",
                 code:
-`\\NODEM[1][200]
-\\NODEC[0]Energia
+`\\NODEM[0][200]
+\\NODEC[1]Energia
 \\NODEH[2][300]`
             },
             {
