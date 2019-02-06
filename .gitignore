@@ -9,8 +9,13 @@ sushi - Copia.html
 todo.txt
 
 #Ignore css not minified
-Styles/*.map
+Styles/**/*.map
 
 #Ignore images
 Styles/Images/mybackground (copy 1).jpg
 Styles/Images/mybackground (copy 2).jpg
+
+#Ignore win script
+compilesass.bat
+
+missingCredits.txt
