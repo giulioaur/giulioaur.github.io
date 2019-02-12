@@ -13,6 +13,8 @@ CONST: {
     viewportId: '#sm-viewport',
     menuClass: '.sm-menu',
     itemClass: '.sm-item',
+    backItemClass: '.sm-back-item',
+    clearItemClass: '.sm-clear-item',
     itemContainerClass: '.sm-item-container',
     mainMenuId: '#sm-main-menu',
     mainLayoutClass: '.sm-main-layout',
@@ -48,6 +50,7 @@ Graph: class Graph {
      * @typedef {Object} Options
      * @param {bool} shouldSave Wherever on not the menu state must be saved into session storage.
      * @param {layoutGetter} layoutMap What layout to use for a given menu.
+     * @param {bool} logError True if errors must be logged on console, false otherwise. Usually set to true only in development.
      */
 
     //////////////////////// CONSTRUCT GRAPH ////////////////////////
@@ -56,11 +59,12 @@ Graph: class Graph {
      * Buils a new menu graph parsing the html file.
      * 
      * 
-     * @param {Object} [options={shouldSave : true, layoutMap : ()=>{return 'main'}}] The configuration options for the graph.
+     * @param {Object} [options={shouldSave : true, layoutMap : ()=>{return 'main'}, logError : false}] The configuration options for the graph.
      */
     constructor(options) {
-        this.saving = options && options.shouldSave ? options.shouldSave : true;
+        this.saving = options && options.shouldSave != undefined ? options.shouldSave : true;
         this.layoutGetter = options && options.layoutMap ? options.layoutMap : () => { return 'main' };
+        this.shouldLog = options && options.logError != undefined ? options.logError : true;
 
         if (this._setAttributes())
         {
@@ -112,7 +116,7 @@ Graph: class Graph {
             if (nodeId)
                 graph.nodes[nodeId] = $node;
             else
-                console.error('No id found', $node);
+                this._logError('No id found', $node);
 
             // Fill other layouts.
             this._populateLayouts($node);
@@ -124,11 +128,10 @@ Graph: class Graph {
             $(value).find(SM.CONST.itemClass).each((index, value) => {
                 const $item = $(value);
                 const label = $item.data(SM.CONST.gotoData);
-
-                if (graph.nodes[label] || label == SM.CONST.backData)
-                    $item.click(() => { graph.goTo($(value).data(SM.CONST.gotoData)); });
-                else
-                    console.error('Goto not valid.', $item);
+                
+                $item.click(() => graph.goTo($item.data(SM.CONST.gotoData), 
+                                                $item.hasClass(SM.CONST.backItemClass.substr(1)), 
+                                                $item.hasClass(SM.CONST.clearItemClass.substr(1))) );
             });
         });
 
@@ -157,14 +160,15 @@ Graph: class Graph {
                 if ($itemToAppend)
                     $container.append($itemToAppend.clone());
                 else
-                    console.error('No data-item attribute in container.', $container);
+                    this._logError('No data-item attribute in container.', $container);
             });
         });
 
-        // Show correct layout.
+        // Show correct layout. Use main layout as default.
         $menu.find(SM.CONST.layoutClass).hide();
         $mainLayout.show();
         $mainLayout.addClass(SM.CONST.currentLayoutClass);
+        this._setCorrectLayout($menu);
     }
 
     /**
@@ -177,12 +181,15 @@ Graph: class Graph {
         const $currentLayout = $($menu.find(SM.CONST.currentLayoutClass));
 
         // Show only the correct layout.
-        if (!$currentLayout.hasClass(layoutToShow))
-        {
+        if (!$currentLayout.hasClass(layoutToShow)) {
             const $newLayout = $(`.${layoutToShow}`);
-            $currentLayout.removeClass(SM.CONST.currentLayoutClass);
-            $currentLayout.hide();
-            $newLayout.addClass(SM.CONST.currentLayoutClass);
+
+            if ($newLayout) {
+                $currentLayout.removeClass(SM.CONST.currentLayoutClass);
+                $currentLayout.hide();
+                $newLayout.addClass(SM.CONST.currentLayoutClass);
+                $newLayout.show();
+            }
         }
     }
 
@@ -199,16 +206,18 @@ Graph: class Graph {
 
     /**
      * Changes the current menu with a new one.
+     * If the label is empty and isBack is false, then do nothing, if isBack is true go to previous menu.
+     * If the label is not empty and isBack is false go to the given menu and add the current to the history,
+     * if isBack is false then go back in the history to find the searched menu, if no menu with that label
+     * is found, then the history is cleared.
      * 
-     * @param {string} label The new menu id or back.
+     * @param {string} label The new menu id.
+     * @param {bool} isBack true if is a back transition.
+     * @param {bool} clearHistory true if the history must be cleaned after transition.
      */
-    goTo(label) {
+    goTo(label, isBack = false, clearHistory = false) {
         let $to; 
         let inAnimation, outAnimation;
-        const isBack = label == SM.CONST.backData;
-
-        inAnimation = this.standardInAnim;
-        outAnimation = this.standardOutAnim;
 
         // Goto a new menu.
         if (!isBack) {
@@ -216,16 +225,26 @@ Graph: class Graph {
                 this.history.push(this.$current.attr('id'));
                 $to = this.nodes[label];
             }
-            else 
-                console.error(`${label} is not a valid menu in ${this.$current.attr('id')}`);
+            else {
+                this._logError(`${label} is not a valid menu in ${this.$current.attr('id')}`);
+                return;
+            }
         }
         // Go back in history.
         else if (this.history && this.history.length > 0) {
-            $to = $(`#${this.history.pop()}`);
+            let toId = "";
+
+            // Search for the label and pop all elements after it.
+            if (label)
+            {
+                for (toId = this.history.pop(); this.history.length > 0 && toId != label; toId = this.history.pop()) ;
+            }
+            
+            $to = toId ? $(`#${toId}`) : $(`#${this.history.pop()}`);
         }
         // There is an error.
         else {
-            console.error(`${label} is not a valid transition in ${this.$current.attr('id')}`);
+            this._logError(`${this.$current.attr('id')} cannot go back, no previous menu found.`);
             return;
         }
 
@@ -233,8 +252,8 @@ Graph: class Graph {
         this._setCorrectLayout($to);
 
         // Get animation.
-        inAnimation = this.$current.data(SM.CONST.inAnimData) ? this.$current.data(SM.CONST.inAnimData) : "SM.Animations.standardIn";
         outAnimation = this.$current.data(SM.CONST.outAnimData) ? this.$current.data(SM.CONST.outAnimData) : "SM.Animations.standardOut";
+        inAnimation = $to.data(SM.CONST.inAnimData) ? $to.data(SM.CONST.inAnimData) : "SM.Animations.standardIn";
 
         // Play animations.
         this._playAnimation(outAnimation, $to, isBack);
@@ -242,6 +261,10 @@ Graph: class Graph {
 
         // Update current
         this.$current = $to;
+
+        // Clear history.
+        if (clearHistory)
+            this.history = [];
 
         // Save state.
         this._saveCurrentState();
@@ -290,6 +313,19 @@ Graph: class Graph {
      */
     _getLayoutName(menuName) {
         return `sm-${this.layoutGetter(menuName)}-layout`;
+    }
+
+    /**
+     * 
+     * @param {Array} logList Array of element to pass to log function.
+     */
+    _logError(logList) {
+        if (this.shouldLog){
+            if (logList instanceof Object)
+                console.error.apply(this, logList);
+            else
+                console.error(logList);
+        }
     }
 },
 

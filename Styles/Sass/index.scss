@@ -12,7 +12,8 @@ $menu-item-background : #ecf0f1;
 $menu-item-background-hovered : #34495e; 
 
 $menu-item-inside-color : #e74c3c;
-$menu-item-inside-color-hover: #c0392b;
+
+$secondary-color: #337ab7;
 
 @mixin background-opacity($opacity){
     top: 0px;
@@ -22,6 +23,10 @@ $menu-item-inside-color-hover: #c0392b;
     content: "";
     position: absolute;
     background: rgba(255, 255, 255, $opacity);
+}
+
+@function to-percentage($value) {  
+    @return #{$value + '%'};  
 }
 
 //*****************************************************************************************//
@@ -37,15 +42,53 @@ body
     width: 100vw;
 
     background-image: url($old-images-folder + 'mybackground.jpg');
-    // background-image: url('https://previews.123rf.com/images/alexutemov/alexutemov1606/alexutemov160600439/58834204-fun-sushi-characters-and-sashimi-japanese-sushi-characters-food-with-cute-faces-happy-vector-illustr.jpg');
     background-size: cover;
 }   
 
 body:before
 {
     @include background-opacity(0.2);
+    z-index: -1;
 }
 
+
+// MY CLASSES
+
+.m-circle
+{
+    border-radius: 100%
+}
+
+.m-fit-text 
+{
+    font-size: 20px;
+    height: fit-content;
+    position: relative;
+}
+
+.m-slider-percentage
+{
+    position: absolute;
+}
+
+.m-slider
+{
+    border: none;
+}
+
+a.m-no-decoration
+{
+    color:inherit;
+    text-decoration: none;
+}
+
+.m-clickable
+{
+    > a.m-link-target
+    {
+        display: none;
+    }
+}
 
 
 //*****************************************************************************************//
@@ -56,6 +99,7 @@ body:before
 
 header
 {
+    margin-bottom: 20px;
     padding: 10px 0;
 
     .m-sushi-img
@@ -109,14 +153,37 @@ header
 
                 .sm-item
                 {
-                    background-color: $menu-item-background;
                     width:100%;
                     height: 100%;
-                }
 
-                .sm-item:hover
-                {
-                    background-color: $menu-item-background-hovered;
+                    text-align: center;
+
+                    overflow: hidden;
+
+                    .m-item-title
+                    {
+                        background-color: $menu-item-background;
+                    }
+
+                    // This div is initially hidden, then becomes visible when overing through js.
+                    .m-item-hover
+                    {
+                        background-color: $menu-item-background-hovered;
+
+                        display: none !important;
+                        position: relative;
+
+                        span
+                        {
+                            color: #e74c3c; 
+                            font-size: 15vmax;
+                        }
+                    }
+
+                    .m-item-hover.m-active
+                    {
+                        display: flex !important;
+                    }
                 }
             }
         }
@@ -136,40 +203,174 @@ header
 {
     .sm-main-layout 
     {
-        .sm-item-container
+        .m-first-col
         {
-            .sm-item
+            $first-child-height: 40;
+
+            .row:first-child
             {
-                
-                text-align: center;
+                height: to-percentage($first-child-height);
+            }
 
-                // Icon behind title.
-                .icon 
-                {
-                    position: absolute;
-
-                    span
-                    {
-                       color: #e74c3c; 
-                       font-size: 15vmax;
-                    }
-
-                    h1
-                    {
-                        color: #e74c3c; 
-                    }
-                }
-
-                .icon:hover
-                {
-                    span
-                    {
-                        color: #c0392b;
-                        font-size: 19vmax;
-                    }
-                }
+            .row:nth-child(2)
+            {
+                height: to-percentage(100 - $first-child-height);
             }
         }
     }
-    
+}
+
+
+
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//*************************************** ABOUT ME ****************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
+
+#m-about-me
+{
+    .sm-main-layout 
+    {
+        $header-height: 25;
+
+        #m-aboutme-header
+        {
+            height: to-percentage($header-height);
+        
+            #m-my-photo
+            {
+                img 
+                {
+                    padding-left: 20px;
+                }
+            }
+        }
+
+        #m-aboutme-body
+        {
+            height: to-percentage(100 - $header-height);
+            
+            padding-top: 20px;
+        }
+
+        #m-about-me, #m-aboutme-body 
+        {
+            margin: 0;
+        }
+    }
+}
+
+
+
+
+
+
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//************************************** EXPERIENCE ***************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
+
+#m-experience
+{
+    .sm-main-layout 
+    {
+        $education-height: 30;
+
+        .m-exp-date > h2, .m-exp-title > h1
+        {
+            margin: 0;
+        }
+
+        .m-exp-descr
+        {
+            .m-exp-location
+            {
+                color: $secondary-color;
+                font-size: 20px;
+
+                span
+                {
+                    margin-right: 10px;
+                }
+            }
+
+            p
+            {
+                padding-top: 10px;
+            }
+        }
+
+        #m-education
+        {
+            height: to-percentage($education-height);
+
+            #m-education-bachelor
+            {
+                background-color: red;
+            }
+
+            #m-education-master
+            {
+                background-color: green;
+            }
+        }
+
+        #m-job
+        {
+            height: to-percentage(100 - $education-height);
+
+            #m-job-internship
+            {
+                background-color: red;
+            }
+
+            #m-job-dojo
+            {
+                background-color: green;
+            }
+
+            #m-job-pisa
+            {
+                div:first-child
+                {
+                    background-color: green;
+                }
+
+                div:nth-child(2)
+                {
+                    background-color: blue;
+                }
+            }
+
+            #m-job-milestone
+            {
+                background-color: purple;
+            }
+        }
+    }
+}
+
+
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//*************************************** MAIN MENU ***************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
+
+#m-contact-me
+{
+    .sm-main-layout 
+    {
+        $contact-me-items: 3;
+
+        > .row
+        {
+            height: to-percentage(100 / $contact-me-items);    
+        }
+    }
 }

@@ -7,8 +7,11 @@
         <meta name="description" content="Enter the project that aims to transform the whole world's population into sushi.'">
         <meta HTTP-EQUIV="keywords" content="Giulio Auriemma Computer Scientist Freelencer Professional Profile Portfolio">
         <!-- Jquery -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
+        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
         <!-- Cloudfire -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
             crossorigin="anonymous"></script>
@@ -21,9 +24,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
         <!-- Open Iconic -->
         <link rel="stylesheet" href="Styles/Icons/icons.min.css" />
-        <!-- Devicon
-        <link rel="stylesheet" href="Styles/devicon.min.css">
-        <link rel="stylesheet" href="Styles/devicon-colors.css"> -->
+        <!-- Devicon -->
+        <link rel="stylesheet" href="Old/Styles/devicon.min.css">
+        <link rel="stylesheet" href="Old/Styles/devicon-colors.css">
         <!-- Mine -->
         <!-- <link rel="stylesheet" href="Styles/sushiMenu.min.css" /> -->
         <link rel="stylesheet" href="Styles/index.min.css" />
@@ -51,7 +54,7 @@
         <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
         <meta name="msapplication-square310x310logo" content="mstile-31 0x310.png" />
     </head>
-    <body onload="setupPage()">
+    <body onload="setupPage()" onresize="resizePage()">
         <header class="container-fluid">
             <div class="row w-100 justify-content-center">
                 <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12">
@@ -70,29 +73,42 @@
             </div>
         </header>
         <section id="sm-viewport" class="h-75">
+            <!--------------------- MAIN MENU --------------------->
             <div id="sm-main-menu" class="sm-menu container-fluid h-100">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
-                        <div class="col-6 h-100">
-                            <div class="row h-75">
+                        <div class="col-6 h-100 m-first-col">
+                            <div class="row">
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item about-me-item" data-goto="m-about-me">
-                                        <div class="icon d-flex justify-content-center align-items-center w-100 h-100">
+                                        <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                            <h1>About Me</h1>
+                                        </div>
+                                        <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="person" aria-hidden="true"></span>
                                         </div>
-                                        <h1>About Me</h1>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row h-25">
+                            <div class="row">
                                 <div class="col-6 sm-item-container">
-                                    <div class="sm-item skills-item" data-goto="m-skills">
-                                        Skills
+                                    <div class="sm-item experience-item">   
+                                        <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                            <h1>Skills</h1>
+                                        </div>
+                                        <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                            <span class="oi" data-glyph="badge" aria-hidden="true"></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-6 sm-item-container">
-                                    <div class="sm-item experience-item">
-                                        Experience
+                                    <div class="sm-item experience-item" data-goto="m-experience">
+                                        <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                            <h1>Experience</h1>
+                                        </div>
+                                        <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                            <span class="oi" data-glyph="briefcase" aria-hidden="true"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,21 +117,36 @@
                             <div class="row h-50">
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item projects-item">
-                                        Projects
+                                        <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                            <h1>Projects</h1>
+                                        </div>
+                                        <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                            <span class="oi" data-glyph="folder" aria-hidden="true"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row h-25">
                                 <div class="col-12 sm-item-container">
-                                    <div class="sm-item contact-me-item">
-                                        Contact me
+                                    <div class="sm-item contact-me-item" data-goto="m-contact-me">
+                                        <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                            <h1>Contact Me</h1>
+                                        </div>
+                                        <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                            <span class="oi" data-glyph="envelope-open" aria-hidden="true"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row h-25">
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item credits-item">
-                                        Credits
+                                        <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                            <h1>Credits</h1>
+                                        </div>
+                                        <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                            <span class="oi" data-glyph="align-center" aria-hidden="true"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -143,40 +174,46 @@
                     </div>
                 </div>
             </div>
+            <!--------------------- ABOUT ME --------------------->
             <div id="m-about-me" class="sm-menu container-fluid h-100">
                 <div class="sm-layout sm-main-layout">
-                    <div class="row h-100">
-                        <div class="col-12">
-                            <div class="row h-25">
-                                <div class="col-12 sm-item-container">
-                                    <div class="sm-item" data-goto="m-skills">
-                                        Skills
-                                    </div>
+                    <div class="sm-item h-100 w-100">
+                        <div id="m-aboutme-header" class="row w-100">
+                            <div id="m-my-photo" class="col-3">
+                                <img src="Old/Styles/Images/me.jpg" class="h-100 m-circle" />
+                            </div>
+                            <div id="m-my-title" class="col-9 d-flex align-items-center">
+                                <div>
+                                    <h1>Giulio Auriemma</h1>
+                                    <h1>Computer Scientist & Game Developer</h1>
                                 </div>
                             </div>
-                            <div class="row h-25">
-                                <div class="col-6 sm-item-container">
-                                    <div class="sm-item">
-                                        YO
-                                    </div>
-                                </div>
-                                <div class="col-6 sm-item-container">
-                                    <div class="sm-item">
-                                        YO
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row h-25">
-                                <div class="col-12 sm-item-container">
-                                    <div class="sm-item" data-goto="back">
-                                        Back
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
+                        <div id="m-aboutme-body" class="row w-100">
+                            <p class="m-fit-text">
+                                I'm Giulio, a young computer scientist who loves programming. As all real programmers do, I started learning C (the Lord
+                                of programming language), and during my university education I have learned to use it both in high level applications
+                                and in Linux low level ones. Then I learned about the object-oriented paradigm, starting from C++ until Java. Since I
+                                was child, I have always seen the web as a magic world, in which all is possible, so when I was able to understand it, I
+                                started studying "web languages". Both for academic reasons and for personal knowledge I have always tried different
+                                kind of languages to write applications, so I know the most famous language and many framework, but pay attention, as I
+                                told you, I'm a computer scientist, not a programmer. The main difference is that the first one can analyze your
+                                problem, find the optimal solution, choose between many tools for the best one, design a software through smart choices,
+                                write code, debug it and produce good documentation to correctly maintain it; the second one just writes the code you
+                                want, probably in a faster way, but not in a better one. This is like you have written a programming language and you
+                                must choose between an approach with compiler, optimizer and interpreter and the one with the interpreter only. I see
+                                programming more as a game than as a work: every project is a level in which you must defeat some mini-boss (the bugs)
+                                using your weapon (your knowledge) and your magic book (StackOverflow) until you save the princess (your program) and
+                                gain her kiss ( I would say it is something like personal satisfaction or gratification, but we all know that it
+                                represent money). Sometimes the level is timed (the tremendous timelines), but if you hate the laggard as much as I do,
+                                it will be not a problem. But remember: if you can beat a monster with a jump, you don't need to do a triple somersault,
+                                as Ockham said: "Between many solutions, the simplest is the best one".
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--------------------- SKILLS --------------------->
             <div id="m-skills" class="sm-menu container-fluid h-100">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
@@ -201,8 +238,191 @@
                         </div>
                         <div class="row h-25">
                             <div class="col-12 sm-item-container">
-                                <div class="sm-item" data-goto="back">
+                                <div class="sm-item sm-back-item">
                                     Back
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--------------------- EXPERIENCE --------------------->
+            <div id="m-experience" class="sm-menu container-fluid h-100">
+                <div class="sm-layout sm-main-layout">
+                    <div id="m-education">
+                        <div id="m-edu-slider" class="m-slider">
+                            <div id="m-education-bachelor" class="h-100 m-slider-percentage" 
+                                style="width: 60%;"></div>
+                            <div id="m-education-master" class="h-100 m-slider-percentage" 
+                                style="width: 40%; margin-left: 60%;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 m-slider-section" data-slider="m-edu-slider">
+                                <div class="row">
+                                    <div class="col-3 d-flex align-items-center m-exp-date">
+                                        <h2>09/2013 - 09/2016</h2>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center m-exp-title">
+                                        <h1>Bachelor's Degree in Computer Science</h1>
+                                    </div>
+                                </div>
+                                <div class="m-exp-descr">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>Università degli Studi di Napoli Federico II</span><br/>
+                                    <p>Vote: 110/110 cum laude</p>
+                                </div>
+                            </div>
+                            <div class="col-12 m-slider-section" data-slider="m-edu-slider">
+                                <div class="row">
+                                    <div class="col-3 d-flex align-items-center m-exp-date">
+                                        <h2>10/2016 - 10/2018</h2>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center m-exp-title">
+                                        <h1>Master's Degree in Computer Science</h1>
+                                    </div>
+                                </div>
+                                <div class="m-exp-descr">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>Università di Pisa</span><br />
+                                    <p>Vote: 110/110 cum laude</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m-job">
+                        <div id="m-job-slider" class="m-slider">
+                            <div id="m-job-internship" class="h-100 m-slider-percentage" style="width: 20%;"></div>
+                            <div id="m-job-dojo" class="h-100 m-slider-percentage" style="width: 40%; margin-left: 20%;"></div>
+                            <div id="m-job-pisa" class="h-100 m-slider-percentage" style="width: 20%; margin-left: 60%;">
+                                <div class="h-50"></div>
+                                <div class="h-50"></div>
+                            </div>
+                            <div id="m-job-milestone" class="h-100 m-slider-percentage" style="width: 20%; margin-left: 80%;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                                <div class="row">
+                                    <div class="col-3 d-flex align-items-center m-exp-date">
+                                        <h2>03/2016 - 07/2016</h2>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center m-exp-title">
+                                        <h1>Junior Mobile Developer</h1>
+                                    </div>
+                                </div>
+                                <div class="m-exp-descr">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
+                                        <a class="m-no-decoration" href="http://www.blexin.com/" target="_blank">Blexin</a>
+                                    </span><br />
+                                    <p>Vote: 110/110 cum laude</p>
+                                </div>
+                            </div>
+                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                                <div class="row">
+                                    <div class="col-3 d-flex align-items-center m-exp-date">
+                                        <h2>02/2017 - 09/2018</h2>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center m-exp-title">
+                                        <h1>Volunteering</h1>
+                                    </div>
+                                </div>
+                                <div class="m-exp-descr">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
+                                        <a class="m-no-decoration" href="http://www.blexin.com/" target="_blank">Pisa Coder Dojo</a>
+                                    </span><br />
+                                    <p>Vote: 110/110 cum laude</p>
+                                </div>
+                            </div>
+                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                                <div class="row">
+                                    <div class="col-3 d-flex align-items-center m-exp-date">
+                                        <h2>03/2018 - 09/2018</h2>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center m-exp-title">
+                                        <h1>Master's thesis</h1>
+                                    </div>
+                                </div>
+                                <div class="m-exp-descr">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
+                                        <a class="m-no-decoration" href="http://www.percro.org/" target="_blank">PERCRO</a>
+                                    </span><br />
+                                    <p>Vote: 110/110 cum laude</p>
+                                </div>
+                            </div>
+                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                                <div class="row">
+                                    <div class="col-3 d-flex align-items-center m-exp-date">
+                                        <h2>12/2018 - Now</h2>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center m-exp-title">
+                                        <h1>Junior Game Developer (Generalist)</h1>
+                                    </div>
+                                </div>
+                                <div class="m-exp-descr">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
+                                        <a class="m-no-decoration" href="http://milestone.it/" target="_blank">Milestone</a>
+                                    </span><br />
+                                    <p>Vote: 110/110 cum laude</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--------------------- CONTACT ME --------------------->
+            <div id="m-contact-me" class="sm-menu container-fluid h-100">
+                <div class="sm-layout sm-main-layout">
+                    <div class="row">
+                        <div class="col sm-item-container">
+                            <div class="sm-item about-me-item m-clickable">
+                                <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <span class="oi" data-glyph="envelope-open" aria-hidden="true"></span>
+                                </div>
+                                <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                    <h1>giulioaur&lsaquo;at&rsaquo;gmail&lsaquo;dot&rsaquo;com</h1>
+                                </div>
+                                <a href=""></a>
+                            </div>
+                        </div>
+                        <div class="col sm-item-container">
+                            <div class="sm-item about-me-item m-clickable">
+                                <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <i class="devicon-linkedin-plain"></i>
+                                </div>
+                                <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                    <h1>Giulio Auriemma</h1>
+                                </div>
+                                <a class="m-link-target" href="https://www.linkedin.com/in/giulioaur/"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col sm-item-container">
+                            <div class="sm-item about-me-item">
+                                <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <i class="devicon-github-plain"></i>
+                                </div>
+                                <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                    <h1>giulioaur</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col sm-item-container">
+                            <div class="sm-item about-me-item">
+                                <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <i class="devicon-facebook-plain"></i>
+                                </div>
+                                <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                    <h1>Giulio Auriemma</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-6 sm-item-container">
+                            <div class="sm-item about-me-item">
+                                <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <span class="oi" data-glyph="person" aria-hidden="true"></span>
+                                </div>
+                                <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
+                                    <h1>Dr.Sushi</h1>
                                 </div>
                             </div>
                         </div>
