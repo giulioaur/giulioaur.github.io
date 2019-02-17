@@ -3,9 +3,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 const GLOBALS = {
+    projCurrIndex: 0,
+    sliderData: {},
     textsToFit: document.getElementsByClassName('m-fit-text'),
-    textIncrement : 1,
-    sliderData: {}    
+    textIncrement : 1
 }
 var menuGraph;
 
@@ -19,12 +20,16 @@ var menuGraph;
  * It is called when page is fully loaded and setup all the necessary stuff.
  */
 function setupPage() {
+    // Dynamic generation of contents.
+    dynamicGeneration();
+
+    // Build the menu graph.
     menuGraph = new SM.Graph({shouldSave : true, logError : true});
+    SM.input.bindInput(document, menuGraph);
 
     // Custom setup.
     bindAnimations();
     fitTexts();
-    clickableItem();
 
     // Create slider.
     $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements });
@@ -44,13 +49,18 @@ function resizePage() {
 function fitTexts() {
     // Resize all the visible texts.
     for (textToFit of GLOBALS.textsToFit) {
-
         if (textToFit.offsetParent) {
+            const min = textToFit.dataset.minfont;
+            const max = textToFit.dataset.maxfont;
             const parentHeight = textToFit.parentElement.offsetHeight;
             const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
+            // Set the right starter size.
             let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
+            currentSize = currentSize.clamp(min, max);
 
-            while (currentSize && isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) {
+            // Resize the text until the father size is not reached or text size overflows a range.
+            while (currentSize && (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight)
+                    && isWithinRange(currentSize, min, max, isLower)) {
                 currentSize += GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
             }
@@ -63,14 +73,8 @@ function fitTexts() {
 }
 
 /**
- * Creates the logic behind the clickable items.
+ * Slider callback to initiliaze slider data.
  */
-function clickableItem() {
-    $('.m-clickable').click(function () {
-        window.open($(this).find('.m-link-target').attr("href"), '_blank');
-    });
-}
-
 function createSliderData() {
     let childs = this.children;
     GLOBALS.sliderData[this.id] = { percentage: [], elems: [] };
@@ -97,6 +101,12 @@ function createSliderData() {
     elems[0].style.display = '';
 }
 
+/**
+ * Slider callback to change visualized element based on slider value.
+ * 
+ * @param {*} event 
+ * @param {*} ui 
+ */
 function updateSliderElements(event, ui) {
     let percentage = GLOBALS.sliderData[this.id].percentage;
     let currEle = percentage[0];
@@ -122,12 +132,146 @@ function updateSliderElements(event, ui) {
 
 
 
+
+
+
+////////////////////////////////////////////////////////////////////////
+//////////////////////////////// INPUT /////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+///////////////////////// DYNAMIC GENERATION ///////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+/**
+ * Add all the dynamic-generated content.
+ */
+function dynamicGeneration() {
+    generateProjects();
+    generateSkills();
+}
+
+/**
+ * Fullify the skills' session.
+ */
+function generateSkills() {
+    let skillRows = ['<div class="row">', '<div class="row">', '<div class="row">', '<div class="row">'];
+    const itemPerRow = GLOBALS.skills.length / skillRows.length;
+    let i = 0;
+
+    // Creates all the rows.
+    for (skill of GLOBALS.skills) {
+        skillRows[parseInt(i++ / itemPerRow)] += `
+            <div class="col h-100">
+                <div class="m-skills-header">
+                    ${skill.icon}
+                    <h2>${skill.name}</h2>
+                </div>
+                <div class="m-skills-description">
+                    <p class="m-fit-text">${skill.description}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    // Close rows
+    for (i = 0; i < skillRows.length; ++i)
+        skillRows[i] += '</div>';
+
+    
+    // Add it to the dom.
+    document.querySelector('#m-skills > .sm-main-layout').innerHTML = skillRows[0] + skillRows[1] + skillRows[2] + skillRows[3];
+}
+
+/**
+ * Fullify the projects' session.
+ */
+function generateProjects() {
+    let list = '';
+    let descriptions = '';
+
+    // Creates all the project.
+    for (project of GLOBALS.projects) {
+        list += `
+            <div class="m-projects-row d-flex align-items-center">
+                ${project.title}
+            </div>
+        `;
+
+        descriptions += `
+            <div class="m-projects-container h-100">
+                <div class="m-projects-banner d-flex align-items-center justify-content-center"
+                style="background-image: url('${project.screen}')">
+                    <h1>${project.extendedTitle}</h1>
+                </div>
+                <div class="m-projects-description">
+                    <p class="m-fit-text" data-maxfont="30">
+                        ${project.description}
+                    </p>
+                </div>
+            </div>
+        `;
+    }
+
+    // Add it to the dom.
+    document.querySelector('#m-projects > .sm-main-layout > .row > div:first-child').innerHTML = list;
+    document.querySelector('#m-projects > .sm-main-layout > .row > div:nth-child(2)').innerHTML = descriptions;
+}
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////// UTILITIES ///////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
 
+/**
+ * Returns a number whose value is limited to the given range.
+ *
+ * @param {Number} min The lower boundary of the output range
+ * @param {Number} max The upper boundary of the output range
+ * @returns A number in the range [min, max]
+ * @type Number
+ */
+Number.prototype.clamp = function (min, max) {
+    const first = min ? Math.max(this, min) : this;
+    return max ? Math.min(first, max) : first;
+};
 
+
+/**
+ * Checks if a number has not overcame a certain boundaries.
+ * 
+ * @param {Number} number The current number.
+ * @param {Number} min The minimum.
+ * @param {Number} max The maximum.
+ * @param {Number} isLower > 0 if current increases, < 0 if it decreases.
+ * @returns {bool} true if the number has not overcame boundaries, false otherwise.
+ */
+function isWithinRange (number, min, max, isLower) {
+    return !(isLower > 0 ? max && number > max : min && number < min); 
+}
+
+/**
+ * Call an event on an HTMLElement.
+ * 
+ * @param {string} eventName The event name.
+ * @param {bool} [bubbles = true] True if event should be called during bubbling.
+ * @param {bool} [cancelable = true] if event could be cancelled. 
+ */
+HTMLElement.prototype.fireEvent = function (eventName, bubbles = true, cancelable = true) {
+    let event = new Event(eventName, { 'view': window, 'bubbles': bubbles, 'cancelable': cancelable });
+    this.dispatchEvent(event);
+}
 
 
 
@@ -138,12 +282,16 @@ function updateSliderElements(event, ui) {
 
 function bindAnimations() {
     itemHovering();
+    projectsSelection();
 }
 
+/**
+ * Creates the hovering effect on the menu's items.
+ */
 function itemHovering() {
     let $items = $('.sm-item');
 
-    $items.mouseenter( function () { 
+    $items.bind( 'sm-activate', function () { 
         // Enter the item.
         let $hover = $(this).find('.m-item-hover');
 
@@ -151,7 +299,7 @@ function itemHovering() {
         TweenMax.to($hover, 0.1, { top: '-100%' });
     });
 
-    $items.mouseleave(function () {
+    $items.bind( 'sm-deactivate', function () {
         // Exit the item.
         let $hover = $(this).find('.m-item-hover');
 
@@ -159,13 +307,38 @@ function itemHovering() {
     });
 }
 
-function inExperience($from, $experience, isBack) {
-    $experience.show();
+/**
+ * Setup the projects section adding the possibility of switching between
+ * the projects with mouse hovering.
+ */
+function projectsSelection() {
+    const projectRows = document.getElementsByClassName('m-projects-row');
+    const projects = document.getElementsByClassName('m-projects-container');
 
-    updateSliderData();
+    if (projects.length == projectRows.length) {
+        // Bind project's changing on hovering the mouse.
+        for (let i = 0; i < projectRows.length; ++i) {
+            projects[i].style.display = 'none';
+
+            projectRows[i].addEventListener("mouseover", () => {
+                // Change active item.
+                projectRows[GLOBALS.projCurrIndex].classList.remove('active');
+                projectRows[i].classList.add('active');
+                
+                // Change visibility.
+                projects[GLOBALS.projCurrIndex].style.display = 'none';
+                projects[i].style.display = 'block';
+                GLOBALS.projCurrIndex = i;
+
+                // Fit text.
+                fitTexts();
+            });
+        }
+
+        // Call the visibility on first project.
+        projectRows[0].fireEvent('mouseover');
+    }
+    else {
+        console.error("At least one project is not correctly setup.");
+    }
 }
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////// UTILITIES ///////////////////////////////
-////////////////////////////////////////////////////////////////////////
-

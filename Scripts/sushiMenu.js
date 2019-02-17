@@ -1,8 +1,9 @@
-////////////////////////////////////////////////////////////////////////
-////////////////////////////// MENU CLASS //////////////////////////////
-////////////////////////////////////////////////////////////////////////
+/*********************************************************
+ *          Created By Dr.Sushi (Giulio Auriemma)        *
+ *        Licensed with...                               *
+ *********************************************************/
 
-//#todo insert an exemple for the call of a static method.
+//#todo insert an exemple for the call of a static method for animation.
 //#todo Test with console.profile() and console.timer() and maybe use same plain JS instead of Jquery.
 
 var SM = {
@@ -14,6 +15,8 @@ CONST: {
     menuClass: '.sm-menu',
     itemClass: '.sm-item',
     backItemClass: '.sm-back-item',
+    redirectItemClass: '.sm-redirect-item',
+    redirectBlankItemClass: '.sm-redirect-blank-item',
     clearItemClass: '.sm-clear-item',
     itemContainerClass: '.sm-item-container',
     mainMenuId: '#sm-main-menu',
@@ -48,9 +51,9 @@ Graph: class Graph {
      * Sets some options for the Graph class.
      * 
      * @typedef {Object} Options
-     * @param {bool} shouldSave Wherever on not the menu state must be saved into session storage.
+     * @param {Boolean} shouldSave Wherever on not the menu state must be saved into session storage.
      * @param {layoutGetter} layoutMap What layout to use for a given menu.
-     * @param {bool} logError True if errors must be logged on console, false otherwise. Usually set to true only in development.
+     * @param {Boolean} logError True if errors must be logged on console, false otherwise. Usually set to true only in development.
      */
 
     //////////////////////// CONSTRUCT GRAPH ////////////////////////
@@ -76,20 +79,21 @@ Graph: class Graph {
     /**
      * Sets the base graph attribute.
      * 
-     * @returns {bool} true if all goes the right way, false otherwise.
+     * @returns {Boolean} true if all goes the right way, false otherwise.
      */
     _setAttributes() {
-        if ($(SM.CONST.mainMenuId)) {
+        if (document.getElementById(SM.CONST.mainMenuId.substr(1))) {
             // Use sessionStorage.
             if (this.saving && typeof (Storage) !== 'undefined') {
                 // If no previous saving, create new one.                
-                this.history = sessionStorage.getItem(SM.CONST.history) ? sessionStorage.getItem(SM.CONST.history).split(',') : [];
-                this.$current = sessionStorage.getItem(SM.CONST.current) ? $(`#${sessionStorage.getItem(SM.CONST.current)}`) : $(SM.CONST.mainMenuId);
+                this._history = sessionStorage.getItem(SM.CONST.history) ? sessionStorage.getItem(SM.CONST.history).split(',') : [];
+                this._current = document.getElementById(`${sessionStorage.getItem(SM.CONST.current) ? 
+                    sessionStorage.getItem(SM.CONST.current) : SM.CONST.mainMenuId.substr(1)}`);
             }
             // Do not use session storage.
             else {
-                this.history = [];
-                this.$current = $(SM.CONST.mainMenuId);
+                this._history = [];
+                this._current = document.getElementById(SM.CONST.mainMenuId);
             }
 
             this.nodes = {};
@@ -105,38 +109,43 @@ Graph: class Graph {
      */
     _buildGraph() {
         const graph = this; 
-        const $nodes = $(`${SM.CONST.viewportId} ${SM.CONST.menuClass}`);
+        const nodes = document.querySelectorAll(`${SM.CONST.viewportId} ${SM.CONST.menuClass}`);
 
         // Creates a map of nodes.
-        $nodes.each((index, value) => {
-            const $node = $(value);
-            const nodeId = $node.attr('id');
+        for(let node of nodes) {
+            const nodeId = node.id;
 
-            $node.hide();
+            node.style.display = 'none';
+
             if (nodeId)
-                graph.nodes[nodeId] = $node;
+                graph.nodes[nodeId] = node;
             else
-                this._logError('No id found', $node);
+                this._logError('No id found', node);
 
             // Fill other layouts.
-            this._populateLayouts($node);
-        });
+            this._populateLayouts(node);
+        }
 
         // Add goto event to items.
         // Do it in a separate loop to check goto consistency.
-        $nodes.each((index, value) => {
-            $(value).find(SM.CONST.itemClass).each((index, value) => {
-                const $item = $(value);
-                const label = $item.data(SM.CONST.gotoData);
+        for (let node of nodes) {
+            const items = node.querySelectorAll(SM.CONST.itemClass)
+            for (let item of items){
+                const label = item.dataset[SM.CONST.gotoData];
+                const isBlank = item.classList.contains(SM.CONST.redirectBlankItemClass.substr(1));
                 
-                $item.click(() => graph.goTo($item.data(SM.CONST.gotoData), 
-                                                $item.hasClass(SM.CONST.backItemClass.substr(1)), 
-                                                $item.hasClass(SM.CONST.clearItemClass.substr(1))) );
-            });
-        });
+                // Check if the item is a normal item or a redirect item.
+                if (!item.classList.contains(SM.CONST.redirectItemClass.substr(1)) && !isBlank)
+                    item.addEventListener('click', () => graph.goto(label, 
+                        item.classList.contains(SM.CONST.backItemClass.substr(1)), 
+                        item.classList.contains(SM.CONST.clearItemClass.substr(1))) );
+                else
+                    item.addEventListener('click', () => graph._redirect(label, isBlank));
+            }
+        }
 
         // Set the main menu as root.
-        this.$current.show();    
+        this._current.style.display = '';    
     }
 
     //////////////////////// LAYOUT STUFF ////////////////////////
@@ -146,49 +155,51 @@ Graph: class Graph {
      * The items should be put in the sm-main-layout, while other layouts must have a 
      * link to them through data-item attribute.
      * 
-     * @param {jQuery} $menu The menu to fill.
+     * @param {HTMLElement} menu The menu to fill.
      */
-    _populateLayouts($menu) {
-        const $mainLayout = $menu.find(SM.CONST.mainLayoutClass);
+    _populateLayouts(menu) {
+        const mainLayout = menu.querySelector(SM.CONST.mainLayoutClass);
+        const layouts = menu.querySelectorAll(`${SM.CONST.layoutClass}:not(${SM.CONST.mainLayoutClass})`);
 
-        $menu.find(`${SM.CONST.layoutClass}:not(${SM.CONST.mainLayoutClass})`).each((index, value) => {
+        for (let layout of layouts) {
             // Fill all the item's containers.
-            $(value).find(SM.CONST.itemContainerClass).each((index, value) => {
-                const $container = $(value);
-                const $itemToAppend = $mainLayout.find(`.${$container.data(SM.CONST.layoutItemData)}`);
+            const containers = layout.querySelectorAll(SM.CONST.itemContainerClass);
+            for (let container of containers) {
+                const itemsToAppend = mainLayout.querySelector(`.${container.dataset[SM.CONST.layoutItemData]}`);
 
-                if ($itemToAppend)
-                    $container.append($itemToAppend.clone());
+                if (itemsToAppend)
+                    container.appendChild(itemsToAppend.cloneNode());
                 else
-                    this._logError('No data-item attribute in container.', $container);
-            });
-        });
+                    this._logError('No data-item attribute in container.', container);
+            };
 
-        // Show correct layout. Use main layout as default.
-        $menu.find(SM.CONST.layoutClass).hide();
-        $mainLayout.show();
-        $mainLayout.addClass(SM.CONST.currentLayoutClass);
-        this._setCorrectLayout($menu);
+            layout.style.display = 'none';
+        };
+
+        // Set main layout as default, then find the correct layout.
+        mainLayout.classList.add(SM.CONST.currentLayoutClass.substr(1));
+        this._setCorrectLayout(menu);
     }
 
     /**
      * Hides the previous layout and show the one returned from the layout callback.
      * 
-     * @param {jQuery} $menu The menu.
+     * @param {HTMLElement} menu The menu.
      */
-    _setCorrectLayout($menu) {
-        const layoutToShow = this._getLayoutName($menu.attr('id'));
-        const $currentLayout = $($menu.find(SM.CONST.currentLayoutClass));
+    _setCorrectLayout(menu) {
+        const layoutToShow = this._getLayoutName(menu.id);
+        const currentLayout = menu.querySelector(SM.CONST.currentLayoutClass);
 
         // Show only the correct layout.
-        if (!$currentLayout.hasClass(layoutToShow)) {
-            const $newLayout = $(`.${layoutToShow}`);
+        if (!currentLayout.classList.contains(layoutToShow)) {
+            const newLayout = menu.getElementsByClassName(`.${layoutToShow}`);
 
-            if ($newLayout) {
-                $currentLayout.removeClass(SM.CONST.currentLayoutClass);
-                $currentLayout.hide();
-                $newLayout.addClass(SM.CONST.currentLayoutClass);
-                $newLayout.show();
+            // Hide the previous active layout and show the new one.
+            if (newLayout) {
+                currentLayout.classList.remove(SM.CONST.currentLayoutClass);
+                currentLayout.style.display = 'none';
+                newLayout.classList.add(SM.CONST.currentLayoutClass);
+                newLayout.style.display = '';
             }
         }
     }
@@ -198,7 +209,7 @@ Graph: class Graph {
      * Forces the updating of current layout.
      */
     forceUpdateLayout() {
-        _setCorrectLayout(this.$current);
+        _setCorrectLayout(this._current);
     }
 
 
@@ -212,62 +223,73 @@ Graph: class Graph {
      * is found, then the history is cleared.
      * 
      * @param {string} label The new menu id.
-     * @param {bool} isBack true if is a back transition.
-     * @param {bool} clearHistory true if the history must be cleaned after transition.
+     * @param {Boolean} isBack true if is a back transition.
+     * @param {Boolean} clearHistory true if the history must be cleaned after transition.
      */
-    goTo(label, isBack = false, clearHistory = false) {
-        let $to; 
+    goto(label, isBack = false, clearHistory = false) {
+        let to; 
         let inAnimation, outAnimation;
 
-        // Goto a new menu.
         if (!isBack) {
+            // Go to menu.
             if (this.nodes[label]) {
-                this.history.push(this.$current.attr('id'));
-                $to = this.nodes[label];
+                this._history.push(this._current.id);
+                to = this.nodes[label];
             }
+            // Go to link
             else {
-                this._logError(`${label} is not a valid menu in ${this.$current.attr('id')}`);
+                this._logError(`${label} is not a valid menu in ${this._current.id}`);
                 return;
             }
         }
         // Go back in history.
-        else if (this.history && this.history.length > 0) {
+        else if (this._history && this._history.length > 0) {
             let toId = "";
 
             // Search for the label and pop all elements after it.
             if (label)
             {
-                for (toId = this.history.pop(); this.history.length > 0 && toId != label; toId = this.history.pop()) ;
+                for (toId = this._history.pop(); this._history.length > 0 && toId != label; toId = this._history.pop()) ;
             }
             
-            $to = toId ? $(`#${toId}`) : $(`#${this.history.pop()}`);
+            to = document.getElementById(`${(toId ? toId : this._history.pop())}`);
         }
         // There is an error.
         else {
-            this._logError(`${this.$current.attr('id')} cannot go back, no previous menu found.`);
+            this._logError(`${this._current.id} cannot go back, no previous menu found.`);
             return;
         }
 
         // Set current layout for the menu to show.
-        this._setCorrectLayout($to);
+        this._setCorrectLayout(to);
 
         // Get animation.
-        outAnimation = this.$current.data(SM.CONST.outAnimData) ? this.$current.data(SM.CONST.outAnimData) : "SM.Animations.standardOut";
-        inAnimation = $to.data(SM.CONST.inAnimData) ? $to.data(SM.CONST.inAnimData) : "SM.Animations.standardIn";
+        outAnimation = this._current.dataset[SM.CONST.outAnimData] ? this._current.dataset[SM.CONST.outAnimData] : "SM.Animations.standardOut";
+        inAnimation = to.dataset[SM.CONST.inAnimData] ? to.dataset[SM.CONST.inAnimData] : "SM.Animations.standardIn";
 
         // Play animations.
-        this._playAnimation(outAnimation, $to, isBack);
-        this._playAnimation(inAnimation, $to, isBack);
+        this._playAnimation(outAnimation, to, isBack);
+        this._playAnimation(inAnimation, to, isBack);
 
         // Update current
-        this.$current = $to;
+        this._current = to;
 
         // Clear history.
         if (clearHistory)
-            this.history = [];
+            this._history = [];
 
         // Save state.
         this._saveCurrentState();
+    }
+
+    /**
+     * Open a link.
+     * 
+     * @param {string} link The target link.
+     * @param {Boolean} isBlank tru if the link must be opened in new tab.
+     */
+    _redirect(link, isBlank) {
+        window.open(link, isBlank ? '_blank' : '_self');
     }
 
     /**
@@ -275,10 +297,10 @@ Graph: class Graph {
      * To correctly call the function the name of the animation must contain also the necessary namespaces.
      * 
      * @param {string} animation The name of the animation to play.
-     * @param {jQuery} $to The new menu to show.
-     * @param {bool} isBack true if is a back animation.
+     * @param {HTMLElement} to The new menu to show.
+     * @param {Boolean} isBack true if is a back animation.
      */
-    _playAnimation(animation, $to, isBack) {
+    _playAnimation(animation, to, isBack) {
         // Resolve animation function call
         let animationContext = window;
         const contexts = animation.split('.');
@@ -287,7 +309,7 @@ Graph: class Graph {
         for (let context of contexts)
             animationContext = animationContext[context];
 
-        animationContext[animationFunction].call(animationContext, this.$current, $to, isBack);
+        animationContext[animationFunction].call(animationContext, this._current, to, isBack);
     }
 
 
@@ -299,9 +321,9 @@ Graph: class Graph {
      */
     _saveCurrentState() {
         // Save current state.
-        if (this.saving) {
-            sessionStorage.setItem(SM.CONST.history, this.history.toString());
-            sessionStorage.setItem(SM.CONST.current, this.$current.attr('id'));
+        if (this.saving && typeof (Storage) !== 'undefined') {
+            sessionStorage.setItem(SM.CONST.history, this._history.toString());
+            sessionStorage.setItem(SM.CONST.current, this._current.id);
         }
     }
 
@@ -316,6 +338,7 @@ Graph: class Graph {
     }
 
     /**
+     * Log the error to the console if log is active.
      * 
      * @param {Array} logList Array of element to pass to log function.
      */
@@ -327,6 +350,17 @@ Graph: class Graph {
                 console.error(logList);
         }
     }
+    
+    /**
+     * Check if a string represent a web-url.
+     * 
+     * @param {string} str The string to check.
+     * @returns {int} 0 if the string is not an url, 1 if is http protocol, -1 for other protocol.
+     */
+    _redirectType(str) {
+        return 0;
+    }
+    
 },
 
 
@@ -334,23 +368,23 @@ Animations : class SMAnimations {
     /**
      * Showa the new menu.
      *
-     * @param {jQuery} $from The exiting menu.
-     * @param {jQuery} $to The entering menu.
-     * @param {bool} isBack true if is a back animation.
+     * @param {HTMLElement} from The exiting menu.
+     * @param {HTMLElement} to The entering menu.
+     * @param {Boolean} isBack true if is a back animation.
      */
-    static standardIn($from, $to, isBack) {
-        $to.show();
+    static standardIn(from, to, isBack) {
+        to.style.display = '';
     }
 
     /**
      * Hides the old menu.
      *
-     * @param {jQuery} $from The exiting menu.
-     * @param {jQuery} $to The entering menu.
-     * @param {bool} isBack true if is a back animation.
+     * @param {HTMLElement} from The exiting menu.
+     * @param {HTMLElement} to The entering menu.
+     * @param {Boolean} isBack true if is a back animation.
      */
-    static standardOut($from, $to, isBack) {
-        $from.hide();
+    static standardOut(from, to, isBack) {
+        from.style.display = 'none';
     }
 }
 
