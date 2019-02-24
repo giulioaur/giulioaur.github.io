@@ -168,7 +168,7 @@ Graph: class Graph {
                 const itemsToAppend = mainLayout.querySelector(`.${container.dataset[SM.CONST.layoutItemData]}`);
 
                 if (itemsToAppend)
-                    container.appendChild(itemsToAppend.cloneNode());
+                    container.appendChild(itemsToAppend.cloneNode(true));
                 else
                     this._logError('No data-item attribute in container.', container);
             };
@@ -192,14 +192,14 @@ Graph: class Graph {
 
         // Show only the correct layout.
         if (!currentLayout.classList.contains(layoutToShow)) {
-            const newLayout = menu.getElementsByClassName(`.${layoutToShow}`);
+            const newLayout = menu.getElementsByClassName(layoutToShow);
 
             // Hide the previous active layout and show the new one.
-            if (newLayout) {
-                currentLayout.classList.remove(SM.CONST.currentLayoutClass);
+            if (newLayout.length > 0) {
+                currentLayout.classList.remove(SM.CONST.currentLayoutClass.substr(1));
                 currentLayout.style.display = 'none';
-                newLayout.classList.add(SM.CONST.currentLayoutClass);
-                newLayout.style.display = '';
+                newLayout[0].classList.add(SM.CONST.currentLayoutClass.substr(1));
+                newLayout[0].style.display = '';
             }
         }
     }
@@ -209,7 +209,7 @@ Graph: class Graph {
      * Forces the updating of current layout.
      */
     forceUpdateLayout() {
-        _setCorrectLayout(this._current);
+        this._setCorrectLayout(this._current);
     }
 
 

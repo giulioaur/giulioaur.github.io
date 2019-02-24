@@ -43,6 +43,8 @@ body
 
     background-image: url($old-images-folder + 'mybackground.jpg');
     background-size: cover;
+
+    overflow: hidden;
 }   
 
 body:before
@@ -82,6 +84,59 @@ a.m-no-decoration
     color:inherit;
     text-decoration: none;
 }
+
+.m-hidden
+{
+    display: none;
+}
+
+
+
+
+
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//*************************************** LOADING *****************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
+
+#m-loading
+{
+    background-color: black;
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    z-index: 1000;
+
+    > div 
+    {
+        bottom: 35%;
+        position: absolute;
+        width: 100%;
+
+        > #m-loading-image 
+        {
+            display: block;
+            margin: auto;
+            width: 150px;
+        }
+
+        > #m-loading-tip
+        {
+            color: white;
+            text-align: center;
+        }
+
+        > #m-loading-tip.m-black
+        {
+            color: black;
+        }
+    }
+}
+
+
 
 
 
@@ -141,7 +196,8 @@ header
 
 #sm-viewport
 {
-    padding: 0 5vw;
+    background-color: rgba(255, 255, 255, 0.4);
+    margin: 0 5vw;
 
     .sm-menu
     {
@@ -235,6 +291,8 @@ header
 
 #m-about-me
 {
+    padding: 10px;
+
     .sm-main-layout 
     {
         $header-height: 25;
@@ -279,37 +337,118 @@ header
 
 #m-skills
 {
-    > .sm-main-layout 
-    {
-        > .row 
-        {
-            $row-number: 4;
-    
-            height: to-percentage(100 / $row-number);
+    $trees-height: 75;
 
-            > .col
+    > .sm-layout 
+    {
+        height: to-percentage($trees-height) !important;
+
+        > #m-skills-trees, > #m-skills-carousel
+        {
+            $skills-row-number: 5;
+            $title-row-height: 10;
+
+            .m-skills-title
             {
-                $header-height: 25;
-                
-                padding: 0 10px;
-                
-                .m-skills-header
+                color: $secondary-color;
+                height: to-percentage($title-row-height);
+                text-align: center;
+
+                > h1
                 {
-                    height: to-percentage($header-height);
-    
-                    h2, i 
-                    {
-                        display: inline;
-                        font-size: 3.3vmin;
-                    }
-                }
-    
-                .m-skills-description
-                {
-                    height: to-percentage(100 - $header-height);
-    
+                    padding-bottom: 3px;
                 }
             }
+
+            .row 
+            {
+                border-top: 3px solid;
+                height: to-percentage((100 - $title-row-height) / $skills-row-number);
+                padding: 10px 0;
+
+                .col-4
+                {
+                    text-align: center;
+                }
+            }
+
+            .row:last-child
+            {
+                border-bottom: 3px solid;
+            }
+
+            // Create skills category.
+            $skills-categories : ('m-skills-programming', 'm-skills-tools', 'm-skills-knowledge');
+            $skills-colors: (rgb(248, 118, 102), rgb(131, 151, 136), rgb(254, 256, 201));
+
+            @for $i from 1 through length($skills-categories) {
+                $category: nth($skills-categories, $i);
+                $color: nth($skills-colors, $i);
+
+                ##{$category} 
+                {
+                    background-color: rgba($color, 0.4);
+
+                    > div 
+                    {
+                        border-color: $color;
+
+                        > div.sm-active
+                        {
+                            i
+                            {
+                                color: $color;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #m-skills-description
+    {
+        height: to-percentage(100 - $trees-height);
+        
+        #m-skills-icon-container
+        {
+            position: relative;
+            text-align: center;
+
+            > div
+            {
+                padding-bottom: 45%;
+                position: absolute;
+                width: 45%;
+
+                border: 3px solid lightgray;
+
+                svg, img
+                {
+                    display: none;
+                    position: absolute;
+                }
+
+                svg.m-active, img.m-active
+                {
+                    display: block;
+                }
+
+                img.m-active
+                {
+                    width: 100%;
+                }
+            }
+        }
+
+        p 
+        {
+            display: none;
+        }
+
+        p.m-active
+        {
+            display: inline;
         }
     }
 }
@@ -328,31 +467,61 @@ header
 
 #m-experience
 {
+    padding: 15px;
+
+    @mixin left-border($color)
+    {
+        border-left: 4px solid $color;
+    }
+
     .sm-main-layout 
     {
         $education-height: 30;
+        $slider-border-radius: 30px;
 
-        .m-exp-date > h2, .m-exp-title > h1
+        .m-slider-section 
         {
-            margin: 0;
-        }
+            padding: 15px;
 
-        .m-exp-descr
-        {
-            .m-exp-location
+            > .row:first-child
             {
-                color: $secondary-color;
-                font-size: 20px;
-
-                span
-                {
-                    margin-right: 10px;
-                }
+                padding: 0 15px;
             }
 
-            p
+            .m-exp-date > h2, .m-exp-title > h1
+            {
+                margin: 0;
+            }
+
+            .m-exp-date > h2 
+            {
+                font-size: 2.8vmin;
+            }
+
+            .m-exp-title > h1 
+            {
+                font-size: 3.2vmin;
+            }
+    
+            .m-exp-descr
             {
                 padding-top: 10px;
+
+                .m-exp-location
+                {
+                    color: $secondary-color;
+                    font-size: 20px;
+    
+                    span
+                    {
+                        margin-right: 10px;
+                    }
+                }
+    
+                p
+                {
+                    padding-top: 10px;
+                }
             }
         }
 
@@ -362,12 +531,36 @@ header
 
             #m-education-bachelor
             {
-                background-color: red;
+                background-color: #BA5C56;
+
+                // To match the border radius of the slider.
+                border-top-left-radius: $slider-border-radius;
+                border-bottom-left-radius: $slider-border-radius;
+            }
+
+            .m-slider-section:nth-child(1)
+            {
+                .m-exp-date
+                {
+                    @include left-border(#BA5C56);
+                }
             }
 
             #m-education-master
             {
-                background-color: green;
+                background-color: #659074;
+
+                // To match the border radius of the slider.
+                border-top-right-radius: $slider-border-radius;
+                border-bottom-right-radius: $slider-border-radius;
+            }
+
+            .m-slider-section:nth-child(2)
+            {
+                .m-exp-date
+                {
+                    @include left-border(#659074);
+                }
             }
         }
 
@@ -377,30 +570,84 @@ header
 
             #m-job-internship
             {
-                background-color: red;
+                background-color: #C3B183;
+
+                // To match the border radius of the slider.
+                border-top-left-radius: $slider-border-radius;
+                border-bottom-left-radius: $slider-border-radius;
+            }
+
+            .m-slider-section:nth-child(1)
+            {
+                .m-exp-date
+                {
+                    @include left-border(#C3B183);
+                }
             }
 
             #m-job-dojo
             {
-                background-color: green;
+                background-color: #EFCAA1;
+            }
+            
+
+            .m-slider-section:nth-child(2)
+            {
+                .m-exp-date
+                {
+                    @include left-border(#EFCAA1);
+                }
             }
 
             #m-job-pisa
             {
                 div:first-child
                 {
-                    background-color: green;
+                    background-color: #EFCAA1;
                 }
 
                 div:nth-child(2)
                 {
-                    background-color: blue;
+                    background-color: #F68E62;
+                }
+            }
+            
+
+            .m-slider-section:nth-child(3)
+            {
+                .m-exp-date
+                {
+                    @include left-border(#F68E62);
                 }
             }
 
             #m-job-milestone
             {
-                background-color: purple;
+                background-color: #2ABBA3;
+
+                // To match the border radius of the slider.
+                border-top-right-radius: $slider-border-radius;
+                border-bottom-right-radius: $slider-border-radius;
+            }
+            
+
+            .m-slider-section:nth-child(4)
+            {
+                .m-exp-date
+                {
+                    @include left-border(#2ABBA3);
+                }
+            }
+        }
+
+        // Slider
+        .m-slider
+        {
+            border-radius: $slider-border-radius;
+
+            .ui-slider-handle 
+            {
+                border-radius: 100%;
             }
         }
     }
@@ -421,6 +668,14 @@ header
 {
     .sm-main-layout 
     {
+        > .row 
+        {
+            > div 
+            {
+                padding: 0;
+            }
+        }
+
         .m-projects-row
         {
             color: $secondary-color;
@@ -429,7 +684,7 @@ header
             padding: 5px;
         }
 
-        .m-projects-row.active
+        .m-projects-row.sm-active
         {
             background-color: rgba(255, 255, 255, 0.5);
         }
@@ -467,7 +722,7 @@ header
             {
                 height: to-percentage(100 - $project-banner-height);
 
-                padding-top: 10px;
+                padding: 10px;
 
                 // To not over-extend the background opacity.
                 position: relative;
@@ -533,9 +788,7 @@ header
 #m-credits
 {
     .sm-main-layout 
-    {
-        background-color: rgba(255, 255, 255, 0.4);
-        
+    {        
         > div 
         {
             text-align: center;

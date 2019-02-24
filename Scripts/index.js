@@ -3,10 +3,22 @@
 ////////////////////////////////////////////////////////////////////////
 
 const GLOBALS = {
+    inputMap: {
+        back: [66, 27],
+        select: [13],
+        down: [83, 40],
+        left: [65, 37],
+        up: [87, 38],
+        right: [68, 39],
+    },
+    loadingPercentage: 0,
     projCurrIndex: 0,
     sliderData: {},
     textsToFit: document.getElementsByClassName('m-fit-text'),
-    textIncrement : 1
+    textIncrement : 1,
+    tip: [
+        'You can navigate the site also using your keyboard and your joypad.'
+    ]
 }
 var menuGraph;
 
@@ -16,23 +28,78 @@ var menuGraph;
 ////////////////////////////// FUNCTIONS ///////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+(function startLoading() {
+    // Here a function is created to reuse it in case of dynamic changing tips.
+    const setTip = () => {
+        const tipBox = document.getElementById('m-loading-tip');
+        if (tipBox){
+            tipBox.textContent = GLOBALS.tip[Math.floor(Math.random() * GLOBALS.tip.length)];
+            tipBox.classList.remove('m-black');
+            return true;
+        }
+        return false;
+    }
+
+    const startAnimation = () => {
+        const image = document.getElementById('m-loading-image');
+        if (image){
+            const animation = TweenMax.to(image, 3, { rotationY: 360 * 3, ease: Power4.easeOut, onComplete: () => {
+                if (GLOBALS.loadingPercentage != 100) {
+                    animation.restart();
+                }
+            } });
+            return true;
+        }
+        return false;
+    }
+    
+    let isTipCreated = false, startedAnimation = false;
+    let loadingCheck = setInterval(() => {
+        // The tip element could not be loaded.
+        if (!isTipCreated)
+            tipCreated = setTip();
+
+        if (!startedAnimation)
+            startedAnimation = startAnimation();
+
+        if (GLOBALS.loadingPercentage == 100){
+            document.getElementById("m-loading").style.display = 'none';
+
+            clearInterval(loadingCheck);
+        }
+    }, 200);
+})();
+
+
 /**
  * It is called when page is fully loaded and setup all the necessary stuff.
  */
 function setupPage() {
+    GLOBALS.loadingPercentage = 30;
     // Dynamic generation of contents.
     dynamicGeneration();
+    GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({shouldSave : true, logError : true});
-    SM.input.bindInput(document, menuGraph);
+    menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout});
+    GLOBALS.loadingPercentage = 75;
+
+    // Custom setup. Put here to animate after first focus.
+    bindAnimations();
+    bindCustomEvents();
+    GLOBALS.loadingPercentage = 80;
+
+    // Setup graph input.
+    SM.input.bindInput(menuGraph, GLOBALS.inputMap);
+    GLOBALS.loadingPercentage = 90;
 
     // Custom setup.
-    bindAnimations();
     fitTexts();
+    GLOBALS.loadingPercentage = 95;
 
     // Create slider.
     $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements });
+    GLOBALS.loadingPercentage = 100;
 }
 
 /**
@@ -40,28 +107,51 @@ function setupPage() {
  */
 function resizePage() {
     fitTexts();
+    menuGraph.forceUpdateLayout();
 }
 
 
+function chooseLayout(menu) {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+    const height = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+    const aspectRatio = height / width;
+
+    return aspectRatio <= 1 ? 'main' : 'portrait';
+}
+
 /**
  * Resizes texts to perfectly fit container.
+ * 
+ * @param {HTMLCollection} [textsToResizes] The texts to resize. If null, all visibles elements will be resized.
+ *                                           It may be used due to performance reasons.
  */
-function fitTexts() {
+function fitTexts(textsToResizes = null) {
+    if (!textsToResizes) 
+        textsToResizes = GLOBALS.textsToFit;
+
     // Resize all the visible texts.
-    for (textToFit of GLOBALS.textsToFit) {
+    for (textToFit of textsToResizes) {
         if (textToFit.offsetParent) {
             const min = textToFit.dataset.minfont;
             const max = textToFit.dataset.maxfont;
             const parentHeight = textToFit.parentElement.offsetHeight;
+            const parentWidth = textToFit.parentElement.offsetWidth;
             const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
             // Set the right starter size.
             let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
             currentSize = currentSize.clamp(min, max);
 
             // Resize the text until the father size is not reached or text size overflows a range.
-            while (currentSize && (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight)
-                    && isWithinRange(currentSize, min, max, isLower)) {
+            while (currentSize && 
+                    isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight && 
+                    isWithinRange(currentSize, min, max, isLower)) {
                 currentSize += GLOBALS.textIncrement * isLower;
+                textToFit.style.fontSize = currentSize + 'px';
+            }
+
+            // Get an extra check on the width since this class could be applied also on icons.
+            while (currentSize && textToFit.offsetWidth > parentWidth && isWithinRange(currentSize, min, max, isLower)) {
+                currentSize -= GLOBALS.textIncrement;
                 textToFit.style.fontSize = currentSize + 'px';
             }
 
@@ -136,8 +226,98 @@ function updateSliderElements(event, ui) {
 
 
 ////////////////////////////////////////////////////////////////////////
-//////////////////////////////// INPUT /////////////////////////////////
+//////////////////////////////// EVENTS ////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
+/**
+ * Binds all the custom events.
+ */
+function bindCustomEvents() {
+    skillsNavigation();
+}
+
+/**
+ * Allows the navigation of skills section with keyboard/gamepad.
+ */
+function skillsNavigation() {
+    const skills = document.querySelectorAll('#m-skills #m-skills-trees .m-skills-skill.sm-item');
+
+    for(let skill of skills) {
+        skill.addEventListener('sm-activate', (event) => {
+            // Change visualized item only if item changing is not fired by mouse.
+            if (!event.detail.isMouseTrigger) {
+                // Simulate drag and drop.
+                const ev = { dataTransfer: new DataTransfer(), target: event.target.getElementsByTagName("i")[0] };
+                pickUpSkill(ev);
+                ev.target = document.querySelector('#m-skills #m-skills-description #m-skills-icon-container > div');
+                dropSkill(ev);
+            }
+        })
+    }
+
+    // For portrait carousel.
+    skillsPortrait();
+}
+
+function skillsPortrait() {
+    $('#m-skills-carousel').on('slid.bs.carousel', function () {
+        fitTexts();
+
+        // Simulate drag and drop.
+        const ev = { dataTransfer: new DataTransfer(), target: document.querySelector('#m-skills-carousel .active i:first-of-type') };
+        pickUpSkill(ev);
+        ev.target = document.querySelector('#m-skills #m-skills-description #m-skills-icon-container > div');
+        dropSkill(ev);
+    });
+    $('#m-skills-carousel').trigger('slid.bs.carousel');
+
+    // Correctly resizes all icons within carousel.
+    const items = document.querySelectorAll('#m-skills-carousel .carousel-item');
+
+    for (let item of items) {
+        item.style.display = 'block';
+        fitTexts(item.getElementsByClassName('m-fit-text'));
+        item.style.display = '';
+    }
+}
+
+/**
+ * Recalled on dragging a skills icon. Saves some skill's attributes to use them 
+ * on dropping event.
+ * 
+ * @param {DOMEvent} ev The drag event.
+ */
+function pickUpSkill(ev) {
+    const style = window.getComputedStyle(ev.target.closest('.sm-item.sm-no-input'));
+
+    // Save some attributes of the dragged skill.
+    ev.dataTransfer.setData("background", style.getPropertyValue('background-color'));
+    ev.dataTransfer.setData("id", ev.target.parentElement.id);
+}
+
+/**
+ * Recalled when a skill is dropped. Apply some changes to the skill's description div.
+ * 
+ * @param {DOMEvent} ev The drop event.
+ */
+function dropSkill(ev) {
+    const descrDiv = ev.target.closest('#m-skills-description');
+
+    // Change background color.
+    descrDiv.style.backgroundColor = ev.dataTransfer.getData("background");
+
+    // Show the right description.
+    const oldDescr = descrDiv.querySelector('p.m-active');
+    
+    if(oldDescr)    oldDescr.classList.remove('m-active');
+    descrDiv.querySelector(`p#${ev.dataTransfer.getData("id")}-descr`).classList.add('m-active');
+
+    // Show the right img.
+    const oldImg = descrDiv.querySelector('#m-skills-icon-container .m-active');
+
+    if (oldImg)     oldImg.classList.remove('m-active');
+    descrDiv.querySelector(`#m-skills-icon-container #${ev.dataTransfer.getData("id")}-img`).classList.add('m-active');
+}
 
 
 
@@ -160,32 +340,55 @@ function dynamicGeneration() {
  * Fullify the skills' session.
  */
 function generateSkills() {
-    let skillRows = ['<div class="row">', '<div class="row">', '<div class="row">', '<div class="row">'];
-    const itemPerRow = GLOBALS.skills.length / skillRows.length;
-    let i = 0;
+    let skillRows = ['<div class="col h-100 p-0"><div id="m-skills-programming" class="sm-item sm-no-input m-programming-skill w-100 h-100"><div class="w-100 m-skills-title"><h1 class="m-fit-text">Programming</h1></div>', 
+                     '<div class="col h-100 p-0"><div id="m-skills-tools" class="sm-item sm-no-input m-tools-skill w-100 h-100"><div class="w-100 m-skills-title"><h1 class="m-fit-text">Tools</h1></div>', 
+                     '<div class="col h-100 p-0"><div id="m-skills-knowledge" class="sm-item sm-no-input m-knowledge-skill w-100 h-100"><div class="w-100 m-skills-title"><h1 class="m-fit-text">Knowledge</h1></div>'];
+    let skillDescr = '';
+    let skillImgs = '';
+    const rowNums = 5;
 
-    // Creates all the rows.
-    for (skill of GLOBALS.skills) {
-        skillRows[parseInt(i++ / itemPerRow)] += `
-            <div class="col h-100">
-                <div class="m-skills-header">
-                    ${skill.icon}
-                    <h2>${skill.name}</h2>
-                </div>
-                <div class="m-skills-description">
-                    <p class="m-fit-text">${skill.description}</p>
-                </div>
-            </div>
-        `;
+    for (let i = 0; i < GLOBALS.skills.length; ++i) {
+        const category = GLOBALS.skills[i];
+
+        // Creates the levels of each category.
+        for (let j = 0; j < rowNums; ++j) {
+            const row = j < category.length ? category[j] : null;
+            skillRows[i] += '<div class="row justify-content-center w-100 m-0">';
+
+            // Creates all the element skills-related.
+            for (let k = 0; row && k < row.length; ++k) {
+                skillRows[i] += `
+                    <div id="m-skills-${row[k].name}" class="col-4 m-skills-skill sm-item h-100 p-0">
+                        <i draggable="true" ondragstart="pickUpSkill(event)" class="${row[k].icon} m-fit-text"></i>
+                    </div>
+                `;
+
+                skillDescr += `<p id="m-skills-${row[k].name}-descr">${row[k].description}</p>`;
+                
+                // Create svg or img for logo representation.
+                if (row[k].svg)
+                    skillImgs += `<svg viewBox="0 0 128 128" id="m-skills-${row[k].name}-img">${row[k].svg}</svg>`;
+                else if (row[k].img)
+                    skillImgs += `<img id="m-skills-${row[k].name}-img" src="${row[k].img}">`;
+            }
+
+            skillRows[i] += '</div>';
+        }
     }
 
     // Close rows
-    for (i = 0; i < skillRows.length; ++i)
-        skillRows[i] += '</div>';
+    let allRows = '';
+
+    for (let i = 0; i < skillRows.length; ++i) {
+        skillRows[i] += '</div></div>';
+        allRows += skillRows[i];
+    }
 
     
     // Add it to the dom.
-    document.querySelector('#m-skills > .sm-main-layout').innerHTML = skillRows[0] + skillRows[1] + skillRows[2] + skillRows[3];
+    document.querySelector('#m-skills > .sm-main-layout > #m-skills-trees').innerHTML = allRows;
+    document.querySelector('#m-skills #m-skills-icon-container > div').innerHTML = skillImgs;
+    document.querySelector('#m-skills > #m-skills-description > div:nth-child(2)').innerHTML = skillDescr;
 }
 
 /**
@@ -198,7 +401,7 @@ function generateProjects() {
     // Creates all the project.
     for (project of GLOBALS.projects) {
         list += `
-            <div class="m-projects-row d-flex align-items-center">
+            <div class="m-projects-row sm-item d-flex align-items-center">
                 ${project.title}
             </div>
         `;
@@ -320,11 +523,7 @@ function projectsSelection() {
         for (let i = 0; i < projectRows.length; ++i) {
             projects[i].style.display = 'none';
 
-            projectRows[i].addEventListener("mouseover", () => {
-                // Change active item.
-                projectRows[GLOBALS.projCurrIndex].classList.remove('active');
-                projectRows[i].classList.add('active');
-                
+            projectRows[i].addEventListener(SM.CONST.inputActivationEvent, () => {                
                 // Change visibility.
                 projects[GLOBALS.projCurrIndex].style.display = 'none';
                 projects[i].style.display = 'block';
@@ -336,7 +535,7 @@ function projectsSelection() {
         }
 
         // Call the visibility on first project.
-        projectRows[0].fireEvent('mouseover');
+        projectRows[0].fireEvent(SM.CONST.inputActivationEvent);
     }
     else {
         console.error("At least one project is not correctly setup.");

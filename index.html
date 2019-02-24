@@ -2,10 +2,11 @@
 <html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Project Sushi</title>
         <meta name="author" content="Giulio Auriemma" />
         <meta name="description" content="Enter the project that aims to transform the whole world's population into sushi.'">
         <meta HTTP-EQUIV="keywords" content="Giulio Auriemma Computer Scientist Freelencer Professional Profile Portfolio">
+        <meta charset="utf-8" />
+        <title>Project Sushi</title>
         <!-- Jquery -->
         <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -59,6 +60,14 @@
         <meta name="msapplication-square310x310logo" content="mstile-31 0x310.png" />
     </head>
     <body onload="setupPage()" onresize="resizePage()">
+        <!--------------------- LOADING SCREEN --------------------->
+        <div id="m-loading">
+            <div>
+                <img id="m-loading-image" src="Styles/Images/Sushi.png">
+                <h1 id="m-loading-tip" class="m-black">PLACEHOLDER TEXT</h1>
+            </div>
+        </div>
+        <!--------------------- HEADER --------------------->
         <header class="container-fluid">
             <div class="row w-100 justify-content-center">
                 <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12">
@@ -76,6 +85,7 @@
                 </div>
             </div>
         </header>
+        <!--------------------- MENU --------------------->
         <section id="sm-viewport" class="h-75">
             <!--------------------- MAIN MENU --------------------->
             <div id="sm-main-menu" class="sm-menu container-fluid h-100">
@@ -218,9 +228,87 @@
                 </div>
             </div>
             <!--------------------- SKILLS --------------------->
-            <div id="m-skills" class="sm-menu container-fluid h-100">
+            <div id="m-skills" class="sm-menu container-fluid h-100 p-0">
                 <div class="sm-layout sm-main-layout">
-                    
+                    <div id="m-skills-trees" class="row w-100 h-100 m-0">
+                        <!-- <div id="m-skills-programming" class="col h-100">
+                            <div class="w-100 m-skills-title">
+                                <h1 class="m-fit-text">Programming</h1>
+                            </div>
+                            <div class="row w-100 justify-content-center">
+                                <div id="m-skills-cpp" class="col-auto">
+                                    <i draggable="true" ondragstart="pickUpSkill(event)" class="devicon-cplusplus-plain m-fit-text"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="m-skills-tools" class="col h-100">
+                            <div class="w-100 m-skills-title">
+                                <h1>Tools</h1>
+                            </div>
+                        </div>
+                        <div id="m-skills-knowledge" class="col h-100">
+                            <div class="w-100 m-skills-title">
+                                <h1>Knowledge</h1>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="sm-layout sm-portrait-layout">
+                    <div id="m-skills-carousel" class="carousel slide h-100 w-100 m-0" data-ride="carousel" data-interval="false">
+                        <div class="carousel-inner h-100 w-100">
+                            <div class="carousel-item sm-item-container active p-0 w-100 h-100" data-item="m-programming-skill">
+                            </div>
+                            <div class="carousel-item sm-item-container p-0 w-100 h-100" data-item="m-tools-skill">
+                            </div>
+                            <div class="carousel-item sm-item-container p-0 w-100 h-100" data-item="m-knowledge-skill">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#m-skills-carousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#m-skills-carousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <!-- <div id="m-skills-description" class="row w-100">
+                        <div class="col-3 justify-content-center">
+                            <div id="m-skills-icon-container" class="w-100 h-100">
+                                <div ondrop="dropSkill(event)" ondragover="event.preventDefault()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                        </div>
+                    </div> -->
+                </div>
+                <div id="m-skills-description" class="row w-100 m-0">
+                    <div class="col-3 justify-content-center">
+                        <div id="m-skills-icon-container" class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <div ondrop="dropSkill(event)" ondragover="event.preventDefault()">
+                                <!-- <svg viewBox="0 0 128 128">
+                                                        <path fill="#D26383"
+                                                            d="M115.4 30.7l-48.3-27.8c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z">
+                                                        </path>
+                                                        <path fill="#9C033A"
+                                                            d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4v-55.7c0-.9-.1-1.9-.6-2.8l-106.6 62z">
+                                                        </path>
+                                                        <path fill="#fff"
+                                                            d="M85.3 76.1c-4.2 7.4-12.2 12.4-21.3 12.4-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6z">
+                                                        </path>
+                                                        <path
+                                                            d="M82.1 61.8h5.2v-5.3h4.4v5.3h5.3v4.4h-5.3v5.2h-4.4v-5.2h-5.2v-4.4zM100.6 61.8h5.2v-5.3h4.4v5.3h5.3v4.4h-5.3v5.2h-4.4v-5.2h-5.2v-4.4z">
+                                                        </path>
+                                                    </svg> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <!-- <p id="m-skills-cpp-descr">
+                                                HELLO DARKNESS MY OLD FRIEND.
+                                            </p> -->
+                    </div>
                 </div>
             </div>
             <!--------------------- EXPERIENCE --------------------->
