@@ -26,8 +26,8 @@ CONST: {
     layoutItemData: 'item',
     gotoData: 'goto',
     backData: 'back',
-    inAnimData: 'sm-in',
-    outAnimData: 'sm-out'
+    inAnimData: 'smIn',
+    outAnimData: 'smOut'
 },
     
 /**
@@ -72,8 +72,16 @@ Graph: class Graph {
         if (this._setAttributes())
         {
             this._buildGraph();
-        }        
-        
+        }           
+    }
+
+    /**
+     * Returns the current menu.
+     * 
+     * @returns {HTMLElement} The current active menu.
+     */
+    get currentMenu() {
+        return this._current;
     }
 
     /**

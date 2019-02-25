@@ -67,9 +67,16 @@
                 <h1 id="m-loading-tip" class="m-black">PLACEHOLDER TEXT</h1>
             </div>
         </div>
+        <!--------------------- ERROR MESSAGE --------------------->
+        <div id="m-error">
+            <div>
+                <h1 id="m-error-message">Sorry User, but this site is for another resolution.</h1>
+                <img id="m-error-image" src="Styles/Images/Sushi.png">
+            </div>
+        </div>
         <!--------------------- HEADER --------------------->
         <header class="container-fluid">
-            <div class="row w-100 justify-content-center">
+            <div class="row w-100 justify-content-center m-0">
                 <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12">
                     <div class="row w-100 justify-content-center m-0">
                         <div class="col-xs-auto m-sushi-img">
@@ -88,7 +95,7 @@
         <!--------------------- MENU --------------------->
         <section id="sm-viewport" class="h-75">
             <!--------------------- MAIN MENU --------------------->
-            <div id="sm-main-menu" class="sm-menu container-fluid h-100">
+            <div id="sm-main-menu" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
                         <div class="col-6 h-100 m-first-col">
@@ -96,7 +103,7 @@
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item about-me-item" data-goto="m-about-me">
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1>About Me</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">About Me</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="person" aria-hidden="true"></span>
@@ -108,7 +115,7 @@
                                 <div class="col-6 sm-item-container">
                                     <div class="sm-item skills-item" data-goto="m-skills">   
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1>Skills</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">Skills</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="badge" aria-hidden="true"></span>
@@ -118,7 +125,7 @@
                                 <div class="col-6 sm-item-container">
                                     <div class="sm-item experience-item" data-goto="m-experience">
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1>Experience</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">Experience</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="briefcase" aria-hidden="true"></span>
@@ -132,7 +139,7 @@
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item projects-item" data-goto="m-projects">
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1>Projects</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">Projects</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="folder" aria-hidden="true"></span>
@@ -144,7 +151,7 @@
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item contact-me-item" data-goto="m-contact-me">
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1>Contact Me</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">Contact Me</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="envelope-closed" aria-hidden="true"></span>
@@ -156,7 +163,7 @@
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item credits-item" data-goto="m-credits">
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1>Credits</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">Credits</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="align-center" aria-hidden="true"></span>
@@ -168,43 +175,47 @@
                     </div>
                 </div>
                 <div class="sm-layout sm-portrait-layout">
-                    <div class="row">
-                        <div class="sm-item-container" data-item="about-me-item"></div>
+                    <div class="row justify-content-center m-0">
+                        <div class="sm-item-container col-8" data-item="about-me-item"></div>
                     </div>
-                    <div class="row">
-                        <div class="sm-item-container" data-item="skills-item"></div>
+                    <div class="row justify-content-center m-0">
+                        <div class="sm-item-container col-8" data-item="skills-item"></div>
                     </div>
-                    <div class="row">
-                        <div class="sm-item-container" data-item="experience-item"></div>
+                    <div class="row justify-content-center m-0">
+                        <div class="sm-item-container col-8" data-item="experience-item"></div>
                     </div>
-                    <div class="row">
-                        <div class="sm-item-container" data-item="projects-item"></div>
+                    <div class="row justify-content-center m-0">
+                        <div class="sm-item-container col-8" data-item="projects-item"></div>
                     </div>
-                    <div class="row">
-                        <div class="sm-item-container" data-item="contact-me-item"></div>
+                    <div class="row justify-content-center m-0">
+                        <div class="sm-item-container col-8" data-item="contact-me-item"></div>
                     </div>
-                    <div class="row">
-                        <div class="sm-item-container" data-item="credits-item"></div>
+                    <div class="row justify-content-center m-0">
+                        <div class="sm-item-container col-8" data-item="credits-item"></div>
                     </div>
                 </div>
             </div>
             <!--------------------- ABOUT ME --------------------->
-            <div id="m-about-me" class="sm-menu container-fluid h-100">
+            <div id="m-about-me" class="sm-menu container-fluid h-100 m-0" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div class="sm-item h-100 w-100">
-                        <div id="m-aboutme-header" class="row w-100">
-                            <div id="m-my-photo" class="col-3 h-100">
-                                <img src="Old/Styles/Images/me.jpg" class="h-100 m-circle" />
+                        <div id="m-aboutme-header" class="row w-100 m-0">
+                            <div id="m-my-photo" class="col-4 col-md-3 h-100 d-flex align-items-center">
+                                <img src="Old/Styles/Images/me.jpg" class="m-circle" />
                             </div>
-                            <div id="m-my-title" class="col-9 d-flex align-items-center">
-                                <div>
-                                    <h1>Giulio Auriemma</h1>
-                                    <h1>Computer Scientist & Game Developer</h1>
+                            <div id="m-my-title" class="col-8 col-md-9 d-flex align-items-center h-100">
+                                <div class="h-100 w-100">
+                                    <div class="d-flex align-items-center h-50 w-100" data-maxfont="40">
+                                        <h1 class="m-fit-text" data-maxfont="40">Giulio Auriemma</h1>
+                                    </div>
+                                    <div class="d-flex align-items-start h-50 w-100" data-maxfont="40">
+                                        <h1 class="m-fit-text">Computer Scientist & Game Developer</h1>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="m-aboutme-body" class="row w-100">
-                            <p class="m-fit-text">
+                        <div id="m-aboutme-body" class="row w-100 m-0">
+                            <p class="m-fit-text" data-minfont="15">
                                 I'm Giulio, a young computer scientist who loves programming. As all real programmers do, I started learning C (the Lord
                                 of programming language), and during my university education I have learned to use it both in high level applications
                                 and in Linux low level ones. Then I learned about the object-oriented paradigm, starting from C++ until Java. Since I
@@ -228,7 +239,7 @@
                 </div>
             </div>
             <!--------------------- SKILLS --------------------->
-            <div id="m-skills" class="sm-menu container-fluid h-100 p-0">
+            <div id="m-skills" class="sm-menu container-fluid h-100 p-0" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div id="m-skills-trees" class="row w-100 h-100 m-0">
                         <!-- <div id="m-skills-programming" class="col h-100">
@@ -312,7 +323,7 @@
                 </div>
             </div>
             <!--------------------- EXPERIENCE --------------------->
-            <div id="m-experience" class="sm-menu container-fluid h-100">
+            <div id="m-experience" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div id="m-education">
                         <div id="m-edu-slider" class="m-slider">
@@ -432,7 +443,7 @@
                 </div>
             </div>
             <!--------------------- PROJECTS --------------------->
-            <div id="m-projects" class="sm-menu container-fluid h-100">
+            <div id="m-projects" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
                         <div class="col-4 h-100">
@@ -445,7 +456,7 @@
                 </div>
             </div>
             <!--------------------- CONTACT ME --------------------->
-            <div id="m-contact-me" class="sm-menu container-fluid h-100">
+            <div id="m-contact-me" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div class="row">
                         <div class="col sm-item-container">
@@ -516,7 +527,7 @@
                 </div>
             </div>
             <!--------------------- CREDITS --------------------->
-            <div id="m-credits" class="sm-menu container-fluid h-100">
+            <div id="m-credits" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
                 <div class="sm-layout sm-main-layout">
                     <div>
                         <h1>Website realized by</h1>

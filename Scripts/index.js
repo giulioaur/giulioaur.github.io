@@ -106,7 +106,7 @@ function setupPage() {
  * Called on page resizing.
  */
 function resizePage() {
-    fitTexts();
+    fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
     menuGraph.forceUpdateLayout();
 }
 
@@ -143,21 +143,26 @@ function fitTexts(textsToResizes = null) {
 
             // Resize the text until the father size is not reached or text size overflows a range.
             while (currentSize && 
-                    isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight && 
+                    (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) && 
                     isWithinRange(currentSize, min, max, isLower)) {
                 currentSize += GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
             }
 
-            // Get an extra check on the width since this class could be applied also on icons.
-            while (currentSize && textToFit.offsetWidth > parentWidth && isWithinRange(currentSize, min, max, isLower)) {
-                currentSize -= GLOBALS.textIncrement;
+            // If the height are equal, stop, otherwise make last change.
+            if (isLower > 0 && textToFit.offsetHeight > parentHeight && isWithinRange(currentSize, min, max, isLower)) {
+                currentSize -= GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
             }
 
-            // If the height are equal, stop, otherwise make last change.
-            if (textToFit.offsetHeight != parentHeight)
-                textToFit.style.fontSize = currentSize - GLOBALS.textIncrement * isLower + 'px';
+            // This normalize the result.
+            textToFit.style.fontSize = currentSize.clamp(min, max) + 'px';
+
+            // Get an extra check on the width since the text could oveflow by width.
+            while (currentSize && textToFit.offsetWidth > parentWidth && isWithinRange(currentSize, min, max, -1)) {
+                currentSize -= GLOBALS.textIncrement;
+                textToFit.style.fontSize = currentSize + 'px';
+            }            
         }
     }
 }
@@ -540,4 +545,21 @@ function projectsSelection() {
     else {
         console.error("At least one project is not correctly setup.");
     }
+}
+
+
+/**
+ * Show the new menu with a basic transition, fitting the texts before entering.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterWithText(from, to, isBack) {
+    to.style.opacity = 0;
+    to.style.display = '';
+
+    fitTexts(to.getElementsByClassName('m-fit-text'));
+
+    to.style.opacity = 1;
 }

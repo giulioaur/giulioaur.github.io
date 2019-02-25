@@ -29,6 +29,35 @@ $secondary-color: #337ab7;
     @return #{$value + '%'};  
 }
 
+
+
+// This is just an empiric breakpoint.
+@mixin mobile {
+    @media (max-width: 800px) {
+        @content;
+    }
+}
+
+@mixin landscape {
+    @media (min-aspect-ratio: 1/1) {
+        @content;
+    }
+}
+
+@mixin portrait {
+    @media not all and (min-aspect-ratio: 1/1) {
+        @content;
+    }
+}
+
+@mixin mobile-portrait {
+    @include mobile {
+        @include portrait {
+            @content;
+        }
+    }
+}
+
 //*****************************************************************************************//
 //*****************************************************************************************//
 //**************************************** GENERAL ****************************************//
@@ -97,11 +126,11 @@ a.m-no-decoration
 
 //*****************************************************************************************//
 //*****************************************************************************************//
-//*************************************** LOADING *****************************************//
+//*********************************** LOADING / ERROR *************************************//
 //*****************************************************************************************//
 //*****************************************************************************************//
 
-#m-loading
+#m-loading, #m-error
 {
     background-color: black;
     width: 100%;
@@ -116,14 +145,14 @@ a.m-no-decoration
         position: absolute;
         width: 100%;
 
-        > #m-loading-image 
+        > #m-loading-image, > #m-error-image
         {
             display: block;
             margin: auto;
             width: 150px;
         }
 
-        > #m-loading-tip
+        > #m-loading-tip, > #m-error-message
         {
             color: white;
             text-align: center;
@@ -137,6 +166,11 @@ a.m-no-decoration
 }
 
 
+#m-error
+{
+    display: none;
+    z-index: 1001;
+}
 
 
 
@@ -201,7 +235,8 @@ header
 
     .sm-menu
     {
-        .sm-layout {
+        .sm-layout 
+        {
             height: 100%;
             width: 100%;
 
@@ -234,6 +269,7 @@ header
                         span, h1
                         {
                             color: #e74c3c; 
+                            position: absolute;
                         }
                     }
 
@@ -244,9 +280,9 @@ header
                 }
             }
         }
-        
     }
 }
+
 
 
 
@@ -283,6 +319,7 @@ header
 
 
 
+
 //*****************************************************************************************//
 //*****************************************************************************************//
 //*************************************** ABOUT ME ****************************************//
@@ -305,7 +342,21 @@ header
             {
                 img 
                 {
-                    padding-left: 20px;
+                    margin-left: 20px;
+                    
+                    max-height: 100%;
+                    max-width: 100%;
+                }
+            }
+
+            #m-my-title
+            {
+                div.d-flex:nth-of-type(2)
+                {
+                    h1
+                    {
+                        color: $secondary-color;
+                    }
                 }
             }
         }
@@ -315,11 +366,6 @@ header
             height: to-percentage(100 - $header-height);
             
             padding-top: 20px;
-        }
-
-        #m-about-me, #m-aboutme-body 
-        {
-            margin: 0;
         }
     }
 }
@@ -846,3 +892,7 @@ header
         cursor: default;
     }
 }
+
+
+// Include the portrait mode css at the end to give it higher priority over those rules.
+@import 'index_portrait'; 
