@@ -513,7 +513,46 @@ header
 
 #m-experience
 {
+    $slider-border-radius: 30px;
+
     padding: 15px;
+
+    // Create section of the slider.
+    @mixin createSliderSection ($ids, $colors) {
+        @for $i from 1 through length($ids) {
+            $category: nth($ids, $i);
+            $color: nth($colors, $i);
+
+            ##{$category} 
+            {
+                // Choose right type of background.
+                @if type-of($color) == color {
+                    background-color: $color;
+                }
+                @else {
+                    background-image: $color;
+                }
+
+                // To match the border radius of the slider.
+                @if $i == 1 {
+                    border-top-left-radius: $slider-border-radius;
+                    border-bottom-left-radius: $slider-border-radius;
+                }
+                @else if $i == length($ids) {
+                    border-top-right-radius: $slider-border-radius;
+                    border-bottom-right-radius: $slider-border-radius;
+                }
+            }
+
+            .m-slider-section:nth-child(#{$i})
+            {   
+                .m-exp-date
+                {
+                    @include left-border($color);
+                }
+            }
+        }
+    }
 
     @mixin left-border($color)
     {
@@ -522,166 +561,81 @@ header
 
     .sm-main-layout 
     {
-        $education-height: 30;
-        $slider-border-radius: 30px;
+        $education-height: 35;
 
-        .m-slider-section 
+        .m-slider-info
         {
-            padding: 15px;
-
-            > .row:first-child
+            max-height: 90%;
+            
+            .m-slider-section 
             {
-                padding: 0 15px;
-            }
-
-            .m-exp-date > h2, .m-exp-title > h1
-            {
-                margin: 0;
-            }
-
-            .m-exp-date > h2 
-            {
-                font-size: 2.8vmin;
-            }
-
-            .m-exp-title > h1 
-            {
-                font-size: 3.2vmin;
-            }
+                height: 100%;
+                padding: 15px;
     
-            .m-exp-descr
-            {
-                padding-top: 10px;
-
-                .m-exp-location
+                > .row:first-child
                 {
-                    color: $secondary-color;
-                    font-size: 20px;
-    
-                    span
-                    {
-                        margin-right: 10px;
-                    }
+                    padding: 0 15px;
                 }
     
-                p
+                .m-exp-date > h2, .m-exp-title > h1
+                {
+                    margin: 0;
+                }
+    
+                .m-exp-date > h2 
+                {
+                    font-size: 2.8vmin;
+                }
+    
+                .m-exp-title > h1 
+                {
+                    font-size: 3.2vmin;
+                }
+        
+                .m-exp-descr
                 {
                     padding-top: 10px;
+    
+                    .m-exp-location
+                    {
+                        color: $secondary-color;
+                        font-size: 20px;
+        
+                        span
+                        {
+                            margin-right: 10px;
+                        }
+                    }
+        
+                    p
+                    {
+                        padding-top: 10px;
+                    }
                 }
             }
         }
+
 
         #m-education
         {
             height: to-percentage($education-height);
 
-            #m-education-bachelor
-            {
-                background-color: #BA5C56;
-
-                // To match the border radius of the slider.
-                border-top-left-radius: $slider-border-radius;
-                border-bottom-left-radius: $slider-border-radius;
-            }
-
-            .m-slider-section:nth-child(1)
-            {
-                .m-exp-date
-                {
-                    @include left-border(#BA5C56);
-                }
-            }
-
-            #m-education-master
-            {
-                background-color: #659074;
-
-                // To match the border radius of the slider.
-                border-top-right-radius: $slider-border-radius;
-                border-bottom-right-radius: $slider-border-radius;
-            }
-
-            .m-slider-section:nth-child(2)
-            {
-                .m-exp-date
-                {
-                    @include left-border(#659074);
-                }
-            }
+            @include createSliderSection(('m-education-bachelor', 'm-education-master'), (#BA5C56, #659074));
         }
 
         #m-job
         {
             height: to-percentage(100 - $education-height);
 
-            #m-job-internship
-            {
-                background-color: #C3B183;
+            @include createSliderSection(('m-job-internship', 'm-job-dojo', 'm-job-pisa', 'm-job-milestone'), 
+                (#C3B183, #EFCAA1, linear-gradient(#EFCAA1, #F68E62), #2ABBA3));
 
-                // To match the border radius of the slider.
-                border-top-left-radius: $slider-border-radius;
-                border-bottom-left-radius: $slider-border-radius;
-            }
-
-            .m-slider-section:nth-child(1)
-            {
-                .m-exp-date
-                {
-                    @include left-border(#C3B183);
-                }
-            }
-
-            #m-job-dojo
-            {
-                background-color: #EFCAA1;
-            }
-            
-
-            .m-slider-section:nth-child(2)
-            {
-                .m-exp-date
-                {
-                    @include left-border(#EFCAA1);
-                }
-            }
-
-            #m-job-pisa
-            {
-                div:first-child
-                {
-                    background-color: #EFCAA1;
-                }
-
-                div:nth-child(2)
-                {
-                    background-color: #F68E62;
-                }
-            }
-            
-
+            // Master's thesis color correction.
             .m-slider-section:nth-child(3)
-            {
+            {   
                 .m-exp-date
                 {
                     @include left-border(#F68E62);
-                }
-            }
-
-            #m-job-milestone
-            {
-                background-color: #2ABBA3;
-
-                // To match the border radius of the slider.
-                border-top-right-radius: $slider-border-radius;
-                border-bottom-right-radius: $slider-border-radius;
-            }
-            
-
-            .m-slider-section:nth-child(4)
-            {
-                .m-exp-date
-                {
-                    @include left-border(#2ABBA3);
                 }
             }
         }
@@ -690,6 +644,8 @@ header
         .m-slider
         {
             border-radius: $slider-border-radius;
+            
+            max-height: 10%;
 
             .ui-slider-handle 
             {
@@ -766,17 +722,13 @@ header
 
             .m-projects-description
             {
+                background-color: rgba(255, 255, 255, 0.4);
                 height: to-percentage(100 - $project-banner-height);
 
                 padding: 10px;
 
                 // To not over-extend the background opacity.
                 position: relative;
-            }
-
-            .m-projects-description::before
-            {
-                @include background-opacity(0.4);
             }
         }
     }

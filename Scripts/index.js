@@ -99,6 +99,7 @@ function setupPage() {
 
     // Create slider.
     $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements });
+    $('.m-slider').draggable();
     GLOBALS.loadingPercentage = 100;
 }
 
@@ -163,6 +164,9 @@ function fitTexts(textsToResizes = null) {
                 currentSize -= GLOBALS.textIncrement;
                 textToFit.style.fontSize = currentSize + 'px';
             }            
+
+            // Change overflow.
+            textToFit.parentElement.style.overflowY = textToFit.offsetHeight > parentHeight ? 'scroll' : 'hidden';
         }
     }
 }
@@ -415,10 +419,10 @@ function generateProjects() {
             <div class="m-projects-container h-100">
                 <div class="m-projects-banner d-flex align-items-center justify-content-center"
                 style="background-image: url('${project.screen}')">
-                    <h1>${project.extendedTitle}</h1>
+                    <h1 class="m-fit-text">${project.extendedTitle}</h1>
                 </div>
                 <div class="m-projects-description">
-                    <p class="m-fit-text" data-maxfont="30">
+                    <p class="m-fit-text" data-maxfont="30" data-minfont="15">
                         ${project.description}
                     </p>
                 </div>
@@ -499,19 +503,22 @@ function bindAnimations() {
 function itemHovering() {
     let $items = $('.sm-item');
 
-    $items.bind( 'sm-activate', function () { 
+    $items.bind( 'sm-activate', function (event) { 
         // Enter the item.
-        let $hover = $(this).find('.m-item-hover');
+        let hover = this.querySelector('.m-item-hover');
 
-        $hover.addClass('m-active');
-        TweenMax.to($hover, 0.1, { top: '-100%' });
+        if (hover) {
+            hover.classList.add('m-active');
+            TweenMax.to(hover, event.detail.direction != 'back' ?  0.1 : 0.001, { top: '-100%' });
+        }
     });
 
-    $items.bind( 'sm-deactivate', function () {
+    $items.bind( 'sm-deactivate', function (event) {
         // Exit the item.
-        let $hover = $(this).find('.m-item-hover');
+        let hover = this.querySelector('.m-item-hover');
 
-        TweenMax.to($hover, 0.05, { top: 0, onComplete: () => { $hover.removeClass('m-active'); } });
+        if (hover)
+            TweenMax.to(hover, event.detail.direction != 'last' ? 0.05 : 0.001, { top: 0, onComplete: () => { hover.classList.remove('m-active'); } });
     });
 }
 

@@ -11,18 +11,18 @@ var SM = {
 CONST: {
     history: 'sm-history',
     current: 'sm-current',
-    viewportId: '#sm-viewport',
-    menuClass: '.sm-menu',
-    itemClass: '.sm-item',
-    backItemClass: '.sm-back-item',
-    redirectItemClass: '.sm-redirect-item',
-    redirectBlankItemClass: '.sm-redirect-blank-item',
-    clearItemClass: '.sm-clear-item',
-    itemContainerClass: '.sm-item-container',
-    mainMenuId: '#sm-main-menu',
-    mainLayoutClass: '.sm-main-layout',
-    layoutClass: '.sm-layout',
-    currentLayoutClass: '.sm-current-layout',
+    viewportId: 'sm-viewport',
+    menuClass: 'sm-menu',
+    itemClass: 'sm-item',
+    backItemClass: 'sm-back-item',
+    redirectItemClass: 'sm-redirect-item',
+    redirectBlankItemClass: 'sm-redirect-blank-item',
+    clearItemClass: 'sm-clear-item',
+    itemContainerClass: 'sm-item-container',
+    mainMenuId: 'sm-main-menu',
+    mainLayoutClass: 'sm-main-layout',
+    layoutClass: 'sm-layout',
+    currentLayoutClass: 'sm-current-layout',
     layoutItemData: 'item',
     gotoData: 'goto',
     backData: 'back',
@@ -90,13 +90,13 @@ Graph: class Graph {
      * @returns {Boolean} true if all goes the right way, false otherwise.
      */
     _setAttributes() {
-        if (document.getElementById(SM.CONST.mainMenuId.substr(1))) {
+        if (document.getElementById(SM.CONST.mainMenuId)) {
             // Use sessionStorage.
             if (this.saving && typeof (Storage) !== 'undefined') {
                 // If no previous saving, create new one.                
                 this._history = sessionStorage.getItem(SM.CONST.history) ? sessionStorage.getItem(SM.CONST.history).split(',') : [];
                 this._current = document.getElementById(`${sessionStorage.getItem(SM.CONST.current) ? 
-                    sessionStorage.getItem(SM.CONST.current) : SM.CONST.mainMenuId.substr(1)}`);
+                    sessionStorage.getItem(SM.CONST.current) : SM.CONST.mainMenuId}`);
             }
             // Do not use session storage.
             else {
@@ -117,7 +117,7 @@ Graph: class Graph {
      */
     _buildGraph() {
         const graph = this; 
-        const nodes = document.querySelectorAll(`${SM.CONST.viewportId} ${SM.CONST.menuClass}`);
+        const nodes = document.querySelectorAll(`#${SM.CONST.viewportId} .${SM.CONST.menuClass}`);
 
         // Creates a map of nodes.
         for(let node of nodes) {
@@ -137,16 +137,16 @@ Graph: class Graph {
         // Add goto event to items.
         // Do it in a separate loop to check goto consistency.
         for (let node of nodes) {
-            const items = node.querySelectorAll(SM.CONST.itemClass)
+            const items = node.querySelectorAll(`.${SM.CONST.itemClass}`);
             for (let item of items){
                 const label = item.dataset[SM.CONST.gotoData];
-                const isBlank = item.classList.contains(SM.CONST.redirectBlankItemClass.substr(1));
+                const isBlank = item.classList.contains(SM.CONST.redirectBlankItemClass);
                 
                 // Check if the item is a normal item or a redirect item.
-                if (!item.classList.contains(SM.CONST.redirectItemClass.substr(1)) && !isBlank)
+                if (!item.classList.contains(SM.CONST.redirectItemClass) && !isBlank)
                     item.addEventListener('click', () => graph.goto(label, 
-                        item.classList.contains(SM.CONST.backItemClass.substr(1)), 
-                        item.classList.contains(SM.CONST.clearItemClass.substr(1))) );
+                        item.classList.contains(SM.CONST.backItemClass), 
+                        item.classList.contains(SM.CONST.clearItemClass)) );
                 else
                     item.addEventListener('click', () => graph._redirect(label, isBlank));
             }
@@ -166,12 +166,12 @@ Graph: class Graph {
      * @param {HTMLElement} menu The menu to fill.
      */
     _populateLayouts(menu) {
-        const mainLayout = menu.querySelector(SM.CONST.mainLayoutClass);
-        const layouts = menu.querySelectorAll(`${SM.CONST.layoutClass}:not(${SM.CONST.mainLayoutClass})`);
+        const mainLayout = menu.querySelector(`.${SM.CONST.mainLayoutClass}`);
+        const layouts = menu.querySelectorAll(`.${SM.CONST.layoutClass}:not(.${SM.CONST.mainLayoutClass})`);
 
         for (let layout of layouts) {
             // Fill all the item's containers.
-            const containers = layout.querySelectorAll(SM.CONST.itemContainerClass);
+            const containers = layout.getElementsByClassName(SM.CONST.itemContainerClass);
             for (let container of containers) {
                 const itemsToAppend = mainLayout.querySelector(`.${container.dataset[SM.CONST.layoutItemData]}`);
 
@@ -185,7 +185,7 @@ Graph: class Graph {
         };
 
         // Set main layout as default, then find the correct layout.
-        mainLayout.classList.add(SM.CONST.currentLayoutClass.substr(1));
+        mainLayout.classList.add(SM.CONST.currentLayoutClass);
         this._setCorrectLayout(menu);
     }
 
@@ -196,19 +196,17 @@ Graph: class Graph {
      */
     _setCorrectLayout(menu) {
         const layoutToShow = this._getLayoutName(menu.id);
-        const currentLayout = menu.querySelector(SM.CONST.currentLayoutClass);
+        const currentLayout = menu.querySelector(`.${SM.CONST.currentLayoutClass}`);
 
         // Show only the correct layout.
         if (!currentLayout.classList.contains(layoutToShow)) {
-            const newLayout = menu.getElementsByClassName(layoutToShow);
+            const newLayout = menu.querySelector(`.${layoutToShow}`);
 
             // Hide the previous active layout and show the new one.
-            if (newLayout.length > 0) {
-                currentLayout.classList.remove(SM.CONST.currentLayoutClass.substr(1));
-                currentLayout.style.display = 'none';
-                newLayout[0].classList.add(SM.CONST.currentLayoutClass.substr(1));
-                newLayout[0].style.display = '';
-            }
+            currentLayout.classList.remove(SM.CONST.currentLayoutClass);
+            currentLayout.style.display = 'none';
+            newLayout.classList.add(SM.CONST.currentLayoutClass);
+            newLayout.style.display = '';
         }
     }
 
@@ -233,6 +231,8 @@ Graph: class Graph {
      * @param {string} label The new menu id.
      * @param {Boolean} isBack true if is a back transition.
      * @param {Boolean} clearHistory true if the history must be cleaned after transition.
+     * 
+     * @returns {Boolean} True if the transition has been successfully completed, false otherwise.
      */
     goto(label, isBack = false, clearHistory = false) {
         let to; 
@@ -247,7 +247,7 @@ Graph: class Graph {
             // Go to link
             else {
                 this._logError(`${label} is not a valid menu in ${this._current.id}`);
-                return;
+                return false;
             }
         }
         // Go back in history.
@@ -265,7 +265,7 @@ Graph: class Graph {
         // There is an error.
         else {
             this._logError(`${this._current.id} cannot go back, no previous menu found.`);
-            return;
+            return false;
         }
 
         // Set current layout for the menu to show.
@@ -288,6 +288,8 @@ Graph: class Graph {
 
         // Save state.
         this._saveCurrentState();
+        
+        return true;
     }
 
     /**
@@ -336,13 +338,15 @@ Graph: class Graph {
     }
 
     /**
-     * Returns the name of the layout to use for a given menu.
+     * Returns the name of the layout to use for a given menu. If this layout does not exist,
+     * returns the main layout instead.
      * 
      * @param {string} menuName The id of the menu.
      * @returns {string} The formatted name of the layout to use.
      */
     _getLayoutName(menuName) {
-        return `sm-${this.layoutGetter(menuName)}-layout`;
+        const newLayout = `sm-${this.layoutGetter(menuName)}-layout`;
+        return document.getElementById(menuName).querySelector(`.${newLayout}`) ? newLayout : SM.CONST.mainLayoutClass;
     }
 
     /**
