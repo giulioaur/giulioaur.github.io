@@ -97,7 +97,7 @@
         <!--------------------- MENU --------------------->
         <section id="sm-viewport" class="h-75">
             <!--------------------- MAIN MENU --------------------->
-            <div id="sm-main-menu" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
+            <div id="sm-main-menu" class="sm-menu container-fluid h-100" data-sm-in="enterWithRestore">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
                         <div class="col-6 h-100 m-first-col">
@@ -218,23 +218,25 @@
                         </div>
                         <div id="m-aboutme-body" class="row w-100 m-0">
                             <p class="m-fit-text" data-minfont="15">
-                                I'm Giulio, a young computer scientist who loves programming. As all real programmers do, I started learning C (the Lord
-                                of programming language), and during my university education I have learned to use it both in high level applications
-                                and in Linux low level ones. Then I learned about the object-oriented paradigm, starting from C++ until Java. Since I
-                                was child, I have always seen the web as a magic world, in which all is possible, so when I was able to understand it, I
-                                started studying "web languages". Both for academic reasons and for personal knowledge I have always tried different
-                                kind of languages to write applications, so I know the most famous language and many framework, but pay attention, as I
-                                told you, I'm a computer scientist, not a programmer. The main difference is that the first one can analyze your
-                                problem, find the optimal solution, choose between many tools for the best one, design a software through smart choices,
-                                write code, debug it and produce good documentation to correctly maintain it; the second one just writes the code you
-                                want, probably in a faster way, but not in a better one. This is like you have written a programming language and you
-                                must choose between an approach with compiler, optimizer and interpreter and the one with the interpreter only. I see
-                                programming more as a game than as a work: every project is a level in which you must defeat some mini-boss (the bugs)
-                                using your weapon (your knowledge) and your magic book (StackOverflow) until you save the princess (your program) and
-                                gain her kiss ( I would say it is something like personal satisfaction or gratification, but we all know that it
-                                represent money). Sometimes the level is timed (the tremendous timelines), but if you hate the laggard as much as I do,
-                                it will be not a problem. But remember: if you can beat a monster with a jump, you don't need to do a triple somersault,
-                                as Ockham said: "Between many solutions, the simplest is the best one".
+                                Hello, it's me, Giulio, a young computer science with a very big passion for videogames and other nerdy stuff. My adventure
+                                began years ago, in a Christmas'Eve night, when my parents gave me a big grey box that allowed me to play the story of a 
+                                little purple dragon. From that moment on, I have always been a videogames lover, and when the moment of choosing my path came,
+                                my decision was pretty simple to take: I will become a videogames programmer. As every computer scientist, I started my path with
+                                the programming language's god (no Assembly, I'm not talking about you!): C. Then during my studies I have tried a lot of other 
+                                languages and technologies, moved by my eclecticism and my will to know about everything. During this journey I have found a lot
+                                of other intersting things, and sometimes I have also forgot about my very final quest, attracted by amazing secondary missions, 
+                                but at the end Gollum cannot be kept far from the Ring for too much time, so here am I, as I have always seen myself: a videogame 
+                                programmer. <br/>
+                                Actually I'm C++ main (sorry Unity, not your time yet) since I really like the low-level (memory management, pointer's arithmetic,
+                                possibility of handling any aspect of programming...) and high-level (classes, polymorphism, virtualization...) features it has, that
+                                allows you to have room for subtle optimization and without getting rid of design's abstraction. Anyway I also try to keep my knowledge 
+                                of other technologies up to date, since I really like to have many aces in my sleeve. <br/>
+                                My secret is to see programming more as a game than as a work: every project is a level in which you must defeat some mini-boss 
+                                (the bugs) using your weapon (your knowledge) and your magic book (StackOverflow) until you save the princess (your program) and
+                                gain her kiss (I would say it is something like personal satisfaction or gratification, but we all know that it represent money). Sometimes 
+                                the level is timed (the tremendous timelines), but if you hate the laggard as much as I do, it will be not a problem. But remember: 
+                                if you can beat a monster with a jump, you don't need to do a triple somersault, as Ockham said: "Between many solutions, the simplest 
+                                is often the best one".
                             </p>
                         </div>
                     </div>
@@ -264,6 +266,7 @@
                                 <h1>Knowledge</h1>
                             </div>
                         </div> -->
+                        <!-- Dynamically filled -->
                     </div>
                 </div>
                 <div class="sm-layout sm-portrait-layout">
@@ -325,7 +328,7 @@
                 </div>
             </div>
             <!--------------------- EXPERIENCE --------------------->
-            <div id="m-experience" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
+            <div id="m-experience" class="sm-menu container-fluid h-100" data-sm-in="enterWithFirstFocus">
                 <div class="sm-layout sm-main-layout">
                     <div id="m-education">
                         <div id="m-edu-slider" class="m-slider">
@@ -442,20 +445,20 @@
                 </div>
             </div>
             <!--------------------- PROJECTS --------------------->
-            <div id="m-projects" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
+            <div id="m-projects" class="sm-menu container-fluid h-100" data-sm-in="enterProjects">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
                         <div class="col-4 h-100">
                            <!-- Dynamically filled -->
                         </div>
-                        <div class="col h-100">
+                        <div class="col-8 h-100">
                            <!-- Dynamically filled -->                            
                         </div>
                     </div>
                 </div>
             </div>
             <!--------------------- CONTACT ME --------------------->
-            <div id="m-contact-me" class="sm-menu container-fluid h-100" data-sm-in="enterWithText">
+            <div id="m-contact-me" class="sm-menu container-fluid h-100" data-sm-in="enterWithFirstFocus">
                 <div class="sm-layout sm-main-layout">
                     <div class="row">
                         <div class="col sm-item-container">
@@ -464,7 +467,7 @@
                                     <span class="oi" data-glyph="envelope-open" aria-hidden="true"></span>
                                 </div>
                                 <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
-                                    <h1>giulioaur&lsaquo;at&rsaquo;gmail&lsaquo;dot&rsaquo;com</h1>
+                                    <h1>giulioaur &lsaquo;at&rsaquo; gmail &lsaquo;dot&rsaquo; com</h1>
                                 </div>
                             </div>
                         </div>
@@ -539,8 +542,8 @@
                         <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a></h3>
                         <h3><a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a></h3>
                         <h3><a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a></h3>
-                        <h3><a class="m-no-decoration" href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a
-                               class="m-no-decoration" href="https://www.flaticon.com/" title="Flaticon">flaticon</a> licensed by <a
+                        <h3><a class="m-no-decoration" href="https://www.freepik.com/" title="Freepik" target="_blank">Freepik</a> from <a
+                               class="m-no-decoration" href="https://www.flaticon.com/" title="Flaticon" target="_blank">flaticon</a> licensed by <a
                                class="m-no-decoration" href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
                         </h3>
                     </div>
@@ -555,6 +558,10 @@
         </section>
         <!--------------------- NAVBAR --------------------->
         <div id="m-navbar" class="d-flex flex-row justify-content-center align-items-center">
+            <div>
+                <img src="Styles/Images/wasd.png">
+                Move
+            </div>
             <div onclick="menuGraph.goto('', true);">
                 <img src="Styles/Images/keyboard-key-b.png">
                 Back

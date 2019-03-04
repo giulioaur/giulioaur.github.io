@@ -82,6 +82,7 @@ function setupPage() {
 
     // Build the menu graph.
     menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout});
+    bindDataFunction();
     GLOBALS.loadingPercentage = 75;
 
     // Custom setup. Put here to animate after first focus.
@@ -329,7 +330,13 @@ function dropSkill(ev) {
 }
 
 
-
+function bindDataFunction() {
+    menuGraph.addDataCallback((from, to) => {
+        if (from.id == 'sm-main-menu') 
+            SM.input.saveFocus(this.currentMenu, false, 'last');
+        return true;
+    }, true);
+}
 
 
 
@@ -419,7 +426,7 @@ function generateProjects() {
             <div class="m-projects-container h-100">
                 <div class="m-projects-banner d-flex align-items-center justify-content-center"
                 style="background-image: url('${project.screen}')">
-                    <h1 class="m-fit-text">${project.extendedTitle}</h1>
+                    <h1>${project.extendedTitle}</h1>
                 </div>
                 <div class="m-projects-description">
                     <p class="m-fit-text" data-maxfont="30" data-minfont="15">
@@ -509,7 +516,7 @@ function itemHovering() {
 
         if (hover) {
             hover.classList.add('m-active');
-            TweenMax.to(hover, event.detail.direction != 'back' ?  0.1 : 0.001, { top: '-100%' });
+            TweenMax.to(hover, event.detail.direction != 'restoreFocus' ?  0.1 : 0.001, { top: '-100%' });
         }
     });
 
@@ -518,7 +525,7 @@ function itemHovering() {
         let hover = this.querySelector('.m-item-hover');
 
         if (hover)
-            TweenMax.to(hover, event.detail.direction != 'last' ? 0.05 : 0.001, { top: 0, onComplete: () => { hover.classList.remove('m-active'); } });
+            TweenMax.to(hover, event.detail.direction != 'last' ? 0.05 : 0.001, { top: 0, onComplete: () => { hover.classList.remove('m-active'); } });        
     });
 }
 
@@ -569,4 +576,52 @@ function enterWithText(from, to, isBack) {
     fitTexts(to.getElementsByClassName('m-fit-text'));
 
     to.style.opacity = 1;
+}
+
+/**
+ * Show the new menu with a basic transition, fitting the texts before entering and 
+ * setting focus on the last focused element if transition has been triggered by mouse.
+ *
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterWithRestore(from, to, isBack) {
+    enterWithText(from, to, isBack);
+
+    if (from && SM.input.wasKeyboard) {
+        SM.input.restoreFocus(to);
+    }
+}
+
+/**
+ * Show the new menu with a basic transition, fitting the texts before entering and
+ * setting focus on the first item if transition has been triggered by mouse.
+ *
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterWithFirstFocus(from, to, isBack) {
+    enterWithText(from, to, isBack);
+
+    if (from && SM.input.wasKeyboard) {
+        SM.input.setFocusOn(to, 0);
+    }
+}
+
+/**
+ * Highlights the first project entering the project menu.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterProjects(from, to, isBack) {
+    enterWithText(from, to, isBack);
+
+    if (!document.querySelector('.m-projects-row.sm-active')) {
+        document.querySelector('.m-projects-row').classList.add('sm-active');
+        GLOBALS.projCurrIndex = 0;
+    }
 }

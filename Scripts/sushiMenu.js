@@ -56,18 +56,29 @@ Graph: class Graph {
      * @param {Boolean} logError True if errors must be logged on console, false otherwise. Usually set to true only in development.
      */
 
+    /**
+    * Callback for getting the layout to use in current configuration.
+    *
+    * @callback dataCallback
+    * @param {HTMLElement} old The old menu.
+    * @param {HTMLElement} new The new menu.
+    * @returns {Boolean} True if the animation should be played. 
+    *                    NB: the return value is checked only for the callback executed before the animation.
+    */
+
     //////////////////////// CONSTRUCT GRAPH ////////////////////////
 
     /**
      * Buils a new menu graph parsing the html file.
      * 
-     * 
      * @param {Object} [options={shouldSave : true, layoutMap : ()=>{return 'main'}, logError : false}] The configuration options for the graph.
      */
     constructor(options) {
-        this.saving = options && options.shouldSave != undefined ? options.shouldSave : true;
-        this.layoutGetter = options && options.layoutMap ? options.layoutMap : () => { return 'main' };
-        this.shouldLog = options && options.logError != undefined ? options.logError : true;
+        this._saving = options && options.shouldSave != undefined ? options.shouldSave : true;
+        this._layoutGetter = options && options.layoutMap ? options.layoutMap : () => { return 'main' };
+        this._shouldLog = options && options.logError != undefined ? options.logError : true;
+        this._beforeAnimationFunc = [];
+        this._afterAnimationFunc = [];
 
         if (this._setAttributes())
         {
@@ -92,7 +103,7 @@ Graph: class Graph {
     _setAttributes() {
         if (document.getElementById(SM.CONST.mainMenuId)) {
             // Use sessionStorage.
-            if (this.saving && typeof (Storage) !== 'undefined') {
+            if (this._saving && typeof (Storage) !== 'undefined') {
                 // If no previous saving, create new one.                
                 this._history = sessionStorage.getItem(SM.CONST.history) ? sessionStorage.getItem(SM.CONST.history).split(',') : [];
                 this._current = document.getElementById(`${sessionStorage.getItem(SM.CONST.current) ? 
@@ -104,7 +115,7 @@ Graph: class Graph {
                 this._current = document.getElementById(SM.CONST.mainMenuId);
             }
 
-            this.nodes = {};
+            this._nodes = {};
             return true;
         }
 
@@ -126,7 +137,7 @@ Graph: class Graph {
             node.style.display = 'none';
 
             if (nodeId)
-                graph.nodes[nodeId] = node;
+                graph._nodes[nodeId] = node;
             else
                 this._logError('No id found', node);
 
@@ -235,16 +246,17 @@ Graph: class Graph {
      * @returns {Boolean} True if the transition has been successfully completed, false otherwise.
      */
     goto(label, isBack = false, clearHistory = false) {
+        const oldHistory = this._history;
         let to; 
         let inAnimation, outAnimation;
 
         if (!isBack) {
             // Go to menu.
-            if (this.nodes[label]) {
+            if (this._nodes[label]) {
                 this._history.push(this._current.id);
-                to = this.nodes[label];
+                to = this._nodes[label];
             }
-            // Go to link
+            // Error.
             else {
                 this._logError(`${label} is not a valid menu in ${this._current.id}`);
                 return false;
@@ -275,9 +287,21 @@ Graph: class Graph {
         outAnimation = this._current.dataset[SM.CONST.outAnimData] ? this._current.dataset[SM.CONST.outAnimData] : "SM.Animations.standardOut";
         inAnimation = to.dataset[SM.CONST.inAnimData] ? to.dataset[SM.CONST.inAnimData] : "SM.Animations.standardIn";
 
+        // Play the data callback.
+        for (let func of this._beforeAnimationFunc) {
+            if (!func(this._current, to)) {
+                this._history = oldHistory;
+                return false;
+            }
+        }
+
         // Play animations.
         this._playAnimation(outAnimation, to, isBack);
         this._playAnimation(inAnimation, to, isBack);
+
+        // Play the data callback.
+        for (let func of this._afterAnimationFunc)
+            func(this._current, to);
 
         // Update current
         this._current = to;
@@ -290,6 +314,21 @@ Graph: class Graph {
         this._saveCurrentState();
         
         return true;
+    }
+
+    /**
+     * Add a callback to the queue of functions to execute before or after an animation. 
+     * If any function executed before an animation returns false, the animation and the functions post-animation
+     * are not executed and the old state is restored.
+     * 
+     * @param {Boolean} beforeAnimation True if the callback have to been executed before the animations.
+     * @param {dataCallback} callback The callback to call.
+     */
+    addDataCallback(callback, beforeAnimation) {
+        if (beforeAnimation) 
+            this._beforeAnimationFunc.push(callback);
+        else 
+            this._afterAnimationFunc.push(callback);
     }
 
     /**
@@ -331,7 +370,7 @@ Graph: class Graph {
      */
     _saveCurrentState() {
         // Save current state.
-        if (this.saving && typeof (Storage) !== 'undefined') {
+        if (this._saving && typeof (Storage) !== 'undefined') {
             sessionStorage.setItem(SM.CONST.history, this._history.toString());
             sessionStorage.setItem(SM.CONST.current, this._current.id);
         }
@@ -345,7 +384,7 @@ Graph: class Graph {
      * @returns {string} The formatted name of the layout to use.
      */
     _getLayoutName(menuName) {
-        const newLayout = `sm-${this.layoutGetter(menuName)}-layout`;
+        const newLayout = `sm-${this._layoutGetter(menuName)}-layout`;
         return document.getElementById(menuName).querySelector(`.${newLayout}`) ? newLayout : SM.CONST.mainLayoutClass;
     }
 
@@ -355,24 +394,13 @@ Graph: class Graph {
      * @param {Array} logList Array of element to pass to log function.
      */
     _logError(logList) {
-        if (this.shouldLog){
+        if (this._shouldLog){
             if (logList instanceof Object)
                 console.error.apply(this, logList);
             else
                 console.error(logList);
         }
-    }
-    
-    /**
-     * Check if a string represent a web-url.
-     * 
-     * @param {string} str The string to check.
-     * @returns {int} 0 if the string is not an url, 1 if is http protocol, -1 for other protocol.
-     */
-    _redirectType(str) {
-        return 0;
-    }
-    
+    }    
 },
 
 

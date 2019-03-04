@@ -312,6 +312,26 @@ header
                 height: to-percentage(100 - $first-child-height);
             }
         }
+
+        // Set the size of the icon for every item.
+        $menu-items: ('about-me-item', 'skills-item', 'experience-item', 'projects-item', 'contact-me-item', 'credits-item');
+        $icon-sizes: (15vmin, 15vmin, 15vmin, 16vmin, 10vmin, 10vmin);
+
+        @for $i from 1 through length($menu-items) {
+            $item: nth($menu-items, $i);
+            $size: nth($icon-sizes, $i);
+
+            .#{$item} 
+            {
+                .m-item-hover
+                {
+                    span
+                    {
+                        font-size: $size;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -684,6 +704,11 @@ header
             font-weight: bold;
             font-size: 25px;
             padding: 5px;
+
+            @include mobile
+            {
+                font-size: 18px;
+            }
         }
 
         .m-projects-row.sm-active
@@ -707,7 +732,13 @@ header
                 h1
                 {
                     color: $secondary-color;
+                    font-size: 46px;
                     text-align: center;
+
+                    @include mobile 
+                    {
+                        font-size: 30px;
+                    }
 
                     // To be drawed over the background opacity
                     z-index: 100;

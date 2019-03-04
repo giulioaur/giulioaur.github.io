@@ -40,6 +40,7 @@ SM.input = {
     _clickEvent: new MouseEvent('click'),
 
     // Other attributes.
+    _graph: null,
     _activeItem: null,
     _cachedItems: {},
     _options: {
@@ -49,6 +50,9 @@ SM.input = {
     },
     _wasKeyboard: false,
 
+    get wasKeyboard () {
+        return this._wasKeyboard;
+    },
 
     /**
      * Binds input to a menu graph.
@@ -65,7 +69,6 @@ SM.input = {
      * @param {Array<Number>} map.right The keys for go-right action.
      * @param {Object} [options] The options object.
      * @param {Boolean} [options.firstFocus = true] True if the first item must be activated on entering the first menu.
-     * @param {Boolean} [options.restoreFocus = true] True if on back action the focus must be restored on last active item.
      * @param {Boolean} [options.dynamicMenu = false] True if menu's items change at runtime. On false some optimizations are applied.
      * @param {HTMLElement} [element = document] The element to which bind the input handling.
      */
@@ -93,19 +96,58 @@ SM.input = {
                 item.addEventListener('mouseenter', function() {
                     input._changeActive(this, true, 'tmp');
                 });
-
-                // Add click event.
-                item.addEventListener('click', () => this._setCorrectFocus(item.classList.contains(SM.CONST.backItemClass),
-                    item.classList.contains(SM.CONST.redirectItemClass) || item.classList.contains(SM.CONST.redirectBlankItemClass)) );
             }
 
-            if (this._options.firstFocus) {
-                const menuItems = this._getItems();
-                this._changeActive(menuItems[0], false, 'firstFocus');
-            }
+            // Set up the menu cleaning.
+            this._graph.addDataCallback(this._cleanMenu.bind(this), false);
+
+            // Set up the focus on first element.
+            if (this._options.firstFocus)
+                this._changeActive(this._getItems()[0], false, 'firstFocus');
         }
         else 
             console.error('No valid graph for input.')
+    },
+
+    /**
+     * Clean the old menu from active items.
+     * 
+     * @param {HTMLElement} menu The menu to clean.
+     */
+    _cleanMenu(menu) {
+        const items = menu.getElementsByClassName(SM.CONST.activeItemClass);
+
+        for (let item of items) {
+            this._changeEventDetails(this._deactivationEvent, item, null, false, 'last');
+            item.dispatchEvent(this._deactivationEvent);
+
+            if (item == this._activeItem)   this._activeItem = null;
+        }
+
+        return true;
+    },
+
+    /**
+     * Set the focus on the index-th item of the menu.
+     * 
+     * @param {HTMLElement} menu The menu in which restore the focus. If null is passed, current menu is used instead.
+     * @param {Number} index The item on which set the focus.
+     * @param {Boolean} isMouseTrigger True if the action has been fired by a mouse event.
+     * @param {string} dir The direction of the movement.
+     */
+    setFocusOn(menu, index, isMouseTrigger = false, dir = 'first') {
+        if (!menu) menu = this._graph._current;
+
+        const items = menu.getElementsByClassName(SM.CONST.itemClass);
+
+        if (items[index]) {
+            // Clean previous focus.
+            const itemToRestore = menu.querySelector(`.${SM.CONST.lastActiveItemClass}`);
+            if (itemToRestore) itemToRestore.classList.remove(SM.CONST.lastActiveItemClass);
+
+            // Set new focus.
+            this._changeActive(items[0], isMouseTrigger, dir);
+        }
     },
 
     /**
@@ -113,47 +155,36 @@ SM.input = {
      * NB: This relies on the fact that the order in which registered events are called is consistent with the 
      * DOM 3 standard (first-assigned, first-called).
      *          
-     * @param {Boolean} isBack True if is a back transition.
-     * @param {Boolean} isRedirect True if is a redirect link. 
+     * @param {HTMLElement} menu The menu in which save the focus. If null is passed, current menu is used instead.
+     * @param {HTMLElement} item The item that has to be the last focuse. If null is passed, first active item is used instead.
      */
-    _setCorrectFocus(isBack, isRedirect) {
-        if (!isRedirect)
-        {
-            // Reset active item.
-            const currentActive = this._activeItem;
-            this._changeActive(null, false, 'last');
+    saveFocus(menu, item) {
+        if (!menu)      menu = this._graph._current;
+        if (!item)      item = menu.querySelector(`.${SM.CONST.activeItemClass}`);
 
-            if (!isBack) {
-                // Save the current active to restore the last focused item.
-                if (this._options.restoreFocus)
-                    currentActive.classList.add(SM.CONST.lastActiveItemClass);
-                
-                // If menu change is triggered by keyboard/mouse, focus the first item of new menu.
-                if (this._wasKeyboard)
-                    this._changeActive(this._graph._current.querySelector(`.${SM.CONST.itemClass}`), false, 'first');
-            }
-            else {
-                if (this._wasKeyboard) {
-                    // Move the focus on last selected item or on the first item.
-                    let newItem = this._options.restoreFocus ? 
-                        this._graph._current.querySelector(`.${SM.CONST.lastActiveItemClass}`) :
-                        this._graph._current.querySelector(`.${SM.CONST.itemClass}`);
+        // Reset the last active item of the menu after having saved it.
+        if (item) {
+            item.classList.add(SM.CONST.lastActiveItemClass);
+        }     
+    },
 
-                    // If no item to restore is found, use the first item instead.
-                    // E.g. coming back from a history menu after refreshing page.
-                    if (!newItem && this._options.restoreFocus)
-                        newItem = this._graph._current.querySelector(`.${SM.CONST.itemClass}`);
-                  
-                    this._changeActive(newItem, false, 'back');
-                }
+    /**
+     * Restore the previous focused item.
+     * 
+     * @param {HTMLElement} menu The menu in which restore the focus. If null is passed, current menu is used instead.
+     * @param {Boolean} isMouseTrigger True if the action has been fired by a mouse event.
+     * @param {string} dir The direction of the movement.
+     */
+    restoreFocus(menu, isMouseTrigger = false, dir = 'restoreFocus') {
+        if (!menu)      menu = this._graph._current;
 
-                // Remove the last focused class to avoid double last-activated items.
-                const lastActive = this._graph._current.querySelector(`.${SM.CONST.lastActiveItemClass}`);
-                if (lastActive)     lastActive.classList.remove(SM.CONST.lastActiveItemClass);
-            }
+        const itemToRestore = menu.querySelector(`.${SM.CONST.lastActiveItemClass}`);
+
+        // Remove last item class.
+        if (itemToRestore) {
+            itemToRestore.classList.remove(SM.CONST.lastActiveItemClass);
+            this._changeActive(itemToRestore, isMouseTrigger, dir);
         }
-
-        this._wasKeyboard = false;
     },
 
 
@@ -166,11 +197,8 @@ SM.input = {
         if (options && options.firstFocus === false) 
             this._options.firstFocus = false;
 
-        if (options && options.restoreFocus === false)
-            this._options.restoreFocus = false;
-
-        if (options && options.restoreFocus === true)
-            this._options.restoreFocus = true;
+        if (options && options.dynamicMenu === true)
+            this._options.dynamicMenu = true;
     },
 
     /**
@@ -196,40 +224,40 @@ SM.input = {
      */
     _changeActive(newActive, mouseTrigger, dir) {
         // Deactivate previous item if any.
-        if (this._activeItem) {
-            this._deactivationEvent.detail.target = this._activeItem;
-            this._deactivationEvent.detail.other = newActive;
-            this._deactivationEvent.detail.isMouseTrigger = mouseTrigger;
-            this._deactivationEvent.detail.direction = dir;
+        if (this._activeItem != newActive) {
+            if (this._activeItem) {
+                this._changeEventDetails(this._deactivationEvent, this._activeItem, newActive, mouseTrigger, dir);
 
-            this._activeItem.dispatchEvent(this._deactivationEvent);
-            this._activeItem.classList.remove(SM.CONST.activeItemClass);
+                // To avoid recursive call inside a callback for deactivation event, put activeitem to
+                // null, this way this branch will not be called again within the callback.
+                const oldItem = this._activeItem;
+                this._activeItem.classList.remove(SM.CONST.activeItemClass);
+                this._activeItem = null;
+                oldItem.dispatchEvent(this._deactivationEvent);
+            }
+
+            if (newActive) {
+                // Activate new item.
+                newActive.classList.add(SM.CONST.activeItemClass);
+
+                this._changeEventDetails(this._activationEvent, newActive, this._activeItem, mouseTrigger, dir);
+                this._activeItem = newActive;
+                newActive.dispatchEvent(this._activationEvent);
+            }
+            // Assign null to the active item.
+            else if (!newActive) {
+                this._activeItem = newActive;
+            }
         }
-
-        if (newActive) {
-            // Activate new item.
-            newActive.classList.add(SM.CONST.activeItemClass);
-
-            this._activationEvent.detail.target = newActive;
-            this._activationEvent.detail.other = this._activeItem;
-            this._activationEvent.detail.isMouseTrigger = mouseTrigger;
-            this._activationEvent.detail.direction = dir;
-
-            newActive.dispatchEvent(this._activationEvent);
-        }
-        
-        this._activeItem = newActive;
     },
 
     /**
      * Goes back to the previous menu.
      */
     _goBack() {
-        if (this._graph.goto('', true))
-        {
-            this._wasKeyboard = true;
-            this._setCorrectFocus(true);
-        }
+        this._wasKeyboard = true;
+        this._graph.goto('', true);
+        this._wasKeyboard = false;
     },
 
     /**
@@ -238,6 +266,7 @@ SM.input = {
     _select() {
         this._wasKeyboard = true;
         this._activeItem.dispatchEvent(this._clickEvent);
+        this._wasKeyboard = false;
     },
 
     /**
@@ -302,7 +331,7 @@ SM.input = {
         }
         // Set first item as active one.
         else {
-            this._changeActive(this._graph._current.querySelector(`.${SM.CONST.itemClass}`), false, dir);
+            this._changeActive(this._graph._current.querySelector(`.${this._graph._getLayoutName(this._graph._current.id)} .${SM.CONST.itemClass}`), false, dir);
         }
     },
 
@@ -352,5 +381,21 @@ SM.input = {
             width: bb.width,
             height: bb.height
         };
+    },
+
+    /**
+     * Change the details of an event and dispatch it.
+     * 
+     * @param {CustomEvent} event The event to dispatch.
+     * @param {HTMLElement} item The item to which dispatch the event.
+     * @param {HTMLElement} other The new / old item.
+     * @param {Boolean} isMouseTrigger True if the event is triggered by mouse.
+     * @param {string} direction The direction of the event.
+     */
+    _changeEventDetails(event, item, other, isMouseTrigger, direction) {
+        event.detail.target = item;
+        event.detail.other = other;
+        event.detail.isMouseTrigger = isMouseTrigger;
+        event.detail.direction = direction;
     }
 }

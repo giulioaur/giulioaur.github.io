@@ -39,6 +39,14 @@
         > .row
         {
             height: to-percentage(100 / $item-num);
+
+            .m-item-hover 
+            {
+                span
+                {
+                    font-size: 40px;
+                }
+            }
         }
     }
 }
