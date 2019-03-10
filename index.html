@@ -25,6 +25,8 @@
                 crossorigin="anonymous"></script>
         <!-- GSAP -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+        <!-- DragDropTouch -->
+        <script src="Scripts/3DParty/dragdroptouch.js"></script>
         <!-- Open Iconic -->
         <link rel="stylesheet" href="Styles/Icons/icons.min.css" />
         <!-- Devicon -->
@@ -243,29 +245,9 @@
                 </div>
             </div>
             <!--------------------- SKILLS --------------------->
-            <div id="m-skills" class="sm-menu container-fluid h-100 p-0" data-sm-in="enterWithText">
+            <div id="m-skills" class="sm-menu container-fluid h-100 p-0" data-sm-in="enterSkills">
                 <div class="sm-layout sm-main-layout">
                     <div id="m-skills-trees" class="row w-100 h-100 m-0">
-                        <!-- <div id="m-skills-programming" class="col h-100">
-                            <div class="w-100 m-skills-title">
-                                <h1 class="m-fit-text">Programming</h1>
-                            </div>
-                            <div class="row w-100 justify-content-center">
-                                <div id="m-skills-cpp" class="col-auto">
-                                    <i draggable="true" ondragstart="pickUpSkill(event)" class="devicon-cplusplus-plain m-fit-text"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="m-skills-tools" class="col h-100">
-                            <div class="w-100 m-skills-title">
-                                <h1>Tools</h1>
-                            </div>
-                        </div>
-                        <div id="m-skills-knowledge" class="col h-100">
-                            <div class="w-100 m-skills-title">
-                                <h1>Knowledge</h1>
-                            </div>
-                        </div> -->
                         <!-- Dynamically filled -->
                     </div>
                 </div>
@@ -288,42 +270,18 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
-                    <!-- <div id="m-skills-description" class="row w-100">
-                        <div class="col-3 justify-content-center">
-                            <div id="m-skills-icon-container" class="w-100 h-100">
-                                <div ondrop="dropSkill(event)" ondragover="event.preventDefault()">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-9">
-                        </div>
-                    </div> -->
                 </div>
                 <div id="m-skills-description" class="row w-100 m-0">
                     <div class="col-3 justify-content-center">
                         <div id="m-skills-icon-container" class="d-flex justify-content-center align-items-center w-100 h-100">
                             <div ondrop="dropSkill(event)" ondragover="event.preventDefault()">
-                                <!-- <svg viewBox="0 0 128 128">
-                                                        <path fill="#D26383"
-                                                            d="M115.4 30.7l-48.3-27.8c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z">
-                                                        </path>
-                                                        <path fill="#9C033A"
-                                                            d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4v-55.7c0-.9-.1-1.9-.6-2.8l-106.6 62z">
-                                                        </path>
-                                                        <path fill="#fff"
-                                                            d="M85.3 76.1c-4.2 7.4-12.2 12.4-21.3 12.4-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6z">
-                                                        </path>
-                                                        <path
-                                                            d="M82.1 61.8h5.2v-5.3h4.4v5.3h5.3v4.4h-5.3v5.2h-4.4v-5.2h-5.2v-4.4zM100.6 61.8h5.2v-5.3h4.4v5.3h5.3v4.4h-5.3v5.2h-4.4v-5.2h-5.2v-4.4z">
-                                                        </path>
-                                                    </svg> -->
+                                <!-- Dynamically filled -->
                             </div>
                         </div>
                     </div>
-                    <div class="col-9">
-                        <!-- <p id="m-skills-cpp-descr">
-                                                HELLO DARKNESS MY OLD FRIEND.
-                                            </p> -->
+                    <div class="col-9 h-100">
+                        <p> Drag a skill in the box at the left to see a skill. It works also on mobile (even if the item seems not to be dragged)</p>
+                        <!-- Dynamically filled -->
                     </div>
                 </div>
             </div>
@@ -389,7 +347,14 @@
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://www.blexin.com/" target="_blank">Blexin</a>
                                     </span><br />
-                                    <p>Vote: 110/110 cum laude</p>
+                                    <p>
+                                        During my bachelor's internship (and then during my fixed time contract) I have developed a mobile framework
+                                        with the purpose to make very simple the development of mobile app based on the same content of web apps developed 
+                                        with company's proprietary CMS. The whole framework has been developed entirely by me, using Ionic (AngularJS), 
+                                        SQLLite and RestFULL calls to interface with the CMS. Nevertheless, for the whole time I have worked as part of a small
+                                        team and during the later phases I have also started to experience my first meeting with a real client during the developing
+                                        of the first apps. 
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-12 m-slider-section" data-slider="m-job-slider">
@@ -405,7 +370,15 @@
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://www.blexin.com/" target="_blank">Pisa Coder Dojo</a>
                                     </span><br />
-                                    <p>Vote: 110/110 cum laude</p>
+                                    <p>
+                                        CoderDojo is a no-profit association that aims to teach the computational thinking to children. I knew
+                                        this amazing project in Pisa, where I joined the association as a Mentor. During my period there, I have taken part to 
+                                        several events, during which we have mainly thought some basic programming concept to 6-13 years old children with 
+                                        Scratch and Python. However, our activities were not limited to this, many times we have organized unplugged activities
+                                        to teach other computer science related topics like the way a computer works, security and how the web works. <br/>
+                                        I really liked my time spend with them and I really think they are doing a really great job, preparing the kids for 
+                                        a world that is always more computer-dependant.
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-12 m-slider-section" data-slider="m-job-slider">
@@ -421,7 +394,18 @@
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://www.percro.org/" target="_blank">PERCRO</a>
                                     </span><br />
-                                    <p>Vote: 110/110 cum laude</p>
+                                    <p>
+                                        As my master's thesis I have developed a library that aims to increase the realism within a simulated VR environment.
+                                        In fact, the big limitation of this kind of application is the complete absence of facial feedback, that are ends up
+                                        with completely emotion free avatars. I have tried to overcame this limit through an image processing algorithm that, 
+                                        analyzing the video feedback send by a camera mounted on the HMD (head-mounted display), outputs a blendshape that
+                                        simulates the user's expressions. During the development of this library I have touched a lot of different technologies
+                                        and languages: C++, C#, OpenCV, Opus, Unity, Unreal, Dynamic Libraries, Raspberry-Pi, HTCVive, Windows Sockets, 
+                                        Video Streaming and VR. This has allowed me to put my hands on very different environments that had to communicate with each 
+                                        other in a fast and efficient way, pushing me to learn about a lot of amazing stuff. It has also been the first time I had to 
+                                        face a project with so many different technologies inside and have learnt me a lot about different kind of system can play together. 
+                                        Furthermore I have also played with audio and 3D spatialization, developing a simple plugin that allowed 3D Voip chat in Unity.
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-12 m-slider-section" data-slider="m-job-slider">
@@ -437,7 +421,22 @@
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://milestone.it/" target="_blank">Milestone</a>
                                     </span><br />
-                                    <p>Vote: 110/110 cum laude</p>
+                                    <p>
+                                        Finally, after having finished my study, I have begun my path as game programmer in Milestone, joining the team of MotoGP19 as
+                                        Junior Game Programmer. Being part of such a big company (more than 200 employees) and working every day in a professional
+                                        game developing environment is really exciting for me, and this lets me wake up every morning with a smile on my face. 
+                                        Actually my role within my team is generalist programmer, since I'm putting my hand on several aspects of the game: online, UI, 
+                                        game logic, debugging and optimization. This is indeed a big advantage to me, since everyday I am able to learn a lot about how 
+                                        a game works, allowing me to have wider sight on the whole that brought self-improvement every time bigger. Furthermore, I finally
+                                        have the possibility to develop (and debug) code not only for pc, but also for the major last-gen console, and I think that this  
+                                        is a fundamental knowledge nowadays in the gaming market (that can hardly be acquired by yourself in your home).
+                                        Another think I really like of working in such a big team, where coordination and communication are fundamental to obtain great results, 
+                                        is the possibility of talking everyday with different persons, from whom I can always learn something new about the field they master 
+                                        (is he programming, design, graphic or any other), to reach the common goal. <br />
+                                        Indeed one of the biggest difficulties there are the deadlines, that sometimes can really scare where very near, but, maybe because
+                                        I really like the job I did, are not so spooky to me, so I am able to face them with the respect they deserve and the serenity I need
+                                        to write very good code (obliviously always respecting them).
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -537,21 +536,22 @@
                     </div>
                     <div>
                         <h1>Thanks to</h1>
-                        <h3><a class="m-no-decoration" href="https://jquery.com/" target="_blank">Jquery</a></h3>
-                        <h3><a class="m-no-decoration" href="https://getbootstrap.com/" target="_blank">Bootstrap</a></h3>
-                        <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a></h3>
-                        <h3><a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a></h3>
-                        <h3><a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a></h3>
+                        <h3><a class="m-no-decoration" href="https://greensock.com/gsap" target="_blank">GSAP</a>,
+                            <a class="m-no-decoration" href="https://github.com/Bernardo-Castilho/dragdroptouch" target="_blank">DragDropTouch</a></h3>
+                        <h3><a class="m-no-decoration" href="https://jquery.com/" target="_blank">Jquery</a>,
+                            <a class="m-no-decoration" href="https://getbootstrap.com/" target="_blank">Bootstrap</a></h3>
+                        <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a>,
+                            <a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a>,
+                            <a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a></h3>
                         <h3><a class="m-no-decoration" href="https://www.freepik.com/" title="Freepik" target="_blank">Freepik</a> from <a
                                class="m-no-decoration" href="https://www.flaticon.com/" title="Flaticon" target="_blank">flaticon</a> licensed by <a
-                               class="m-no-decoration" href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-                        </h3>
+                               class="m-no-decoration" href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></h3>
                     </div>
                     <div>
                         <h1>Visit also</h1>
                         <h3><a class="m-no-decoration" href="http://mstudios.altervista.org" target="_blank">Maurizio Cimino</a></h3>
                         <h3><a class="m-no-decoration" href="https://0alic.github.io/" target="_blank">Andrea Lisi</a></h3>
-                        <h3><a class="m-no-decoration" href="http://giulioaur.com/Old/index.html" target="_blank">My old website</a></h3>
+                        <h3><a class="m-no-decoration" href="Old/index.html" target="_blank">My old website</a></h3>
                     </div>
                 </div>
             </div>

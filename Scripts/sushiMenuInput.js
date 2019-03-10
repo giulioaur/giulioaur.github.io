@@ -44,8 +44,7 @@ SM.input = {
     _activeItem: null,
     _cachedItems: {},
     _options: {
-        firstFocus: true,
-        restoreFocus: true,
+        firstFocus: false,
         dynamicMenu: false
     },
     _wasKeyboard: false,
@@ -94,7 +93,7 @@ SM.input = {
             for (let item of items){
                 // Add event listener for set the correct active menu with mouse.
                 item.addEventListener('mouseenter', function() {
-                    input._changeActive(this, true, 'tmp');
+                    input._changeActive(this, true, 'hover');
                 });
             }
 
@@ -194,8 +193,8 @@ SM.input = {
      * @param {Object} options The new options.
      */
     _setupOptions(options) {
-        if (options && options.firstFocus === false) 
-            this._options.firstFocus = false;
+        if (options && options.firstFocus === true) 
+            this._options.firstFocus = true;
 
         if (options && options.dynamicMenu === true)
             this._options.dynamicMenu = true;

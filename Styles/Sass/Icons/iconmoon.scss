@@ -1,0 +1,44 @@
+@import "variables";
+
+@font-face {
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?8mn1bv');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?8mn1bv#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?8mn1bv') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?8mn1bv') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?8mn1bv##{$icomoon-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+i.icomoon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon-font-family}' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.m-icon-playstation {
+  &:before {
+    content: $m-icon-playstation; 
+  }
+}
+.m-icon-unity {
+  &:before {
+    content: $m-icon-unity; 
+  }
+}
+.m-icon-unreal {
+  &:before {
+    content: $m-icon-unreal; 
+  }
+}
+

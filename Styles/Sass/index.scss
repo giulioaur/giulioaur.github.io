@@ -4,6 +4,9 @@
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+@import "Icons/iconmoon";
+
+
 $old-style-folder : '../Old/Styles/';
 $old-images-folder : '../Old/Styles/Images/';
 $curr-images-folder : 'Images/';
@@ -31,9 +34,15 @@ $secondary-color: #337ab7;
 
 
 
-// This is just an empiric breakpoint.
+// Those are just an empiric breakpoint.
 @mixin mobile {
     @media (max-width: 800px) {
+        @content;
+    }
+}
+
+@mixin flat-screen {
+    @media (min-aspect-ratio: 3/2) {
         @content;
     }
 }
@@ -92,10 +101,12 @@ body:before
 
 .m-fit-text 
 {
-    font-size: 20px;
     height: fit-content;
     margin: 0;
     position: relative;
+
+    // Set this font size to correclty set-up initial size.
+    font-size: 20px;
 }
 
 .m-slider-percentage
@@ -266,7 +277,7 @@ header
                         display: none !important;
                         position: relative;
 
-                        span, h1
+                        span, h1, i
                         {
                             color: #e74c3c; 
                             position: absolute;
@@ -443,6 +454,14 @@ header
                 border-bottom: 3px solid;
             }
 
+            .m-skills-skill 
+            {
+                i 
+                {
+                    font-size: 70;
+                }
+            }
+
             // Create skills category.
             $skills-categories : ('m-skills-programming', 'm-skills-tools', 'm-skills-knowledge');
             $skills-colors: (rgb(248, 118, 102), rgb(131, 151, 136), rgb(254, 256, 201));
@@ -503,6 +522,18 @@ header
                 img.m-active
                 {
                     width: 100%;
+                }
+
+                @include mobile 
+                {
+                    padding-bottom: 80%;
+                    width: 85%;
+                }
+
+                @include flat-screen 
+                {
+                    padding-bottom: 30%;
+                    width: 30%;
                 }
             }
         }

@@ -132,41 +132,30 @@ function fitTexts(textsToResizes = null) {
         textsToResizes = GLOBALS.textsToFit;
 
     // Resize all the visible texts.
-    for (textToFit of textsToResizes) {
+    for (let textToFit of textsToResizes) {
         if (textToFit.offsetParent) {
-            const min = textToFit.dataset.minfont;
-            const max = textToFit.dataset.maxfont;
-            const parentHeight = textToFit.parentElement.offsetHeight;
-            const parentWidth = textToFit.parentElement.offsetWidth;
-            const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
+            const minFont = textToFit.dataset.minfont, maxFont = textToFit.dataset.maxfont;
+            const parentHeight = textToFit.parentElement.offsetHeight, parentWidth = textToFit.parentElement.offsetWidth;
+
             // Set the right starter size.
-            let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
-            currentSize = currentSize.clamp(min, max);
+            let currentSize = (textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20).clamp(minFont, maxFont);
 
             // Resize the text until the father size is not reached or text size overflows a range.
-            while (currentSize && 
-                    (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) && 
-                    isWithinRange(currentSize, min, max, isLower)) {
-                currentSize += GLOBALS.textIncrement * isLower;
+            while (!textToFit.offsetHeight.lowerWithinTreshold(parentHeight, 10) && currentSize.isWithinRange(minFont, maxFont)) {
+                currentSize *= parentHeight / textToFit.offsetHeight;
                 textToFit.style.fontSize = currentSize + 'px';
             }
 
-            // If the height are equal, stop, otherwise make last change.
-            if (isLower > 0 && textToFit.offsetHeight > parentHeight && isWithinRange(currentSize, min, max, isLower)) {
-                currentSize -= GLOBALS.textIncrement * isLower;
-                textToFit.style.fontSize = currentSize + 'px';
-            }
+            // // Also check the width.
+            // while (textToFit.offsetWidth > parentWidth && currentSize.isWithinRange(minFont, maxFont)) {
+            //     currentSize *= parentWidth / textToFit.offsetWidth;
+            //     textToFit.style.fontSize = currentSize + 'px';
+            // }
 
-            // This normalize the result.
-            textToFit.style.fontSize = currentSize.clamp(min, max) + 'px';
+            // Normalize the size
+            textToFit.style.fontSize = currentSize.clamp(minFont, maxFont) + 'px';         
 
-            // Get an extra check on the width since the text could oveflow by width.
-            while (currentSize && textToFit.offsetWidth > parentWidth && isWithinRange(currentSize, min, max, -1)) {
-                currentSize -= GLOBALS.textIncrement;
-                textToFit.style.fontSize = currentSize + 'px';
-            }            
-
-            // Change overflow.
+            // If the text is still longer, then apply scroll.
             textToFit.parentElement.style.overflowY = textToFit.offsetHeight > parentHeight ? 'scroll' : 'hidden';
         }
     }
@@ -253,16 +242,18 @@ function skillsNavigation() {
     const skills = document.querySelectorAll('#m-skills #m-skills-trees .m-skills-skill.sm-item');
 
     for(let skill of skills) {
-        skill.addEventListener('sm-activate', (event) => {
+        const changeItem = (event) => {
             // Change visualized item only if item changing is not fired by mouse.
-            if (!event.detail.isMouseTrigger) {
+            if (!event.detail.isMouseTrigger || event.detail.direction == 'click') {
                 // Simulate drag and drop.
-                const ev = { dataTransfer: new DataTransfer(), target: event.target.getElementsByTagName("i")[0] };
+                const ev = { dataTransfer: new DataTransfer(), target: event.target.nodeName.toLowerCase() == 'i' ? event.target : event.target.getElementsByTagName("i")[0] };
                 pickUpSkill(ev);
                 ev.target = document.querySelector('#m-skills #m-skills-description #m-skills-icon-container > div');
                 dropSkill(ev);
             }
-        })
+        }
+        skill.addEventListener('sm-activate', changeItem);
+        skill.addEventListener('click', changeItem);
     }
 
     // For portrait carousel.
@@ -279,9 +270,9 @@ function skillsPortrait() {
         ev.target = document.querySelector('#m-skills #m-skills-description #m-skills-icon-container > div');
         dropSkill(ev);
     });
-    $('#m-skills-carousel').trigger('slid.bs.carousel');
+    // $('#m-skills-carousel').trigger('slid.bs.carousel');
 
-    // Correctly resizes all icons within carousel.
+    // Correctly resizes all icons within carousel (even if the not shown ones).
     const items = document.querySelectorAll('#m-skills-carousel .carousel-item');
 
     for (let item of items) {
@@ -327,6 +318,9 @@ function dropSkill(ev) {
 
     if (oldImg)     oldImg.classList.remove('m-active');
     descrDiv.querySelector(`#m-skills-icon-container #${ev.dataTransfer.getData("id")}-img`).classList.add('m-active');
+
+    // Resize texts.
+    fitTexts(descrDiv.querySelectorAll(`p#${ev.dataTransfer.getData("id")}-descr`));
 }
 
 
@@ -363,6 +357,12 @@ function generateSkills() {
     let skillImgs = '';
     const rowNums = 5;
 
+    skillDescr += `
+    <p id="m-skills-start-descr" class="m-fit-text m-active" data-minfont="13">
+        Drag the skill into the square to the left or click on it to read its description. It works also on mobile, even if the item seems not to be dragged.
+    </p>
+    `
+
     for (let i = 0; i < GLOBALS.skills.length; ++i) {
         const category = GLOBALS.skills[i];
 
@@ -375,11 +375,11 @@ function generateSkills() {
             for (let k = 0; row && k < row.length; ++k) {
                 skillRows[i] += `
                     <div id="m-skills-${row[k].name}" class="col-4 m-skills-skill sm-item h-100 p-0">
-                        <i draggable="true" ondragstart="pickUpSkill(event)" class="${row[k].icon} m-fit-text"></i>
+                        <i draggable="true" ondragstart="pickUpSkill(event)" ${row[k].icon}></i>
                     </div>
                 `;
 
-                skillDescr += `<p id="m-skills-${row[k].name}-descr">${row[k].description}</p>`;
+                skillDescr += `<p id="m-skills-${row[k].name}-descr" class="m-fit-text" data-minfont="13" data-maxfont="22">${row[k].description}</p>`;
                 
                 // Create svg or img for logo representation.
                 if (row[k].svg)
@@ -405,6 +405,10 @@ function generateSkills() {
     document.querySelector('#m-skills > .sm-main-layout > #m-skills-trees').innerHTML = allRows;
     document.querySelector('#m-skills #m-skills-icon-container > div').innerHTML = skillImgs;
     document.querySelector('#m-skills > #m-skills-description > div:nth-child(2)').innerHTML = skillDescr;
+
+    // Add fit text class to all icon
+    const icons = document.querySelectorAll('#m-skills > .sm-main-layout > #m-skills-trees i');
+    for (let icon of icons)     icon.classList.add("m-fit-text");
 }
 
 /**
@@ -466,19 +470,20 @@ Number.prototype.clamp = function (min, max) {
     return max ? Math.min(first, max) : first;
 };
 
+Number.prototype.lowerWithinTreshold = function(limit, threshold) {
+    return this <= limit && this >= limit - threshold; 
+};
 
 /**
  * Checks if a number has not overcame a certain boundaries.
  * 
- * @param {Number} number The current number.
  * @param {Number} min The minimum.
  * @param {Number} max The maximum.
- * @param {Number} isLower > 0 if current increases, < 0 if it decreases.
  * @returns {bool} true if the number has not overcame boundaries, false otherwise.
  */
-function isWithinRange (number, min, max, isLower) {
-    return !(isLower > 0 ? max && number > max : min && number < min); 
-}
+Number.prototype.isWithinRange = function(min, max) {
+    return  (!min || this >= min) && (!max || this <= max); 
+};
 
 /**
  * Call an event on an HTMLElement.
@@ -490,7 +495,7 @@ function isWithinRange (number, min, max, isLower) {
 HTMLElement.prototype.fireEvent = function (eventName, bubbles = true, cancelable = true) {
     let event = new Event(eventName, { 'view': window, 'bubbles': bubbles, 'cancelable': cancelable });
     this.dispatchEvent(event);
-}
+};
 
 
 
@@ -624,4 +629,23 @@ function enterProjects(from, to, isBack) {
         document.querySelector('.m-projects-row').classList.add('sm-active');
         GLOBALS.projCurrIndex = 0;
     }
+}
+
+/**
+ * There are a lot of texts to resize, but since only icons are visible at beginning, it is
+ * enough to resize just them.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterSkills(from, to, isBack) {
+    console.profile("skillsProfiling");
+    to.style.opacity = 0;
+    to.style.display = '';
+
+    fitTexts(to.querySelectorAll('i.m-fit-text'));
+
+    to.style.opacity = 1;
+    console.profileEnd("skillsProfiling");
 }

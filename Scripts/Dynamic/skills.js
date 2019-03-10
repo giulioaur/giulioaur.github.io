@@ -4,7 +4,7 @@ GLOBALS.skills = [
         [
             {
                 name: 'C',
-                icon: 'devicon-c-plain',
+                icon: 'class="devicon-c-plain"',
                 svg: `
                     <path fill="#659AD3"
                         d="M115.4 30.7l-48.3-27.8c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z">
@@ -16,14 +16,15 @@ GLOBALS.skills = [
                         d="M85.3 76.1c-4.2 7.4-12.2 12.4-21.3 12.4-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6z">
                     </path>
                 `,
-                description: `I know very good C/C++ and how to build fast code exploiting all their power.
-                            I studied most important parallel pattern and i can apply it with Thread or OpenMP.`
+                description: `My very first meeting point with programming: it is the language where my journey started. I have mostly developed Linux application with it, 
+                related to low-level mechanism like file system, sockets, process inter-communication, memory management and data structure. Always followed by my best friend 
+                Valgrind that helped me to find all the missing free(). With it I have also developed a small game thanks to Allegro library.`
             }
         ],
         [
             {
                 name: 'Cpp',
-                icon: 'devicon-cplusplus-plain',
+                icon: 'class="devicon-cplusplus-plain"',
                 svg: `
                     <path fill="#D26383"
                         d="M115.4 30.7l-48.3-27.8c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z">
@@ -38,14 +39,15 @@ GLOBALS.skills = [
                         d="M82.1 61.8h5.2v-5.3h4.4v5.3h5.3v4.4h-5.3v5.2h-4.4v-5.2h-5.2v-4.4zM100.6 61.8h5.2v-5.3h4.4v5.3h5.3v4.4h-5.3v5.2h-4.4v-5.2h-5.2v-4.4z">
                     </path>
                 `,
-                description: `I know very good C/C++ and how to build fast code exploiting all their power.
-                            I studied most important parallel pattern and i can apply it with Thread or OpenMP.`
+                description: `Indeed my main languages, the one I have studied the most and I know deeper. I really like its versatility and its power, that allows you to 
+                basically make everything you want (sometimes with a big effort). During years I have used a lot of its most famous library and tools: stdlib, OpenMP, OpenCV, 
+                OpenGL, glmath, boost and cmake. It is also the language that I use everyday to do the job I love.`
             }
         ],
         [
             {
                 name: 'Java',
-                icon: 'devicon-java-plain',
+                icon: 'class="devicon-java-plain"',
                 svg: `
                     <path fill="#0074BD"
                         d="M47.617 98.12s-4.767 2.774 3.397 3.71c9.892 1.13 14.947.968 25.845-1.092 0 0 2.871 1.795 6.873 3.351-24.439 10.47-55.308-.607-36.115-5.969zM44.629 84.455s-5.348 3.959 2.823 4.805c10.567 1.091 18.91 1.18 33.354-1.6 0 0 1.993 2.025 5.132 3.131-29.542 8.64-62.446.68-41.309-6.336z">
@@ -63,12 +65,14 @@ GLOBALS.skills = [
                         d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436 0 0-1.571 4.032-18.577 7.231-19.186 3.612-42.854 3.191-56.887.874 0 .001 2.875 2.381 17.647 3.331z">
                     </path>
                 `,
-                description: `My preferred object oriented languages. I have used it to build either stand-alone
-                        software or back-end application. I also know JavaFX and SwingUI.`
+                description: `The pure object-oriented language I have used the most. Thanks to its simplicity I have quickly developed some desktop application 
+                (yeah, obliviously among them, one was for accessing a db) and also a couple of web application. I really liked it, so at the time I studied some of its 
+                non basic topics, like generics (hello wildcard) and how they are compiled, how to correctly write a contract for a method using language constraints, lambda 
+                expressions and multithreading.`
             },
             {
                 name: 'CSharp',
-                icon: 'devicon-csharp-plain',
+                icon: 'class="devicon-csharp-plain"',
                 svg: `
                     <path fill="#9B4F96"
                         d="M115.4 30.7l-48.3-27.8c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z">
@@ -80,26 +84,28 @@ GLOBALS.skills = [
                         d="M85.3 76.1c-4.2 7.4-12.2 12.4-21.3 12.4-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1l1.2-6.2h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7h3.3zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z">
                     </path>
                 `,
-                description: `With it I have mainly build Unity application and C++ wrapper. Of this language 
-                        I particularly like the LINQ library and yield operator.`
+                description: `I have faced it only for the purpose of writing a Unity application, so I know it not so deep and limited to the part of the language 
+                that is useful to build a Unity application. Despite that, I think I touched all its foundamental features (data structures, file management, LINQ and
+                yield operator) so it's really worth mentioning it between my skills.`
             }
         ],
         [
             {
                 name: 'Javascript',
-                icon: 'devicon-javascript-plain',
+                icon: 'class="devicon-javascript-plain"',
                 svg: `
                     <path fill="#F0DB4F" d="M1.408 1.408h125.184v125.185h-125.184z"></path>
                     <path fill="#323330"
                         d="M116.347 96.736c-.917-5.711-4.641-10.508-15.672-14.981-3.832-1.761-8.104-3.022-9.377-5.926-.452-1.69-.512-2.642-.226-3.665.821-3.32 4.784-4.355 7.925-3.403 2.023.678 3.938 2.237 5.093 4.724 5.402-3.498 5.391-3.475 9.163-5.879-1.381-2.141-2.118-3.129-3.022-4.045-3.249-3.629-7.676-5.498-14.756-5.355l-3.688.477c-3.534.893-6.902 2.748-8.877 5.235-5.926 6.724-4.236 18.492 2.975 23.335 7.104 5.332 17.54 6.545 18.873 11.531 1.297 6.104-4.486 8.08-10.234 7.378-4.236-.881-6.592-3.034-9.139-6.949-4.688 2.713-4.688 2.713-9.508 5.485 1.143 2.499 2.344 3.63 4.26 5.795 9.068 9.198 31.76 8.746 35.83-5.176.165-.478 1.261-3.666.38-8.581zm-46.885-37.793h-11.709l-.048 30.272c0 6.438.333 12.34-.714 14.149-1.713 3.558-6.152 3.117-8.175 2.427-2.059-1.012-3.106-2.451-4.319-4.485-.333-.584-.583-1.036-.667-1.071l-9.52 5.83c1.583 3.249 3.915 6.069 6.902 7.901 4.462 2.678 10.459 3.499 16.731 2.059 4.082-1.189 7.604-3.652 9.448-7.401 2.666-4.915 2.094-10.864 2.07-17.444.06-10.735.001-21.468.001-32.237z">
                     </path>
                 `,
-                description: `I have used Javascript and i have played with all its most important framework and 
-                        libraries: NodeJs, AngularJs, ReactJS, Typescript and D3js.`
+                description: `One of the language I enjoy the most thanks to its madness (remember that 'NaN === NaN' is false). Jokes aside, I really like javascript
+                for the simplicity it allows you to make things that in other languages are absurdly complex. On the other side sometimes it seems more useful to just smash
+                my head against a wall rather than debugging snippets of code. I have also played a bit also with its brothers (Angular, Node and JQuery).`
             },
             {
                 name: 'Python',
-                icon: 'devicon-python-plain',
+                icon: 'class="devicon-python-plain"',
                 svg: `
                     <path fill="#306998"
                         d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137h-33.961c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491v-11.282c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548v-23.513c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zm-13.354 7.569c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z">
@@ -108,8 +114,8 @@ GLOBALS.skills = [
                         d="M91.682 28.38v10.966c0 8.5-7.208 15.655-15.426 15.655h-24.665c-6.756 0-12.346 5.783-12.346 12.549v23.515c0 6.691 5.818 10.628 12.346 12.547 7.816 2.297 15.312 2.713 24.665 0 6.216-1.801 12.346-5.423 12.346-12.547v-9.412h-24.664v-3.138h37.012c7.176 0 9.852-5.005 12.348-12.519 2.578-7.735 2.467-15.174 0-25.096-1.774-7.145-5.161-12.521-12.348-12.521h-9.268zm-13.873 59.547c2.561 0 4.634 2.097 4.634 4.692 0 2.602-2.074 4.719-4.634 4.719-2.55 0-4.633-2.117-4.633-4.719 0-2.595 2.083-4.692 4.633-4.692z">
                     </path>
                 `,
-                description: `I have used Javascript and i have played with all its most important framework and 
-                        libraries: NodeJs, AngularJs, ReactJS, Typescript and D3js.`
+                description: `I have put Python here just because it looks cool, but I don't know it so deeply. I have mainly used it to write script for data analysis and 
+                plotting, without going so far with its syntax. I really like its simplicity, with which you can do very complex thing without getting rid of performance.`
             }
         ]
     ],
@@ -118,19 +124,18 @@ GLOBALS.skills = [
         [
             {
                 name: 'Windows',
-                icon: 'devicon-windows8-plain',
+                icon: 'class="devicon-windows8-plain"',
                 svg: `
                     <path fill="#00ADEF"
                         d="M126 1.637l-67 9.834v49.831l67-.534zM1.647 66.709l.003 42.404 50.791 6.983-.04-49.057zM58.467 67.389l.094 49.465 67.376 9.509.016-58.863zM1.61 19.297l.047 42.383 50.791-.289-.023-49.016z">
                     </path>
                 `,
-                description: `Whenever i build software alone or in a group i use git for versioning,
-                        because a good use of git can save hours of work. I can use it in a 
-                        smart and very effective way.`
+                description: `Windows is my main system, the one in which I have developed the most of my applications. There are two main reasons behind that: Visual Studio
+                offers every tool you need to develop a complex application and pretty much all the games market is based on this OS.   `
             },
             {
                 name: 'Linux',
-                icon: 'devicon-linux-plain',
+                icon: 'class="devicon-linux-plain"',
                 svg: `
                 
                     <path fill="url(#a)"
@@ -2270,58 +2275,62 @@ GLOBALS.skills = [
                     </path>
                 
                 `,
-                description: `Whenever i build software alone or in a group i use git for versioning,
-                        because a good use of git can save hours of work. I can use it in a 
-                        smart and very effective way.`
+                description: `Oh dear Linux, the system where all began! Indeed I cannot define myself a master Linux since I have never used it so hard, but I have spent a lot
+                of time playing with it and developing for it (expecially with C/C++) so I'm definitively not a noob. When developing for this system I usually prefer lighter 
+                environment, like Visual Studio Code, joint with command line tools like Valgrind.`
             }
         ],
         [
             {
                 name: 'Git',
-                icon: 'devicon-git-plain',
+                icon: 'class="devicon-git-plain"',
                 svg: `
                     <path fill="#F34F29"
                         d="M124.737 58.378l-55.116-55.114c-3.172-3.174-8.32-3.174-11.497 0l-11.444 11.446 14.518 14.518c3.375-1.139 7.243-.375 9.932 2.314 2.703 2.706 3.461 6.607 2.294 9.993l13.992 13.993c3.385-1.167 7.292-.413 9.994 2.295 3.78 3.777 3.78 9.9 0 13.679-3.78 3.78-9.901 3.78-13.683 0-2.842-2.844-3.545-7.019-2.105-10.521l-13.048-13.048-.002 34.341c.922.455 1.791 1.063 2.559 1.828 3.778 3.777 3.778 9.898 0 13.683-3.779 3.777-9.904 3.777-13.679 0-3.778-3.784-3.778-9.905 0-13.683.934-.933 2.014-1.638 3.167-2.11v-34.659c-1.153-.472-2.231-1.172-3.167-2.111-2.862-2.86-3.551-7.06-2.083-10.576l-14.313-14.313-37.792 37.79c-3.175 3.177-3.175 8.325 0 11.5l55.117 55.114c3.174 3.174 8.32 3.174 11.499 0l54.858-54.858c3.174-3.176 3.174-8.327-.001-11.501z">
                     </path>
                 `,
-                description: `Whenever i build software alone or in a group i use git for versioning,
-                        because a good use of git can save hours of work. I can use it in a 
-                        smart and very effective way.`
+                description: `Do I really have to add something to that? The main tool in every programmer's toolbox. I know all the basic functionalities it offers and I am able to 
+                exploit them as well. I also know how to use another versioning tool: Perforce, that I'm actually using in my current company. 
+                Sometimes I even regret the fact that I have learnt first programming and then git, I don't really remember how I use to work without it. `
             }
         ],
         [
             {
                 name: 'Visual_Studio',
-                icon: 'devicon-visualstudio-plain',
+                icon: 'class="devicon-visualstudio-plain"',
                 svg: `
                     <path fill="#800080"
                         d="M95 2.3l30.5 12.3v98.7L94.8 125.7 45.8 77l-31 24.1L2.5 94.9V33.1l12.3-5.9 31 24.3ZM14.8 45.7V83.2l18.5-19Zm48.1 18.5L94.8 89.3V39Z">
                     </path>
                 `,
-                description: `I know very good C/C++ and how to build fast code exploiting all their power.
-                        I studied most important parallel pattern and i can apply it with Thread or OpenMP.`
+                description: `Since I have started to develop with it, I have some problems to switch to another environment. Thanks to its intellisense (*cofcof* Visual
+                    Assist *cofcof*), its very well structured debugger, its profiler and all the functions that allows you to easily set-up your big project, it really simplifies
+                    the developing process, giving to you everything you need in one single desktop.`
             }
         ],
         [
             {
                 name: 'UE4',
-                icon: 'devicon-cplusplus-plain',
+                icon: 'class="icomoon m-icon-unreal"',
                 img: 'Styles/Images/Logos/UE4.png',
-                description: `In my master thesis I have start using this game engine and I have learnt its
-                        basis, mainly putting my hand on its source code.`
+                description: `I have started using Unreal during my master's thesis and now I am using it in a professional environment. My role of generalist programmer allows
+                me to put my hand on very different parts of the engine and thanks to its being open source I often end up debugging the native code to figure out what's going
+                on, so my knowledge about it are pretty wide. Obliviously I have also worked with its online subsystems, learning to see offline as a special case of the online
+                (that is also the phylosophy on which Unreal is based on). `
             },
             {
                 name: 'Unity',
-                icon: 'devicon-cplusplus-plain',
+                icon: 'class="icomoon m-icon-unity"',
                 img: 'Styles/Images/Logos/Unity.png',
-                description: `I have developed a couple of VR application with Unity and I know it discretely well.
-                        I really enjoy its simplicity and power.`
+                description: `I have used Unity both for my master's thesis and for a VR project (you can find it in "Projects" session). I really like this engine thanks to its
+                simplicity and crash handling (do you understand this, Unreal?), furthermore it has a really well written documentation. Indeed I am not an expert, since I have
+                never done a big and complex Unity project, even so during my projects I have faced several issues and I have deeply studied the engine trying to solve them.`
             }
         ],
         [
             {
-                name: 'Confluence',
-                icon: 'devicon-confluence-plain',
+                name: 'Jira',
+                icon: 'class="devicon-confluence-plain"',
                 svg: `
                     <path fill="#4c4cff"
                         d="M89.976 82.353c-1.57-3.094-3.43-6.223-5.606-9.405a106.98 106.98 0 0 0-4.974-6.672c-.71-.884-.412-1.984.13-2.53.536-.55 1.075-1.098 1.617-1.653 7.46-7.61 15.175-15.475 21.09-23.974 6.293-9.042 9.78-17.618 10.66-26.44a2.723 2.723 0 0 0-1.03-2.375 2.663 2.663 0 0 0-2.56-.368c-5.738 2.194-11.563 3.86-16.88 5.098a3.318 3.318 0 0 0-2.324 2.026C86.223 26.674 76.33 36.778 65.953 47.363c-.417.395-1 .917-1.95.917-.948 0-1.526-.506-1.95-.918-10.38-10.586-20.27-20.654-24.146-31.268a3.323 3.323 0 0 0-2.323-2.025c-5.32-1.24-11.15-3.047-16.878-5.24a2.655 2.655 0 0 0-3.592 2.742c.88 8.824 4.365 17.506 10.66 26.547 5.914 8.498 13.63 16.365 21.09 23.973C60.607 76.106 73.59 89.347 74.73 104.7a2.654 2.654 0 0 0 2.647 2.46h16.148a2.658 2.658 0 0 0 2.653-2.788 48.635 48.635 0 0 0-1.242-8.69l.006-.007a1.06 1.06 0 0 1 1.02-1.337c.05 0 .1.01.15.017h.002c13.183 1.93 21.52 5.013 21.533 8.41v.007c0 3.2-7.495 8.03-19.677 11.565l-.005.005c-1.083.31-1.873 1.288-1.873 2.45 0 1.408 1.163 2.554 2.6 2.554.2 0 .39-.023.577-.065 16.375-3.787 27.23-10.152 27.23-17.338-.002-8.533-14.676-16.154-36.526-19.59zM46.675 74.03a2.66 2.66 0 0 0-1.886-.808c-1.206 0-1.92.778-2.19 1.19a82.094 82.094 0 0 0-4.632 7.95C16.148 85.803 1.5 93.418 1.5 101.943c0 7.194 10.777 13.546 27.182 17.332.002 0 .018 0 .024-.002.193.046.392.075.6.075 1.436 0 2.6-1.145 2.6-2.554 0-1.16-.792-2.126-1.87-2.438l-.007-.017c-12.183-3.536-19.678-8.367-19.678-11.565v-.008c.012-3.39 8.327-6.47 21.477-8.4a.833.833 0 0 1 .14-.016A1.07 1.07 0 0 1 33 95.7l.01.01a48.544 48.544 0 0 0-1.23 8.653c-.036.723.23 1.44.732 1.97.5.525 1.205.827 1.93.827h16.15a2.676 2.676 0 0 0 2.657-2.468c.35-4.725 1.827-9.46 4.505-14.438.928-1.722.207-3.34-.328-4.03-2.658-3.457-5.912-7.142-10.752-12.194z">
@@ -2334,16 +2343,114 @@ GLOBALS.skills = [
                         basis, mainly putting my hand on its source code.`
             },
             {
-                name: 'Jira',
-                icon: 'devicon-cplusplus-plain',
-                svg: ``,
-                description: `I have developed a couple of VR application with Unity and I know it discretely well.
-                        I really enjoy its simplicity and power.`
+                name: 'Communication_Tools',
+                icon: 'class="devicon-trello-plain"',
+                svg: `
+                    <path fill="#23719F"
+                        d="M127 16.142c0-8.363-6.779-15.142-15.142-15.142h-95.716c-8.363 0-15.142 6.779-15.142 15.142v95.715c0 8.364 6.779 15.143 15.142 15.143h95.716c8.363 0 15.142-6.779 15.142-15.143v-95.715zm-69 83.398c0 3.807-3.286 6.46-7.093 6.46h-27.344c-3.807 0-6.563-2.653-6.563-6.46v-76.31c0-3.808 2.756-7.23 6.563-7.23h27.344c3.807 0 7.093 3.422 7.093 7.23v76.31zm55-66.456v31.886000000000003c0 3.807-2.936 7.03-6.744 7.03h-27.33c-3.808 0-6.926-3.224-6.926-7.03v-42.104c0-3.808 3.118-6.866 6.926-6.866h27.33c3.808 0 6.744 3.058 6.744 6.866v10.218z">
+                    </path>
+                `,
+                description: `Even though is not a big deal (since they are really easy tools), I think it's worth to mention my familiarity with communication tools like Confluence 
+                or Trello, that are fundamentals tools for a professional environment.`
             }
         ]
     ],
     // KNOWLEDGE
     [
-        
+        [
+            {
+                name: 'Algorithm_And_Data_Structures',
+                icon: 'class="oi" data-glyph="key"',
+                img: 'Styles/Images/Logos/algo.png',
+                description: `Algorithm and Data structures are the fundamental knowledge for a programmer and his/her most powerful weapon. During years I have followed
+                many courses about them and have spent a lot of my time studying even smarter ds and faster algorithm. They are one of the things in which I put mayor efforts 
+                when developing, because they can make a lot of difference (exspecially for who, like me, loves so much performances).`
+            },
+            {
+                name: 'Math',
+                icon: 'class="oi" data-glyph="calculator"',
+                img: 'Styles/Images/Logos/math.png',
+                description: `Expecially in the gaming industry, knowing programming is indeed not enough! A game (and deeply speaking every program) is nothing but the 
+                application of algebra formulas and physics calculations. While I still lack on the latter, I try to keep my linear algebra notions fresh. Smart math is 
+                the basis of every kind of optimization you can do (and also essential to understand more advanced algorithms and ds), so I really care in knowing it enough 
+                to be ready to every problem.`
+            },
+            {
+                name: 'Learning',
+                icon: 'class="oi" data-glyph="book"',
+                img: 'Styles/Images/Logos/learning.png',
+                description: `I really love programming, and this is a thing that must not be underestimated. Thanks to this, I always try to improve my knowledge to write 
+                always better and faster code. My will to learn more is one of the reason why I exploit even faster moment to interrogate our lord StackOverflow about new topics 
+                and unknown subject. I think that life is just a journey in self-improvement, and I want mine to be a first-class one.`
+            }
+        ],
+        [
+            {
+                name: 'Design',
+                icon: 'class="oi" data-glyph="project"',
+                img: 'Styles/Images/Logos/design.png',
+                description: `Even before starting writing code, there is a much important phase, that can really change the way you will spend your time coding: design phase.
+                I wouldn't lie, I rarely make all the diagrams that Software Engineering course taught me, but indeed I spend a lot of time figuring out the right design before
+                starting coding. This way I am able to write pretty maintainable code and robust to changes, saving me a lot of trouble in later phases.`
+            },
+            {
+                name: 'Design_Pattern',
+                icon: 'class="oi" data-glyph="puzzle-piece"',
+                img: 'Styles/Images/Logos/design_pattern.png',
+                description: `After debugging, I think that the most annoying thing in programming is re-writing your old code, because sometimes also a small change could 
+                really mess up everything. This is why I love so much design pattern (if not over-abused), using it in a smart way is indeed the best way to approach a 
+                problem and make your code maintainable. I have study a lot of different data pattern: classic, parallel, object-oriented and for game developing; so, I 
+                always try to keep them in mind to obtain the better off my code.`
+            },
+            {
+                name: 'Clarity',
+                icon: 'class="oi" data-glyph="sun"',
+                img: 'Styles/Images/Logos/clarity.png',
+                description: `How many time do you have risked to become bold (or maybe you already are) trying to figure out what a someone else's code meant. I know how 
+                much can be frustrating and this is the reason why I put every time a special effort on making my code as clear and commented as possible (without ever 
+                getting rid of performance). I think that doing it even on smaller pieces of code can save really a lot of time, both for you and for others!`
+            }
+        ],
+        [
+            {
+                name: 'Parallelism',
+                icon: 'class="oi" data-glyph="layers"',
+                img: 'Styles/Images/Logos/parallelism.png',
+                description: `How many time do you have risked to become bold (or maybe you already are) trying to figure out what a someone else's code meant. I know how 
+                much can be frustrating and this is the reason why I put every time a special effort on making my code as clear and commented as possible (without ever 
+                    getting rid of performance). I think that doing it even on smaller pieces of code can save really a lot of time, both for you and for others!`
+            },
+            {
+                name: 'Machine_Learning',
+                icon: 'class="oi" data-glyph="dial"',
+                img: 'Styles/Images/Logos/ml.png',
+                description: `Nowadays knowing the basis of machine learning is fundamental for every single field of the computer science (even if videogames are trying to
+                resist), so I have studied it, also implementing a small neural network (check it in "Projects" session). I'am really affascinating by the ability of an 
+                artificial intelligence to self-improve and in fact, I would be really happy to become a ai-game programmer if I ever had the opportunity. I also know about
+                simpler models like behavioural tree.`
+            }
+        ],
+        [
+            {
+                name: 'Debug',
+                icon: 'class="oi" data-glyph="bug"',
+                img: 'Styles/Images/Logos/debug.png',
+                description: `The bugbear of every programmer, one of the most painful (and unfortunately important) thing to do. It can bring you to madness, so I tried
+                to be always methodic and proceed with an incremental approach while doing it, this way it can result easier than expected. Indeed Visual Studio (thanks 
+                to its data breakpoint, parallel stacks and disassembly) helps alot in this direction, so when debugging I always try to use every tools I have to 
+                arrive straight further to the solution.`
+            }
+        ],
+        [
+            {
+                name: 'Consoles',
+                icon: 'class="icomoon m-icon-playstation"',
+                img: 'Styles/Images/Logos/xbox.png',
+                description: `[PC MASTER RACE MODE OFF] Consoles are where gaming is born and still today they cover a very important role in this world. So being able
+                to develop, debug and optimize them are fundamental skills. Unfortunately I still don't have such a deep knowledge about consoles, but I'm starting to face 
+                with them in my actual job, so I'm not a console-virgin. Even though I'm just at the start, I am able to make any step on Ps4 / XBoxOne: from compilation to 
+                profiling.`
+            }
+        ]
     ]
 ]
