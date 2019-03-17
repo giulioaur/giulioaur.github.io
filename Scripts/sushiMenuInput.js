@@ -155,9 +155,9 @@ SM.input = {
      * DOM 3 standard (first-assigned, first-called).
      *          
      * @param {HTMLElement} menu The menu in which save the focus. If null is passed, current menu is used instead.
-     * @param {HTMLElement} item The item that has to be the last focuse. If null is passed, first active item is used instead.
+     * @param {HTMLElement} [item=null] The item that has to be the last focuse. If null is passed, first active item is used instead.
      */
-    saveFocus(menu, item) {
+    saveFocus(menu, item = null) {
         if (!menu)      menu = this._graph._current;
         if (!item)      item = menu.querySelector(`.${SM.CONST.activeItemClass}`);
 
@@ -183,6 +183,9 @@ SM.input = {
         if (itemToRestore) {
             itemToRestore.classList.remove(SM.CONST.lastActiveItemClass);
             this._changeActive(itemToRestore, isMouseTrigger, dir);
+        }
+        else {
+            this.setFocusOn(menu, 0, isMouseTrigger, dir);
         }
     },
 

@@ -12,7 +12,7 @@ GLOBALS.projects = [
                         also implemented a simple parser for the basic pseudo-code used to show abilitie's animation.`
     },
     {
-        title: 'ChatVRoom',
+        title: 'ChatVR',
         extendedTitle: 'ChatVRoom',
         link: 'https://github.com/VRcolVento/ChatVRoom',
         screen: 'Old/Styles/Images/chatvrroom.png',
@@ -51,7 +51,7 @@ GLOBALS.projects = [
                         to build it, and if it will be so, don't forget to leave a star =P`
     },
     {
-        title: 'Cloud Gaming',
+        title: 'Cloud G.',
         extendedTitle: 'Cloud Gaming',
         link: 'https://github.com/giulioaur/cloud-gaming',
         screen: 'Old/Styles/Images/cg.jpg',

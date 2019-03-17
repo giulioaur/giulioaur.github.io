@@ -12,7 +12,7 @@ const GLOBALS = {
         right: [68, 39],
     },
     loadingPercentage: 0,
-    projCurrIndex: 0,
+    projCurrIndex: -1,
     sliderData: {},
     textsToFit: document.getElementsByClassName('m-fit-text'),
     textIncrement : 1,
@@ -21,6 +21,45 @@ const GLOBALS = {
     ]
 }
 var menuGraph;
+
+
+
+////////////////////////////////////////////////////////////////////////
+//////////////////////////////// GLOBALS ///////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+const imageLoader = {
+
+    _images : [],
+    
+    /**
+     * Adds a new image to the list of the dynamically loaded images.
+     * 
+     * @param {String} url The url of the image to load.
+     */
+    loadImage(url) {
+        // Add a new promises which is resolved after the image has been loaded.
+        this._images.push(new Promise((resolve, reject) => {
+            const image = new Image();
+            img.addEventListener("load", () => resolve());
+            img.addEventListener("error", () => reject());
+            image.url = url;
+        }));
+    }, 
+
+    /**
+     * Waits for all the dynamic images to be fully loaded.
+     * 
+     * @returns {Boolean} True if all go well, false in case of error.
+     */
+    async waitForLoading() {
+        const areCorrectlyLoaded = await Promise.all(this._images)
+            .then(() => true)
+            .catch(() => false);
+
+        return areCorrectlyLoaded;
+    }
+};
 
 
 
@@ -66,6 +105,9 @@ var menuGraph;
             document.getElementById("m-loading").style.display = 'none';
 
             clearInterval(loadingCheck);
+
+            // Play an enter animation for the menu.
+            deferredEnterAnimation();
         }
     }, 200);
 })();
@@ -81,26 +123,28 @@ function setupPage() {
     GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout});
-    bindDataFunction();
-    GLOBALS.loadingPercentage = 75;
+    menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout, playFirstAnimation: false});
+    GLOBALS.loadingPercentage = 70;
 
     // Custom setup. Put here to animate after first focus.
     bindAnimations();
     bindCustomEvents();
-    GLOBALS.loadingPercentage = 80;
+    GLOBALS.loadingPercentage = 73;
 
     // Setup graph input.
     SM.input.bindInput(menuGraph, GLOBALS.inputMap);
-    GLOBALS.loadingPercentage = 90;
+    GLOBALS.loadingPercentage = 87;
 
     // Custom setup.
     fitTexts();
-    GLOBALS.loadingPercentage = 95;
+    GLOBALS.loadingPercentage = 93;
 
     // Create slider.
-    $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements });
+    $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements});
     $('.m-slider').draggable();
+    GLOBALS.loadingPercentage = 95;
+
+    imageLoader.waitForLoading();
     GLOBALS.loadingPercentage = 100;
 }
 
@@ -109,10 +153,13 @@ function setupPage() {
  */
 function resizePage() {
     fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
-    menuGraph.forceUpdateLayout();
 }
 
-
+/**
+ * The function used to choose the correct menu.
+ * 
+ * @param {HTMLElement} menu The current menu.
+ */
 function chooseLayout(menu) {
     const width = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
     const height = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
@@ -134,28 +181,43 @@ function fitTexts(textsToResizes = null) {
     // Resize all the visible texts.
     for (let textToFit of textsToResizes) {
         if (textToFit.offsetParent) {
-            const minFont = textToFit.dataset.minfont, maxFont = textToFit.dataset.maxfont;
-            const parentHeight = textToFit.parentElement.offsetHeight, parentWidth = textToFit.parentElement.offsetWidth;
-
+            const min = textToFit.dataset.minfont;
+            const max = textToFit.dataset.maxfont;
+            const parentHeight = textToFit.parentElement.offsetHeight;
+            const parentWidth = textToFit.parentElement.offsetWidth;
+            
             // Set the right starter size.
-            let currentSize = (textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20).clamp(minFont, maxFont);
+            let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
+            currentSize *= (parentHeight / textToFit.offsetHeight);     // This helps to make much less cycle below
+            currentSize = currentSize.clamp(min, max);
+            textToFit.style.fontSize = currentSize + 'px';
+
+            const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
 
             // Resize the text until the father size is not reached or text size overflows a range.
-            while (!textToFit.offsetHeight.lowerWithinTreshold(parentHeight, 10) && currentSize.isWithinRange(minFont, maxFont)) {
-                currentSize *= parentHeight / textToFit.offsetHeight;
+            while (currentSize &&
+                (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) &&
+                currentSize.isWithinRange(min, max)) {
+                currentSize += GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
             }
 
-            // // Also check the width.
-            // while (textToFit.offsetWidth > parentWidth && currentSize.isWithinRange(minFont, maxFont)) {
-            //     currentSize *= parentWidth / textToFit.offsetWidth;
+            // If the height are equal, stop, otherwise make last change.
+            if (isLower > 0 && textToFit.offsetHeight > parentHeight) {
+                currentSize -= GLOBALS.textIncrement * isLower;
+                textToFit.style.fontSize = currentSize + 'px';
+            }
+
+            // This normalize the result.
+            textToFit.style.fontSize = currentSize.clamp(min, max) + 'px';
+
+            // // Get an extra check on the width since the text could oveflow by width.
+            // while (currentSize && textToFit.offsetWidth > parentWidth && currentSize.isWithinRange(min, max)) {
+            //     currentSize -= GLOBALS.textIncrement;
             //     textToFit.style.fontSize = currentSize + 'px';
             // }
 
-            // Normalize the size
-            textToFit.style.fontSize = currentSize.clamp(minFont, maxFont) + 'px';         
-
-            // If the text is still longer, then apply scroll.
+            // Change overflow.
             textToFit.parentElement.style.overflowY = textToFit.offsetHeight > parentHeight ? 'scroll' : 'hidden';
         }
     }
@@ -204,18 +266,22 @@ function updateSliderElements(event, ui) {
     if (currEle > 1 && percentage[currEle - 1] >= ui.value) {
         let elems = GLOBALS.sliderData[this.id].elems;
         
-        $(elems[currEle - 2]).show();
-        $(elems[currEle - 1]).hide();
+        elems[currEle - 2].style.display = '';
+        elems[currEle - 1].style.display = 'none';
         --percentage[0];
+
+        fitTexts(elems[currEle - 2].getElementsByClassName('m-fit-text'));
     }
     // Check if next item need to be shown.
     else if (currEle < percentage.length - 1 && percentage[currEle] < ui.value)
     {
         let elems = GLOBALS.sliderData[this.id].elems;
 
-        $(elems[currEle - 1]).hide();
-        $(elems[currEle]).show();
+        elems[currEle - 1].style.display = 'none';
+        elems[currEle].style.display = '';
         ++percentage[0];
+
+        fitTexts(elems[currEle].getElementsByClassName('m-fit-text'));
     }
 }
 
@@ -324,15 +390,6 @@ function dropSkill(ev) {
 }
 
 
-function bindDataFunction() {
-    menuGraph.addDataCallback((from, to) => {
-        if (from.id == 'sm-main-menu') 
-            SM.input.saveFocus(this.currentMenu, false, 'last');
-        return true;
-    }, true);
-}
-
-
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// DYNAMIC GENERATION ///////////////////////////
@@ -382,10 +439,13 @@ function generateSkills() {
                 skillDescr += `<p id="m-skills-${row[k].name}-descr" class="m-fit-text" data-minfont="13" data-maxfont="22">${row[k].description}</p>`;
                 
                 // Create svg or img for logo representation.
-                if (row[k].svg)
+                if (row[k].svg){
                     skillImgs += `<svg viewBox="0 0 128 128" id="m-skills-${row[k].name}-img">${row[k].svg}</svg>`;
-                else if (row[k].img)
+                }
+                else if (row[k].img){
                     skillImgs += `<img id="m-skills-${row[k].name}-img" src="${row[k].img}">`;
+                    imageLoader.loadImage(row[k].img);
+                }
             }
 
             skillRows[i] += '</div>';
@@ -427,7 +487,7 @@ function generateProjects() {
         `;
 
         descriptions += `
-            <div class="m-projects-container h-100">
+            <div class="m-projects-container h-100 sm-redirect-blank-item" data-goto="${project.link}">
                 <div class="m-projects-banner d-flex align-items-center justify-content-center"
                 style="background-image: url('${project.screen}')">
                     <h1>${project.extendedTitle}</h1>
@@ -439,6 +499,9 @@ function generateProjects() {
                 </div>
             </div>
         `;
+
+        // Add the image to the dynamically loaded list.
+        imageLoader.loadImage(project.screen);
     }
 
     // Add it to the dom.
@@ -510,6 +573,14 @@ function bindAnimations() {
 }
 
 /**
+ * Plays an enter animation for the current menu.
+ */
+function deferredEnterAnimation() {
+    if (menuGraph.currentMenu.id == 'm-projects')
+        enterProjects(null, menuGraph.currentMenu);
+}
+
+/**
  * Creates the hovering effect on the menu's items.
  */
 function itemHovering() {
@@ -547,9 +618,10 @@ function projectsSelection() {
         for (let i = 0; i < projectRows.length; ++i) {
             projects[i].style.display = 'none';
 
-            projectRows[i].addEventListener(SM.CONST.inputActivationEvent, () => {                
+            projectRows[i].addEventListener(SM.CONST.inputActivationEvent, (event) => {                
                 // Change visibility.
-                projects[GLOBALS.projCurrIndex].style.display = 'none';
+                if (GLOBALS.projCurrIndex >= 0 && GLOBALS.projCurrIndex < projects.length)
+                    projects[GLOBALS.projCurrIndex].style.display = 'none';
                 projects[i].style.display = 'block';
                 GLOBALS.projCurrIndex = i;
 
@@ -557,9 +629,6 @@ function projectsSelection() {
                 fitTexts();
             });
         }
-
-        // Call the visibility on first project.
-        projectRows[0].fireEvent(SM.CONST.inputActivationEvent);
     }
     else {
         console.error("At least one project is not correctly setup.");
@@ -624,11 +693,7 @@ function enterWithFirstFocus(from, to, isBack) {
  */
 function enterProjects(from, to, isBack) {
     enterWithText(from, to, isBack);
-
-    if (!document.querySelector('.m-projects-row.sm-active')) {
-        document.querySelector('.m-projects-row').classList.add('sm-active');
-        GLOBALS.projCurrIndex = 0;
-    }
+    SM.input.restoreFocus(to);
 }
 
 /**
@@ -640,12 +705,23 @@ function enterProjects(from, to, isBack) {
  * @param {Boolean} isBack True if this is a back transition.
  */
 function enterSkills(from, to, isBack) {
-    console.profile("skillsProfiling");
     to.style.opacity = 0;
     to.style.display = '';
 
     fitTexts(to.querySelectorAll('i.m-fit-text'));
 
     to.style.opacity = 1;
-    console.profileEnd("skillsProfiling");
+}
+
+/**
+ * There are a lot of texts to resize, but since only icons are visible at beginning, it is
+ * enough to resize just them.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function exitWithSaving(from, to, isBack) {
+    SM.input.saveFocus(from);
+    from.style.display = 'none';
 }

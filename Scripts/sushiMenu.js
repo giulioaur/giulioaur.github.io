@@ -48,21 +48,12 @@ Graph: class Graph {
      */
 
     /**
-     * Sets some options for the Graph class.
-     * 
-     * @typedef {Object} Options
-     * @param {Boolean} shouldSave Wherever on not the menu state must be saved into session storage.
-     * @param {layoutGetter} layoutMap What layout to use for a given menu.
-     * @param {Boolean} logError True if errors must be logged on console, false otherwise. Usually set to true only in development.
-     */
-
-    /**
-    * Callback for getting the layout to use in current configuration.
+    * The functions called to configure data before and after the menu has changed (and the animations have been played).
     *
     * @callback dataCallback
     * @param {HTMLElement} old The old menu.
     * @param {HTMLElement} new The new menu.
-    * @returns {Boolean} True if the animation should be played. 
+    * @returns {Boolean} False to prevent the menu changing to happen. 
     *                    NB: the return value is checked only for the callback executed before the animation.
     */
 
@@ -71,18 +62,36 @@ Graph: class Graph {
     /**
      * Buils a new menu graph parsing the html file.
      * 
-     * @param {Object} [options={shouldSave : true, layoutMap : ()=>{return 'main'}, logError : false}] The configuration options for the graph.
+     * @param {Object} [options] The configuration options for the graph.
+     * @param {Boolean} [options.shouldSave = true] True if the menu state should be saved as session's state.
+     * @param {layoutGetter} [options.layoutMap] The function that returns the correct layout to use. Default always uses 'main' as layout.
+     * @param {Boolean} [options.logError = true] True if errors must be logged on console, false otherwise. Usually set to true only in development.
+     * @param {Boolean} [options.playFirstAnimation = true] True if enter animation should be played on first menu shown.
      */
     constructor(options) {
-        this._saving = options && options.shouldSave != undefined ? options.shouldSave : true;
+        this._saving = options && options.shouldSave !== undefined ? options.shouldSave : true;
         this._layoutGetter = options && options.layoutMap ? options.layoutMap : () => { return 'main' };
-        this._shouldLog = options && options.logError != undefined ? options.logError : true;
+        this._shouldLog = options && options.logError !== undefined ? options.logError : true;
+        this._playFirstAnimation = options && options.playFirstAnimation !== undefined ? options.playFirstAnimation : true;
         this._beforeAnimationFunc = [];
         this._afterAnimationFunc = [];
 
-        if (this._setAttributes())
-        {
+        // Observe the viewport to correctly update the layout.
+        this._observer = new MutationObserver(this.forceUpdateLayout.bind(this));
+        this._observer.observe(document.getElementById(SM.CONST.viewportId), { attributes: true, childList: true, subtree: true });
+
+        if (this._setAttributes()) {
             this._buildGraph();
+
+            // Show correct menu.
+            if (this._playFirstAnimation)
+            {
+                const inAnimation = this._current.dataset[SM.CONST.inAnimData] ? this._current.dataset[SM.CONST.inAnimData] : "SM.Animations.standardIn";
+                this._playAnimation(inAnimation, this._current, false);
+            }
+            else {
+                this._current.style.display = '';    
+            }
         }           
     }
 
@@ -127,8 +136,9 @@ Graph: class Graph {
      * Creates the nodes of the graph and enables goto links.
      */
     _buildGraph() {
-        const graph = this; 
-        const nodes = document.querySelectorAll(`#${SM.CONST.viewportId} .${SM.CONST.menuClass}`);
+        const graph = this;
+        const menuViewport = document.getElementById(SM.CONST.viewportId);
+        const nodes = menuViewport.querySelectorAll(`#${SM.CONST.viewportId} .${SM.CONST.menuClass}`);
 
         // Creates a map of nodes.
         for(let node of nodes) {
@@ -146,25 +156,27 @@ Graph: class Graph {
         }
 
         // Add goto event to items.
-        // Do it in a separate loop to check goto consistency.
-        for (let node of nodes) {
-            const items = node.querySelectorAll(`.${SM.CONST.itemClass}`);
-            for (let item of items){
-                const label = item.dataset[SM.CONST.gotoData];
-                const isBlank = item.classList.contains(SM.CONST.redirectBlankItemClass);
-                
-                // Check if the item is a normal item or a redirect item.
-                if (!item.classList.contains(SM.CONST.redirectItemClass) && !isBlank)
-                    item.addEventListener('click', () => graph.goto(label, 
-                        item.classList.contains(SM.CONST.backItemClass), 
-                        item.classList.contains(SM.CONST.clearItemClass)) );
-                else
-                    item.addEventListener('click', () => graph._redirect(label, isBlank));
-            }
+        // Do it after creating map to check goto consistency.
+        const items = menuViewport.getElementsByClassName(SM.CONST.itemClass);
+        for (let item of items){
+            const label = item.dataset[SM.CONST.gotoData];
+            const isBlank = item.classList.contains(SM.CONST.redirectBlankItemClass);
+            
+            // Check if the item is a normal item or a redirect item.
+            if (!item.classList.contains(SM.CONST.redirectItemClass) && !isBlank)
+                item.addEventListener('click', () => graph.goto(label, 
+                    item.classList.contains(SM.CONST.backItemClass), 
+                    item.classList.contains(SM.CONST.clearItemClass)) );
+            else
+                item.addEventListener('click', () => graph._redirect(label, isBlank));
         }
 
-        // Set the main menu as root.
-        this._current.style.display = '';    
+        // Not all redirect item should also be normal item, so don't forget about them.
+        const linkItems = menuViewport.querySelectorAll(`.${SM.CONST.redirectItemClass}:not(.${SM.CONST.itemClass}), .${SM.CONST.redirectBlankItemClass}:not(.${SM.CONST.itemClass})`);
+        for (let item of linkItems) {
+            const isBlank = item.classList.contains(SM.CONST.redirectBlankItemClass);
+            item.addEventListener('click', () => graph._redirect(item.dataset[SM.CONST.gotoData], isBlank));
+        }
     }
 
     //////////////////////// LAYOUT STUFF ////////////////////////

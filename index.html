@@ -99,7 +99,7 @@
         <!--------------------- MENU --------------------->
         <section id="sm-viewport" class="h-75">
             <!--------------------- MAIN MENU --------------------->
-            <div id="sm-main-menu" class="sm-menu container-fluid h-100" data-sm-in="enterWithRestore">
+            <div id="sm-main-menu" class="sm-menu container-fluid h-100" data-sm-in="enterWithRestore" data-sm-out="exitWithSaving">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
                         <div class="col-6 h-100 m-first-col">
@@ -155,7 +155,7 @@
                                 <div class="col-12 sm-item-container">
                                     <div class="sm-item contact-me-item" data-goto="m-contact-me">
                                         <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
-                                            <h1 class="m-fit-text" data-maxfont="40">Contact Me</h1>
+                                            <h1 class="m-fit-text" data-maxfont="40">Contacts</h1>
                                         </div>
                                         <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
                                             <span class="oi" data-glyph="envelope-closed" aria-hidden="true"></span>
@@ -180,22 +180,22 @@
                 </div>
                 <div class="sm-layout sm-portrait-layout">
                     <div class="row justify-content-center m-0">
-                        <div class="sm-item-container col-8" data-item="about-me-item"></div>
+                        <div class="sm-item-container col-8 h-100" data-item="about-me-item"></div>
                     </div>
                     <div class="row justify-content-center m-0">
-                        <div class="sm-item-container col-8" data-item="skills-item"></div>
+                        <div class="sm-item-container col-8 h-100" data-item="skills-item"></div>
                     </div>
                     <div class="row justify-content-center m-0">
-                        <div class="sm-item-container col-8" data-item="experience-item"></div>
+                        <div class="sm-item-container col-8 h-100" data-item="experience-item"></div>
                     </div>
                     <div class="row justify-content-center m-0">
-                        <div class="sm-item-container col-8" data-item="projects-item"></div>
+                        <div class="sm-item-container col-8 h-100" data-item="projects-item"></div>
                     </div>
                     <div class="row justify-content-center m-0">
-                        <div class="sm-item-container col-8" data-item="contact-me-item"></div>
+                        <div class="sm-item-container col-8 h-100" data-item="contact-me-item"></div>
                     </div>
                     <div class="row justify-content-center m-0">
-                        <div class="sm-item-container col-8" data-item="credits-item"></div>
+                        <div class="sm-item-container col-8 h-100" data-item="credits-item"></div>
                     </div>
                 </div>
             </div>
@@ -280,7 +280,9 @@
                         </div>
                     </div>
                     <div class="col-9 h-100">
-                        <p> Drag a skill in the box at the left to see a skill. It works also on mobile (even if the item seems not to be dragged)</p>
+                        <p class="m-fit-text" data-minfont="13" data-maxfont="22"> 
+                            Drag a skill in the box at the left to see a skill. It works also on mobile (even if the item seems not to be dragged)
+                        </p>
                         <!-- Dynamically filled -->
                     </div>
                 </div>
@@ -295,8 +297,8 @@
                             <div id="m-education-master" class="h-100 m-slider-percentage" 
                                 style="width: 40%; margin-left: 60%;"></div>
                         </div>
-                        <div class="row m-slider-info">
-                            <div class="col-12 m-slider-section" data-slider="m-edu-slider">
+                        <div class="row m-slider-info w-100 m-0">
+                            <div class="col-12 m-slider-section p-0" data-slider="m-edu-slider">
                                 <div class="row">
                                     <div class="col-3 d-flex align-items-center m-exp-date">
                                         <h2>09/2013 - 09/2016</h2>
@@ -305,12 +307,14 @@
                                         <h1>Bachelor's Degree in Computer Science</h1>
                                     </div>
                                 </div>
-                                <div class="m-exp-descr">
-                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>Università degli Studi di Napoli Federico II</span><br/>
-                                    <p>Vote: 110/110 cum laude</p>
+                                <div class="m-exp-descr d-flex flex-column">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>Università degli Studi di Napoli Federico II</span>
+                                    <div class="flex-grow-1">
+                                        <p>Vote: 110/110 cum laude</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 m-slider-section" data-slider="m-edu-slider">
+                            <div class="col-12 m-slider-section p-0" data-slider="m-edu-slider">
                                 <div class="row">
                                     <div class="col-3 d-flex align-items-center m-exp-date">
                                         <h2>10/2016 - 10/2018</h2>
@@ -319,9 +323,11 @@
                                         <h1>Master's Degree in Computer Science</h1>
                                     </div>
                                 </div>
-                                <div class="m-exp-descr">
-                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>Università di Pisa</span><br />
-                                    <p>Vote: 110/110 cum laude</p>
+                                <div class="m-exp-descr d-flex flex-column">
+                                    <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>Università di Pisa</span>
+                                    <div class="flex-grow-1">
+                                        <p>Vote: 110/110 cum laude</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -333,8 +339,8 @@
                             <div id="m-job-pisa" class="h-100 m-slider-percentage" style="width: 20%; margin-left: 60%;"></div>
                             <div id="m-job-milestone" class="h-100 m-slider-percentage" style="width: 20%; margin-left: 80%;"></div>
                         </div>
-                        <div class="row m-slider-info">
-                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                        <div class="row m-slider-info w-100 m-0">
+                            <div class="col-12 m-slider-section p-0" data-slider="m-job-slider">
                                 <div class="row">
                                     <div class="col-3 d-flex align-items-center m-exp-date">
                                         <h2>03/2016 - 07/2016</h2>
@@ -343,21 +349,23 @@
                                         <h1>Junior Mobile Developer</h1>
                                     </div>
                                 </div>
-                                <div class="m-exp-descr">
+                                <div class="m-exp-descr d-flex flex-column">
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://www.blexin.com/" target="_blank">Blexin</a>
-                                    </span><br />
-                                    <p>
-                                        During my bachelor's internship (and then during my fixed time contract) I have developed a mobile framework
-                                        with the purpose to make very simple the development of mobile app based on the same content of web apps developed 
-                                        with company's proprietary CMS. The whole framework has been developed entirely by me, using Ionic (AngularJS), 
-                                        SQLLite and RestFULL calls to interface with the CMS. Nevertheless, for the whole time I have worked as part of a small
-                                        team and during the later phases I have also started to experience my first meeting with a real client during the developing
-                                        of the first apps. 
-                                    </p>
+                                    </span>
+                                    <div class="flex-grow-1">
+                                        <p class="m-fit-text" data-minfont="13" data-maxfont="22">
+                                            During my bachelor's internship (and then during my fixed time contract) I have developed a mobile framework
+                                            with the purpose to make very simple the development of mobile app based on the same content of web apps developed 
+                                            with company's proprietary CMS. The whole framework has been developed entirely by me, using Ionic (AngularJS), 
+                                            SQLLite and RestFULL calls to interface with the CMS. Nevertheless, for the whole time I have worked as part of a small
+                                            team and during the later phases I have also started to experience my first meeting with a real client during the developing
+                                            of the first apps. 
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                            <div class="col-12 m-slider-section p-0" data-slider="m-job-slider">
                                 <div class="row">
                                     <div class="col-3 d-flex align-items-center m-exp-date">
                                         <h2>02/2017 - 09/2018</h2>
@@ -366,22 +374,24 @@
                                         <h1>Volunteering</h1>
                                     </div>
                                 </div>
-                                <div class="m-exp-descr">
+                                <div class="m-exp-descr d-flex flex-column">
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://www.blexin.com/" target="_blank">Pisa Coder Dojo</a>
-                                    </span><br />
-                                    <p>
-                                        CoderDojo is a no-profit association that aims to teach the computational thinking to children. I knew
-                                        this amazing project in Pisa, where I joined the association as a Mentor. During my period there, I have taken part to 
-                                        several events, during which we have mainly thought some basic programming concept to 6-13 years old children with 
-                                        Scratch and Python. However, our activities were not limited to this, many times we have organized unplugged activities
-                                        to teach other computer science related topics like the way a computer works, security and how the web works. <br/>
-                                        I really liked my time spend with them and I really think they are doing a really great job, preparing the kids for 
-                                        a world that is always more computer-dependant.
-                                    </p>
+                                    </span>
+                                    <div class="flex-grow-1">
+                                        <p class="m-fit-text" data-minfont="13" data-maxfont="22">
+                                            CoderDojo is a no-profit association that aims to teach the computational thinking to children. I knew
+                                            this amazing project in Pisa, where I joined the association as a Mentor. During my period there, I have taken part to 
+                                            several events, during which we have mainly thought some basic programming concept to 6-13 years old children with 
+                                            Scratch and Python. However, our activities were not limited to this, many times we have organized unplugged activities
+                                            to teach other computer science related topics like the way a computer works, security and how the web works. <br/>
+                                            I really liked my time spend with them and I really think they are doing a really great job, preparing the kids for 
+                                            a world that is always more computer-dependant.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                            <div class="col-12 m-slider-section p-0" data-slider="m-job-slider">
                                 <div class="row">
                                     <div class="col-3 d-flex align-items-center m-exp-date">
                                         <h2>03/2018 - 09/2018</h2>
@@ -390,25 +400,27 @@
                                         <h1>Master's thesis</h1>
                                     </div>
                                 </div>
-                                <div class="m-exp-descr">
+                                <div class="m-exp-descr d-flex flex-column">
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://www.percro.org/" target="_blank">PERCRO</a>
-                                    </span><br />
-                                    <p>
-                                        As my master's thesis I have developed a library that aims to increase the realism within a simulated VR environment.
-                                        In fact, the big limitation of this kind of application is the complete absence of facial feedback, that are ends up
-                                        with completely emotion free avatars. I have tried to overcame this limit through an image processing algorithm that, 
-                                        analyzing the video feedback send by a camera mounted on the HMD (head-mounted display), outputs a blendshape that
-                                        simulates the user's expressions. During the development of this library I have touched a lot of different technologies
-                                        and languages: C++, C#, OpenCV, Opus, Unity, Unreal, Dynamic Libraries, Raspberry-Pi, HTCVive, Windows Sockets, 
-                                        Video Streaming and VR. This has allowed me to put my hands on very different environments that had to communicate with each 
-                                        other in a fast and efficient way, pushing me to learn about a lot of amazing stuff. It has also been the first time I had to 
-                                        face a project with so many different technologies inside and have learnt me a lot about different kind of system can play together. 
-                                        Furthermore I have also played with audio and 3D spatialization, developing a simple plugin that allowed 3D Voip chat in Unity.
-                                    </p>
+                                    </span>
+                                    <div class="flex-grow-1">
+                                        <p class="m-fit-text" data-minfont="13" data-maxfont="22">
+                                            As my master's thesis I have developed a library that aims to increase the realism within a simulated VR environment.
+                                            In fact, the big limitation of this kind of application is the complete absence of facial feedback, that are ends up
+                                            with completely emotion free avatars. I have tried to overcame this limit through an image processing algorithm that, 
+                                            analyzing the video feedback send by a camera mounted on the HMD (head-mounted display), outputs a blendshape that
+                                            simulates the user's expressions. During the development of this library I have touched a lot of different technologies
+                                            and languages: C++, C#, OpenCV, Opus, Unity, Unreal, Dynamic Libraries, Raspberry-Pi, HTCVive, Windows Sockets, 
+                                            Video Streaming and VR. This has allowed me to put my hands on very different environments that had to communicate with each 
+                                            other in a fast and efficient way, pushing me to learn about a lot of amazing stuff. It has also been the first time I had to 
+                                            face a project with so many different technologies inside and have learnt me a lot about different kind of system can play together. 
+                                            Furthermore I have also played with audio and 3D spatialization, developing a simple plugin that allowed 3D Voip chat in Unity.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 m-slider-section" data-slider="m-job-slider">
+                            <div class="col-12 m-slider-section p-0" data-slider="m-job-slider">
                                 <div class="row">
                                     <div class="col-3 d-flex align-items-center m-exp-date">
                                         <h2>12/2018 - Now</h2>
@@ -417,26 +429,28 @@
                                         <h1>Junior Game Developer (Generalist)</h1>
                                     </div>
                                 </div>
-                                <div class="m-exp-descr">
+                                <div class="m-exp-descr d-flex flex-column">
                                     <span class="m-exp-location"><span class="oi" data-glyph="map-marker"></span>
                                         <a class="m-no-decoration" href="http://milestone.it/" target="_blank">Milestone</a>
-                                    </span><br />
-                                    <p>
-                                        Finally, after having finished my study, I have begun my path as game programmer in Milestone, joining the team of MotoGP19 as
-                                        Junior Game Programmer. Being part of such a big company (more than 200 employees) and working every day in a professional
-                                        game developing environment is really exciting for me, and this lets me wake up every morning with a smile on my face. 
-                                        Actually my role within my team is generalist programmer, since I'm putting my hand on several aspects of the game: online, UI, 
-                                        game logic, debugging and optimization. This is indeed a big advantage to me, since everyday I am able to learn a lot about how 
-                                        a game works, allowing me to have wider sight on the whole that brought self-improvement every time bigger. Furthermore, I finally
-                                        have the possibility to develop (and debug) code not only for pc, but also for the major last-gen console, and I think that this  
-                                        is a fundamental knowledge nowadays in the gaming market (that can hardly be acquired by yourself in your home).
-                                        Another think I really like of working in such a big team, where coordination and communication are fundamental to obtain great results, 
-                                        is the possibility of talking everyday with different persons, from whom I can always learn something new about the field they master 
-                                        (is he programming, design, graphic or any other), to reach the common goal. <br />
-                                        Indeed one of the biggest difficulties there are the deadlines, that sometimes can really scare where very near, but, maybe because
-                                        I really like the job I did, are not so spooky to me, so I am able to face them with the respect they deserve and the serenity I need
-                                        to write very good code (obliviously always respecting them).
-                                    </p>
+                                    </span>
+                                    <div class="flex-grow-1">
+                                        <p class="m-fit-text" data-minfont="13" data-maxfont="22">
+                                            Finally, after having finished my study, I have begun my path as game programmer in Milestone, joining the team of MotoGP19 as
+                                            Junior Game Programmer. Being part of such a big company (more than 200 employees) and working every day in a professional
+                                            game developing environment is really exciting for me, and this lets me wake up every morning with a smile on my face. 
+                                            Actually my role within my team is generalist programmer, since I'm putting my hand on several aspects of the game: online, UI, 
+                                            game logic, debugging and optimization. This is indeed a big advantage to me, since everyday I am able to learn a lot about how 
+                                            a game works, allowing me to have wider sight on the whole that brought self-improvement every time bigger. Furthermore, I finally
+                                            have the possibility to develop (and debug) code not only for pc, but also for the major last-gen console, and I think that this  
+                                            is a fundamental knowledge nowadays in the gaming market (that can hardly be acquired by yourself in your home).
+                                            Another think I really like of working in such a big team, where coordination and communication are fundamental to obtain great results, 
+                                            is the possibility of talking everyday with different persons, from whom I can always learn something new about the field they master 
+                                            (is he programming, design, graphic or any other), to reach the common goal. <br />
+                                            Indeed one of the biggest difficulties there are the deadlines, that sometimes can really scare where very near, but, maybe because
+                                            I really like the job I did, are not so spooky to me, so I am able to face them with the respect they deserve and the serenity I need
+                                            to write very good code (obliviously always respecting them).
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -444,7 +458,7 @@
                 </div>
             </div>
             <!--------------------- PROJECTS --------------------->
-            <div id="m-projects" class="sm-menu container-fluid h-100" data-sm-in="enterProjects">
+            <div id="m-projects" class="sm-menu container-fluid h-100" data-sm-in="enterProjects" data-sm-out="exitWithSaving">
                 <div class="sm-layout sm-main-layout">
                     <div class="row h-100">
                         <div class="col-4 h-100">
