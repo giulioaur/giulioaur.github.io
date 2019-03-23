@@ -333,7 +333,7 @@ SM.input = {
         }
         // Set first item as active one.
         else {
-            this._changeActive(this._graph._current.querySelector(`.${this._graph._getLayoutName(this._graph._current.id)} .${SM.CONST.itemClass}`), false, dir);
+            this._changeActive(this._graph._current.querySelector(`.${this._graph._getLayoutName(this._graph._current.id)} .${SM.CONST.itemClass}:not(.${SM.CONST.noInputClass})`), false, dir);
         }
     },
 

@@ -140,7 +140,7 @@ function setupPage() {
     GLOBALS.loadingPercentage = 93;
 
     // Create slider.
-    $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements});
+    $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements, change: updateSliderElements});
     $('.m-slider').draggable();
     GLOBALS.loadingPercentage = 95;
 
@@ -183,29 +183,33 @@ function fitTexts(textsToResizes = null) {
         if (textToFit.offsetParent) {
             const min = textToFit.dataset.minfont;
             const max = textToFit.dataset.maxfont;
-            const parentHeight = textToFit.parentElement.offsetHeight;
+            const parentHeight = getElementSize(textToFit.parentElement)[0];
             const parentWidth = textToFit.parentElement.offsetWidth;
+            let elementHeight = getElementSize(textToFit)[0];
             
             // Set the right starter size.
             let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
-            currentSize *= (parentHeight / textToFit.offsetHeight);     // This helps to make much less cycle below
+            currentSize *= (parentHeight / elementHeight);     // This helps to make much less cycle below
             currentSize = currentSize.clamp(min, max);
             textToFit.style.fontSize = currentSize + 'px';
+            elementHeight = getElementSize(textToFit)[0];
 
-            const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
+            const isLower = elementHeight < parentHeight ? 1 : -1;
 
             // Resize the text until the father size is not reached or text size overflows a range.
             while (currentSize &&
-                (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) &&
+                (isLower > 0 ? elementHeight < parentHeight : elementHeight > parentHeight) &&
                 currentSize.isWithinRange(min, max)) {
                 currentSize += GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
+                elementHeight = getElementSize(textToFit)[0];
             }
 
             // If the height are equal, stop, otherwise make last change.
-            if (isLower > 0 && textToFit.offsetHeight > parentHeight) {
+            if (isLower > 0 && elementHeight > parentHeight) {
                 currentSize -= GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
+                elementHeight = getElementSize(textToFit)[0];
             }
 
             // This normalize the result.
@@ -218,72 +222,11 @@ function fitTexts(textsToResizes = null) {
             // }
 
             // Change overflow.
-            textToFit.parentElement.style.overflowY = textToFit.offsetHeight > parentHeight ? 'scroll' : 'hidden';
+            textToFit.parentElement.style.overflowY = elementHeight > parentHeight ? 'scroll' : 'hidden';
         }
     }
 }
 
-/**
- * Slider callback to initiliaze slider data.
- */
-function createSliderData() {
-    let childs = this.children;
-    GLOBALS.sliderData[this.id] = { percentage: [], elems: [] };
-    let elems = GLOBALS.sliderData[this.id].elems;
-    let percentage = GLOBALS.sliderData[this.id].percentage;
-    
-    // Initialize array of percentage. The first position is for the current element's index.
-    // The other positions are the max percentage to visualize that element.
-    percentage.push(0);
-    for(child of childs) {
-        if (child.classList.contains('m-slider-percentage'))
-            percentage.push(percentage[percentage.length - 1] + parseFloat(child.style.width));
-    }
-
-    // The index of the current element starts from 1, but 0 is needed to avoid
-    // if branch into the for.
-    percentage[0] = 1;
-
-    // Set correct visibility.
-    Array.from(document.getElementsByClassName('m-slider-section'))
-        .filter(ele => ele.dataset.slider == this.id)
-        .forEach(ele => { elems.push(ele); ele.style.display='none'; });
-
-    elems[0].style.display = '';
-}
-
-/**
- * Slider callback to change visualized element based on slider value.
- * 
- * @param {*} event 
- * @param {*} ui 
- */
-function updateSliderElements(event, ui) {
-    let percentage = GLOBALS.sliderData[this.id].percentage;
-    let currEle = percentage[0];
-
-    // Check if previous element need to be shown.
-    if (currEle > 1 && percentage[currEle - 1] >= ui.value) {
-        let elems = GLOBALS.sliderData[this.id].elems;
-        
-        elems[currEle - 2].style.display = '';
-        elems[currEle - 1].style.display = 'none';
-        --percentage[0];
-
-        fitTexts(elems[currEle - 2].getElementsByClassName('m-fit-text'));
-    }
-    // Check if next item need to be shown.
-    else if (currEle < percentage.length - 1 && percentage[currEle] < ui.value)
-    {
-        let elems = GLOBALS.sliderData[this.id].elems;
-
-        elems[currEle - 1].style.display = 'none';
-        elems[currEle].style.display = '';
-        ++percentage[0];
-
-        fitTexts(elems[currEle].getElementsByClassName('m-fit-text'));
-    }
-}
 
 
 
@@ -299,6 +242,9 @@ function updateSliderElements(event, ui) {
  */
 function bindCustomEvents() {
     skillsNavigation();
+
+    if (menuGraph.currentMenu.id == 'm-experience')
+        document.addEventListener('keydown', changeSliderValue);
 }
 
 /**
@@ -389,6 +335,82 @@ function dropSkill(ev) {
     fitTexts(descrDiv.querySelectorAll(`p#${ev.dataTransfer.getData("id")}-descr`));
 }
 
+
+/**
+ * Slider callback to initiliaze slider data.
+ */
+function createSliderData() {
+    let childs = this.children;
+    GLOBALS.sliderData[this.id] = { percentage: [], elems: [] };
+    let elems = GLOBALS.sliderData[this.id].elems;
+    let percentage = GLOBALS.sliderData[this.id].percentage;
+
+    // Initialize array of percentage. The first position is for the current element's index.
+    // The other positions are the max percentage to visualize that element.
+    percentage.push(0);
+    for (child of childs) {
+        if (child.classList.contains('m-slider-percentage'))
+            percentage.push(percentage[percentage.length - 1] + parseFloat(child.style.width));
+    }
+
+    // The index of the current element starts from 1, but 0 is needed to avoid
+    // if branch into the for.
+    percentage[0] = 1;
+
+    // Set correct visibility.
+    Array.from(document.getElementsByClassName('m-slider-section'))
+        .filter(ele => ele.dataset.slider == this.id)
+        .forEach(ele => { elems.push(ele); ele.style.display = 'none'; });
+
+    elems[0].style.display = '';
+}
+
+/**
+ * Slider callback to change visualized element based on slider value.
+ * 
+ * @param {*} event 
+ * @param {*} ui 
+ */
+function updateSliderElements(event, ui) {
+    let percentage = GLOBALS.sliderData[this.id].percentage;
+    let currEle = percentage[0];
+
+    // Check if previous element need to be shown.
+    if (currEle > 1 && percentage[currEle - 1] >= ui.value) {
+        let elems = GLOBALS.sliderData[this.id].elems;
+
+        elems[currEle - 2].style.display = '';
+        elems[currEle - 1].style.display = 'none';
+        --percentage[0];
+
+        fitTexts(elems[currEle - 2].getElementsByClassName('m-fit-text'));
+    }
+    // Check if next item need to be shown.
+    else if (currEle < percentage.length - 1 && percentage[currEle] < ui.value) {
+        let elems = GLOBALS.sliderData[this.id].elems;
+
+        elems[currEle - 1].style.display = 'none';
+        elems[currEle].style.display = '';
+        ++percentage[0];
+
+        fitTexts(elems[currEle].getElementsByClassName('m-fit-text'));
+    }
+}
+
+
+/**
+ * Change the value of the sliders.
+ * 
+ * @param {Event} event 
+ */
+function changeSliderValue(event) {
+    const increaseSlider = event.key == 'w' || event.key == 's';
+    const decreaseSlider = event.key == 'q' || event.key == 'a';
+    if (increaseSlider || decreaseSlider) {
+        const $slider = event.key == 'q' || event.key == 'w' ? $('#m-edu-slider') : $('#m-job-slider');
+        $slider.slider('value', $slider.slider('value') + (increaseSlider ? 1 : -1));
+    }
+}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -560,6 +582,33 @@ HTMLElement.prototype.fireEvent = function (eventName, bubbles = true, cancelabl
     this.dispatchEvent(event);
 };
 
+/**
+ * Return the true sizes of an element, without padding.
+ * 
+ * @returns {[Number]} The height and the width of an element.
+ */
+function getElementSize(element)
+{
+    const style = window.getComputedStyle(element);
+    const verticalEmptySpace = Math.max(myParseInt(style.paddingTop), 0) + Math.max(myParseInt(style.paddingBottom), 0) +
+        Math.max(myParseInt(style.borderTop), 0) + Math.max(myParseInt(style.borderBottom), 0);
+    const horizontalEmptySpace = Math.max(myParseInt(style.paddingLeft), 0) + Math.max(myParseInt(style.paddingRight), 0) +
+        Math.max(myParseInt(style.borderLeft), 0) + Math.max(myParseInt(style.borderRight), 0);
+    return [element.offsetHeight - verticalEmptySpace , element.offsetWidth - horizontalEmptySpace];
+}
+
+/**
+ * A parseInt function that returns 0 instead of NaN.
+ * 
+ * @param {String} str The string to parse.
+ * @param {Number} radix The radix of the result.
+ */
+function myParseInt(str, radix = 10)
+{
+    const result = parseInt(str, radix);
+    return result ? result : 0;
+}
+
 
 
 
@@ -685,35 +734,6 @@ function enterWithFirstFocus(from, to, isBack) {
 }
 
 /**
- * Highlights the first project entering the project menu.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterProjects(from, to, isBack) {
-    enterWithText(from, to, isBack);
-    SM.input.restoreFocus(to);
-}
-
-/**
- * There are a lot of texts to resize, but since only icons are visible at beginning, it is
- * enough to resize just them.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterSkills(from, to, isBack) {
-    to.style.opacity = 0;
-    to.style.display = '';
-
-    fitTexts(to.querySelectorAll('i.m-fit-text'));
-
-    to.style.opacity = 1;
-}
-
-/**
  * There are a lot of texts to resize, but since only icons are visible at beginning, it is
  * enough to resize just them.
  * 
@@ -724,4 +744,68 @@ function enterSkills(from, to, isBack) {
 function exitWithSaving(from, to, isBack) {
     SM.input.saveFocus(from);
     from.style.display = 'none';
+}
+
+/**
+ * Show the new menu with a basic transition, fitting the texts before entering.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterSkills(from, to, isBack) {
+    const portraitMode = chooseLayout(to) == 'portrait';
+    to.style.opacity = 0;
+    to.style.display = '';
+
+    // Resize all carousel items.
+    if (portraitMode) {
+        const hiddenItem = to.querySelectorAll('.carousel-item:not(.active)');
+        hiddenItem.forEach( i => i.style.display = 'block');
+
+        fitTexts(to.getElementsByClassName('m-fit-text'));
+
+        hiddenItem.forEach(i => i.style.display = '');
+    }
+    else {
+        fitTexts(to.getElementsByClassName('m-fit-text'));
+    }
+
+    to.style.opacity = 1;
+}
+
+/**
+ * Highlights the first project entering the project menu.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterExperience(from, to, isBack) {
+    document.addEventListener('keydown', changeSliderValue);
+    enterWithFirstFocus(from, to, isBack);
+}
+
+/**
+ * Highlights the first project entering the project menu.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function exitExperience(from, to, isBack) {
+    document.removeEventListener('keydown', changeSliderValue);
+    from.style.display = 'none';
+}
+
+/**
+ * Highlights the first project entering the project menu.
+ * 
+ * @param {HTMLElement} from The old menu.
+ * @param {HTMLElement} to The menu to show.
+ * @param {Boolean} isBack True if this is a back transition.
+ */
+function enterProjects(from, to, isBack) {
+    enterWithText(from, to, isBack);
+    SM.input.restoreFocus(to);
 }

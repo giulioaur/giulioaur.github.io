@@ -67,6 +67,24 @@ $secondary-color: #337ab7;
     }
 }
 
+@mixin supported {
+    @include landscape
+    {
+        @media (min-height: 600px) and (min-width: 800px)
+        {
+            @content;
+        }
+    }
+
+    @include portrait
+    {
+        @media (min-height: 500px) and (min-width: 320px)
+        {
+            @content;
+        }
+    }
+}
+
 //*****************************************************************************************//
 //*****************************************************************************************//
 //**************************************** GENERAL ****************************************//
@@ -83,6 +101,18 @@ body
     background-size: cover;
 
     overflow: hidden;
+
+    #m-page 
+    {
+        height: 100%;
+        width: 100%;
+        display: none;
+
+        @include supported
+        {
+            display: block;
+        }
+    }
 }   
 
 body:before
@@ -129,6 +159,15 @@ a.m-no-decoration
 {
     display: none;
 }
+
+.m-no-mobile
+{
+    @include mobile 
+    {
+        display: none;
+    }
+}
+
 
 
 
@@ -179,8 +218,12 @@ a.m-no-decoration
 
 #m-error
 {
-    display: none;
     z-index: 1001;
+
+    @include supported 
+    {
+        display: none;
+    }
 }
 
 
@@ -400,6 +443,11 @@ header
             height: to-percentage(100 - $header-height);
             
             padding-top: 20px;
+
+            @include mobile 
+            {
+                padding-top: 5px;
+            }
         }
     }
 }
@@ -671,9 +719,15 @@ header
                         }
                     }
         
-                    p
+                    .m-exp-descr-text-container
                     {
-                        padding-top: 10px;
+                        // Avoid some problems with starting size of flex-grow.
+                        overflow-y: hidden;
+
+                        > p
+                        {
+                            padding-top: 10px;
+                        }
                     }
                 }
             }
