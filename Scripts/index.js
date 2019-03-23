@@ -123,7 +123,7 @@ function setupPage() {
     GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout, playFirstAnimation: false});
+    menuGraph = new SM.Graph({ shouldSave: true, logError: false, layoutMap: chooseLayout, playFirstAnimation: false});
     GLOBALS.loadingPercentage = 70;
 
     // Custom setup. Put here to animate after first focus.
