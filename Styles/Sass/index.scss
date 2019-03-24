@@ -9,6 +9,7 @@
 
 $old-style-folder : '../Old/Styles/';
 $old-images-folder : '../Old/Styles/Images/';
+$old-fonts-folder : '../Old/Styles/fonts/';
 $curr-images-folder : 'Images/';
 
 $menu-item-background : #ecf0f1;
@@ -84,6 +85,36 @@ $secondary-color: #337ab7;
         }
     }
 }
+
+
+
+
+
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//***************************************** FONTS *****************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
+
+@font-face 
+{
+    font-family: marioFont;
+    src: url(Fonts/Pixel_Emulator.otf);
+}
+
+@font-face 
+{
+    font-family: wowFont;
+    src: url($old-fonts-folder + 'LifeCraft_Font.ttf');
+}
+
+
+
+
+
+
+
 
 //*****************************************************************************************//
 //*****************************************************************************************//
@@ -191,8 +222,6 @@ a.m-no-decoration
 
     > div 
     {
-        bottom: 35%;
-        position: absolute;
         width: 100%;
 
         > #m-loading-image, > #m-error-image
@@ -204,7 +233,6 @@ a.m-no-decoration
 
         > #m-loading-tip, > #m-error-message
         {
-            color: white;
             text-align: center;
         }
 
@@ -215,14 +243,50 @@ a.m-no-decoration
     }
 }
 
+#m-loading
+{
+    font-family: wowFont;
+
+    > div 
+    {
+        bottom: 35%;
+        position: absolute;
+
+        #m-loading-tip
+        {
+            color: rgb(187, 165, 89);
+        }
+
+        #m-loading-bar
+        {
+            background-color: transparent;
+            border: 2px solid rgb(187, 165, 89);
+            margin: auto;
+            width: 80%;
+
+            > #m-loading-bar-percentage
+            {
+                background-image: linear-gradient(rgba(14, 27, 60, 0.8), rgba(72, 110, 120, 0.6), rgba(14, 27, 60, 0.8));
+            }
+        }
+    }
+}
+
 
 #m-error
 {
     z-index: 1001;
+    font-family: marioFont;
+
+    #m-error-message
+    {
+        color: white;
+        font-size: 20px;
+    }
 
     @include supported 
     {
-        display: none;
+        display: none !important;
     }
 }
 

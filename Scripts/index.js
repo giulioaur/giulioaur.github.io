@@ -18,7 +18,10 @@ const GLOBALS = {
     textsToFit: document.getElementsByClassName('m-fit-text'),
     textIncrement : 1,
     tip: [
-        'You can navigate the site also using your keyboard and your joypad.'
+        'You can navigate the site also using your keyboard.',
+        'Do you know? Sometimes a bug can be called "feature".',
+        'Stealing data from your pc....',
+        'Dogs are better than cats in anything but evilness.'
     ]
 }
 var menuGraph;
@@ -93,22 +96,29 @@ const imageLoader = {
         return false;
     }
     
+    
     let isTipCreated = false, startedAnimation = false;
     let loadingCheck = setInterval(() => {
         // The tip element could not be loaded.
-        if (!isTipCreated)
-            tipCreated = setTip();
+        if (!isTipCreated) 
+            isTipCreated = setTip();
 
         if (!startedAnimation)
             startedAnimation = startAnimation();
 
+        // Set correct percentage.
+        const percentageBar = document.getElementById('m-loading-bar-percentage');
+        if (percentageBar)
+            percentageBar.style.width = GLOBALS.loadingPercentage + '%';
+
         if (GLOBALS.loadingPercentage == 100){
-            document.getElementById("m-loading").style.display = 'none';
-
-            clearInterval(loadingCheck);
-
-            // Play an enter animation for the menu.
-            deferredEnterAnimation();
+            setTimeout(() => {
+                document.getElementById("m-loading").style.display = 'none';
+                clearInterval(loadingCheck);
+    
+                // Play an enter animation for the menu.
+                deferredEnterAnimation();
+            }, 400)
         }
     }, 200);
 })();
