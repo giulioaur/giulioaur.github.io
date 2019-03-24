@@ -11,6 +11,7 @@ const GLOBALS = {
         up: [87, 38],
         right: [68, 39],
     },
+    isSkillPicked: false,
     loadingPercentage: 0,
     projCurrIndex: -1,
     sliderData: {},
@@ -185,31 +186,27 @@ function fitTexts(textsToResizes = null) {
             const max = textToFit.dataset.maxfont;
             const parentHeight = getElementSize(textToFit.parentElement)[0];
             const parentWidth = textToFit.parentElement.offsetWidth;
-            let elementHeight = getElementSize(textToFit)[0];
             
             // Set the right starter size.
             let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
-            currentSize *= (parentHeight / elementHeight);     // This helps to make much less cycle below
+            currentSize *= (parentHeight / textToFit.offsetHeight);     // This helps to make much less cycle below
             currentSize = currentSize.clamp(min, max);
             textToFit.style.fontSize = currentSize + 'px';
-            elementHeight = getElementSize(textToFit)[0];
 
-            const isLower = elementHeight < parentHeight ? 1 : -1;
+            const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
 
             // Resize the text until the father size is not reached or text size overflows a range.
             while (currentSize &&
-                (isLower > 0 ? elementHeight < parentHeight : elementHeight > parentHeight) &&
+                (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) &&
                 currentSize.isWithinRange(min, max)) {
                 currentSize += GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
-                elementHeight = getElementSize(textToFit)[0];
             }
 
             // If the height are equal, stop, otherwise make last change.
-            if (isLower > 0 && elementHeight > parentHeight) {
+            if (isLower > 0 && textToFit.offsetHeight > parentHeight) {
                 currentSize -= GLOBALS.textIncrement * isLower;
                 textToFit.style.fontSize = currentSize + 'px';
-                elementHeight = getElementSize(textToFit)[0];
             }
 
             // This normalize the result.
@@ -222,7 +219,7 @@ function fitTexts(textsToResizes = null) {
             // }
 
             // Change overflow.
-            textToFit.parentElement.style.overflowY = elementHeight > parentHeight ? 'scroll' : 'hidden';
+            textToFit.parentElement.style.overflowY = textToFit.offsetHeight > parentHeight ? 'scroll' : 'hidden';
         }
     }
 }
@@ -243,6 +240,9 @@ function fitTexts(textsToResizes = null) {
 function bindCustomEvents() {
     skillsNavigation();
 
+    touchEvents();
+
+    // Correctly bind event in m-experience, since no starting animation is played.
     if (menuGraph.currentMenu.id == 'm-experience')
         document.addEventListener('keydown', changeSliderValue);
 }
@@ -273,6 +273,14 @@ function skillsNavigation() {
 }
 
 function skillsPortrait() {
+    // Before sliding.
+    $('#m-skills-carousel').on('slide.bs.carousel', function (event) {
+        // Prevent carousel sliding if holding an item.
+        if (GLOBALS.isSkillPicked)
+            event.preventDefault();
+    });
+
+    // After sliding.
     $('#m-skills-carousel').on('slid.bs.carousel', function () {
         fitTexts();
 
@@ -306,6 +314,8 @@ function pickUpSkill(ev) {
     // Save some attributes of the dragged skill.
     ev.dataTransfer.setData("background", style.getPropertyValue('background-color'));
     ev.dataTransfer.setData("id", ev.target.parentElement.id);
+
+    GLOBALS.isSkillPicked = true;
 }
 
 /**
@@ -333,6 +343,8 @@ function dropSkill(ev) {
 
     // Resize texts.
     fitTexts(descrDiv.querySelectorAll(`p#${ev.dataTransfer.getData("id")}-descr`));
+
+    GLOBALS.isSkillPicked = false;
 }
 
 
@@ -410,6 +422,13 @@ function changeSliderValue(event) {
         const $slider = event.key == 'q' || event.key == 'w' ? $('#m-edu-slider') : $('#m-job-slider');
         $slider.slider('value', $slider.slider('value') + (increaseSlider ? 1 : -1));
     }
+}
+
+function touchEvents() {
+    // Allow sliding also if picked skill is not correctly dropped.
+    if ('ontouchend' in window || (window.DocumentTouch && document instanceof DocumentTouch))
+        document.addEventListener('touchend', e => GLOBALS.isSkillPicked = false);
+
 }
 
 

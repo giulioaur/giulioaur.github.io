@@ -3,7 +3,7 @@ GLOBALS.projects = [
         title: 'RPG',
         extendedTitle: 'RPG: RPG Portfolio of Giulio',
         link: 'http://giulioaur.com/Old/cv.html',
-        screen: 'Old/Styles/Images/rpg.png',
+        screen: 'Old/Styles/Images/rpg.jpg',
         description: `A new funny and interactive way to show my cv in a RPG style. It could be played clicking on the header. 
                         The interface is inspired by my favourite RPG game, but since I am not a UI designer, there are still 
                         some imperfections I will try to fix in future versions.It is fully realised with HTML and JS, with the help of 
@@ -15,7 +15,7 @@ GLOBALS.projects = [
         title: 'ChatVR',
         extendedTitle: 'ChatVRoom',
         link: 'https://github.com/VRcolVento/ChatVRoom',
-        screen: 'Old/Styles/Images/chatvrroom.png',
+        screen: 'Old/Styles/Images/chatvrroom.jpg',
         description: `This is a project I have realized with my colleague Andrea Lisi and it
                         is my first VR project.We have realized it with Unity Engine for the course of Virtual Environment, it is
                         freely inspired to "Ready Player One".Our basic idea was to realize a completely
