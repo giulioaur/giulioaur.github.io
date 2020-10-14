@@ -1,6 +1,6 @@
 /*********************************************************
  *          Created By Dr.Sushi (Giulio Auriemma)        *
- *        Licensed with...                               *
+ *        Licensed with GNU GENERAL PUBLIC LICENSE       *
  *********************************************************/
 
 SM.CONST.activeItemClass = 'sm-active';
@@ -10,12 +10,12 @@ SM.CONST.inputDeactivationEvent = 'sm-deactivate';
 SM.CONST.noInputClass = 'sm-no-input';
 
 SM.CONST.inputData = [
-        /* Back */ { events: [66, 27], callback: '_goBack' },
-        /* Select */ { events: [13], callback: '_select' },
-        /* Down */ { events: [83, 40], callback: '_goDown' },
-        /* Left */ { events: [65, 37], callback: '_goLeft' },
-        /* Up */ { events: [87, 38], callback: '_goUp' },
-        /* Right */ { events: [68, 39], callback: '_goRight' }
+        /* Back */ { events: [], callback: '_goBack' },
+        /* Select */ { events: [], callback: '_select' },
+        /* Down */ { events: [], callback: '_goDown' },
+        /* Left */ { events: [], callback: '_goLeft' },
+        /* Up */ { events: [], callback: '_goUp' },
+        /* Right */ { events: [], callback: '_goRight' }
 ]
 
 
@@ -49,7 +49,7 @@ SM.input = {
     },
     _wasKeyboard: false,
 
-    get wasKeyboard () {
+    get wasKeyboard() {
         return this._wasKeyboard;
     },
 
@@ -90,9 +90,9 @@ SM.input = {
             });
 
             const items = document.querySelectorAll(`.${SM.CONST.itemClass}:not(.${SM.CONST.noInputClass})`);
-            for (let item of items){
+            for (let item of items) {
                 // Add event listener for set the correct active menu with mouse.
-                item.addEventListener('mouseenter', function() {
+                item.addEventListener('mouseenter', function () {
                     input._changeActive(this, true, 'hover');
                 });
             }
@@ -104,7 +104,7 @@ SM.input = {
             if (this._options.firstFocus)
                 this._changeActive(this._getItems()[0], false, 'firstFocus');
         }
-        else 
+        else
             console.error('No valid graph for input.')
     },
 
@@ -117,10 +117,10 @@ SM.input = {
         const items = menu.getElementsByClassName(SM.CONST.activeItemClass);
 
         for (let item of items) {
-            this._changeEventDetails(this._deactivationEvent, item, null, false, 'last');
+            this._changeEventDetails(this._deactivationEvent, item, null, false, 'leaveMenu');
             item.dispatchEvent(this._deactivationEvent);
 
-            if (item == this._activeItem)   this._activeItem = null;
+            if (item == this._activeItem) this._activeItem = null;
         }
 
         return true;
@@ -129,23 +129,23 @@ SM.input = {
     /**
      * Set the focus on the index-th item of the menu.
      * 
-     * @param {HTMLElement} menu The menu in which restore the focus. If null is passed, current menu is used instead.
-     * @param {Number} index The item on which set the focus.
-     * @param {Boolean} isMouseTrigger True if the action has been fired by a mouse event.
-     * @param {string} dir The direction of the movement.
+     * @param {HTMLElement} [menu] The menu in which restore the focus. If null is passed, current menu is used instead.
+     * @param {Number | HTMLElement} [element=0] The item on which set the focus.
+     * @param {Boolean} [isMouseTrigger=false] True if the action has been fired by a mouse event.
+     * @param {string} [dir="firstFocus"] The direction of the movement.
      */
-    setFocusOn(menu, index, isMouseTrigger = false, dir = 'first') {
+    setFocusOn(menu, element = 0, isMouseTrigger = false, dir = 'firstFocus') {
         if (!menu) menu = this._graph._current;
 
-        const items = menu.getElementsByClassName(SM.CONST.itemClass);
+        const item = element instanceof HTMLElement ? element : menu.getElementsByClassName(SM.CONST.itemClass)[parseInt(element)];
 
-        if (items[index]) {
+        if (item) {
             // Clean previous focus.
             const itemToRestore = menu.querySelector(`.${SM.CONST.lastActiveItemClass}`);
             if (itemToRestore) itemToRestore.classList.remove(SM.CONST.lastActiveItemClass);
 
             // Set new focus.
-            this._changeActive(items[0], isMouseTrigger, dir);
+            this._changeActive(item, isMouseTrigger, dir);
         }
     },
 
@@ -154,38 +154,37 @@ SM.input = {
      * NB: This relies on the fact that the order in which registered events are called is consistent with the 
      * DOM 3 standard (first-assigned, first-called).
      *          
-     * @param {HTMLElement} menu The menu in which save the focus. If null is passed, current menu is used instead.
+     * @param {HTMLElement} [menu] The menu in which save the focus. If null is passed, current menu is used instead.
      * @param {HTMLElement} [item=null] The item that has to be the last focuse. If null is passed, first active item is used instead.
      */
     saveFocus(menu, item = null) {
-        if (!menu)      menu = this._graph._current;
-        if (!item)      item = menu.querySelector(`.${SM.CONST.activeItemClass}`);
+        if (!menu) menu = this._graph._current;
+        if (!item) item = menu.querySelector(`.${SM.CONST.activeItemClass}`);
 
         // Reset the last active item of the menu after having saved it.
         if (item) {
             item.classList.add(SM.CONST.lastActiveItemClass);
-        }     
+        }
     },
 
     /**
      * Restore the previous focused item.
      * 
-     * @param {HTMLElement} menu The menu in which restore the focus. If null is passed, current menu is used instead.
-     * @param {Boolean} isMouseTrigger True if the action has been fired by a mouse event.
-     * @param {string} dir The direction of the movement.
+     * @param {HTMLElement} [menu] The menu in which restore the focus. If null is passed, current menu is used instead.
+     * @param {Boolean} [isMouseTrigger] True if the action has been fired by a mouse event.
      */
-    restoreFocus(menu, isMouseTrigger = false, dir = 'restoreFocus') {
-        if (!menu)      menu = this._graph._current;
+    restoreFocus(menu, isMouseTrigger = false) {
+        if (!menu) menu = this._graph._current;
 
         const itemToRestore = menu.querySelector(`.${SM.CONST.lastActiveItemClass}`);
 
         // Remove last item class.
         if (itemToRestore) {
             itemToRestore.classList.remove(SM.CONST.lastActiveItemClass);
-            this._changeActive(itemToRestore, isMouseTrigger, dir);
+            this._changeActive(itemToRestore, isMouseTrigger, 'restoreFocus');
         }
         else {
-            this.setFocusOn(menu, 0, isMouseTrigger, dir);
+            this.setFocusOn(menu, 0, isMouseTrigger, 'restoreFocus');
         }
     },
 
@@ -196,7 +195,7 @@ SM.input = {
      * @param {Object} options The new options.
      */
     _setupOptions(options) {
-        if (options && options.firstFocus === true) 
+        if (options && options.firstFocus === true)
             this._options.firstFocus = true;
 
         if (options && options.dynamicMenu === true)
@@ -291,20 +290,20 @@ SM.input = {
         if (this._activeItem) {
             const currPos = this._getAbsolutePos(this._activeItem);
 
-            
+
             // The map is done to avoid calling _getAbsolutePos() multiple times.
             const nextItems = Array.from(this._getItems()).map(item => {
-                return {bb : this._getAbsolutePos(item), element: item};
+                return { bb: this._getAbsolutePos(item), element: item };
             }).filter(item => {     // First filter all the items in the right direction.
                 // Horizontal movement
                 return dirX ? (dirX > 0 ? item.bb.left >= currPos.right : item.bb.right <= currPos.left) :
-                // Vertical movement
-                                (dirY > 0 ? item.bb.top >= currPos.bottom : item.bb.bottom <= currPos.top);
+                    // Vertical movement
+                    (dirY > 0 ? item.bb.top >= currPos.bottom : item.bb.bottom <= currPos.top);
             }).filter(item => {     // Then check if the two box projection on x / y axis interesct each other.
                 // Y intersection
                 return dirX ? Math.abs(item.bb.top - currPos.top) <= Math.max(item.bb.height, currPos.height) :
-                // X interesection
-                                Math.abs(item.bb.left - currPos.left) <= Math.max(item.bb.width, currPos.width);
+                    // X interesection
+                    Math.abs(item.bb.left - currPos.left) <= Math.max(item.bb.width, currPos.width);
             }).sort((a, b) => {     // Then sort the remaining elements.
                 // First compute the distance in the x/y axis.
                 // The distance must be computed on different side based on where to move.
@@ -315,13 +314,13 @@ SM.input = {
                 let distance = (b.bb[side] - a.bb[side]) * -(dirX ? dirX : dirY);
 
                 // Consider very near item as at the same distance.
-                if(distance > -0.5 && distance < 0.5)  distance = 0;
+                if (distance > -0.5 && distance < 0.5) distance = 0;
 
                 // If the two items are at the same distance check for the one near to
                 // top side while going horizontally, or to left side while going vertically.
-                if (!distance){
-                    return dirX ? Math.abs(a.bb.top - currPos.top) - Math.abs(b.bb.top - currPos.top) : 
-                                    Math.abs(a.bb.left - currPos.left) - Math.abs(b.bb.left - currPos.left);
+                if (!distance) {
+                    return dirX ? Math.abs(a.bb.top - currPos.top) - Math.abs(b.bb.top - currPos.top) :
+                        Math.abs(a.bb.left - currPos.left) - Math.abs(b.bb.left - currPos.left);
                 }
 
                 return distance;
@@ -338,7 +337,7 @@ SM.input = {
     },
 
 
-    
+
     //////////////////////// UTILITIES ////////////////////////
 
     /**
@@ -360,7 +359,7 @@ SM.input = {
             this._cachedItems.items = document.querySelectorAll(`#${currentId} .${currentLayout} .${SM.CONST.itemClass}:not(.${SM.CONST.noInputClass})`);
             this._cachedItems.menuId = currentId;
             this._cachedItems.layout = currentLayout;
-        } 
+        }
 
         return this._cachedItems.items;
     },

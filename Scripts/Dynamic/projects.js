@@ -1,8 +1,22 @@
 GLOBALS.projects = [
     {
+        title: 'SM',
+        extendedTitle: 'SushiMenu',
+        link: 'https://github.com/giulioaur/SushiMenuJs',
+        screen: 'Old/Styles/Images/rpg.jpg',
+        description: `When I came up with the idea of making my site resemble a game’s menu, I started to write a library to would have helped 
+                        me to quickly deal with this: there SushiMenu was born. It is written in pure JS and aims to make really fast the 
+                        development of sites like this taking care of all the logic behind the navigation and the menu changing tab. This 
+                        way is possible to create a menu-like site with a single html page (no need for hyperlink) and using just html 
+                        (a one-row script is necessary to let it work). Obliviously there is a lot of room for customization through native 
+                        JS code (no dependencies needed).
+                        I come from imperative / OO programming laguage, so I don't pretend to write perfect code with JS, yet I tried to optimize
+                        the code to work as fast as it can (today speed on web is fundamental).`
+    },
+    {
         title: 'RPG',
         extendedTitle: 'RPG: RPG Portfolio of Giulio',
-        link: 'http://giulioaur.com/Old/cv.html',
+        link: 'https://giulioaur.com/Old/cv.html',
         screen: 'Old/Styles/Images/rpg.jpg',
         description: `A new funny and interactive way to show my cv in a RPG style. It could be played clicking on the header. 
                         The interface is inspired by my favourite RPG game, but since I am not a UI designer, there are still 

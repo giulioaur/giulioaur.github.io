@@ -118,7 +118,7 @@ const imageLoader = {
     
                 // Play an enter animation for the menu.
                 deferredEnterAnimation();
-            }, 400)
+            }, 800)
         }
     }, 200);
 })();
@@ -679,7 +679,7 @@ function itemHovering() {
         let hover = this.querySelector('.m-item-hover');
 
         if (hover)
-            TweenMax.to(hover, event.detail.direction != 'last' ? 0.05 : 0.001, { top: 0, onComplete: () => { hover.classList.remove('m-active'); } });        
+            TweenMax.to(hover, event.detail.direction != 'leaveMenu' ? 0.05 : 0.001, { top: 0, onComplete: () => { hover.classList.remove('m-active'); } });        
     });
 }
 
