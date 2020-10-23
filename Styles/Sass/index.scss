@@ -4,13 +4,10 @@
 //*****************************************************************************************//
 //*****************************************************************************************//
 
-@import "Icons/iconmoon";
+@import "Icons/icomoon";
 
-
-$old-style-folder : '../Old/Styles/';
-$old-images-folder : '../Old/Styles/Images/';
-$old-fonts-folder : '../Old/Styles/fonts/';
-$curr-images-folder : 'Images/';
+$images-folder : 'Images/';
+$fonts-folder : 'Fonts/';
 
 $menu-item-background : #ecf0f1;
 $menu-item-background-hovered : #34495e; 
@@ -100,13 +97,13 @@ $secondary-color: #337ab7;
 @font-face 
 {
     font-family: marioFont;
-    src: url(Fonts/Pixel_Emulator.otf);
+    src: url($fonts-folder + 'Pixel_Emulator.otf');
 }
 
 @font-face 
 {
     font-family: wowFont;
-    src: url($old-fonts-folder + 'LifeCraft_Font.ttf');
+    src: url($fonts-folder + 'LifeCraft_Font.ttf');
 }
 
 
@@ -462,13 +459,42 @@ header
 {
     .sm-main-layout
     {
-        #m-my-photo
+        #m-aboutme-right
         {
-            img
+            #m-my-photo
             {
-                border-radius: 15%;
+                img
+                {
+                    border-radius: 15%;
 
-                width: 80%;
+                    width: 80%;
+                }
+            }
+
+            #m-contact-me
+            {
+                $font-size: 1.5rem;
+
+                padding-top: 5vh;
+
+                .col
+                {
+                    background-color: blue;
+                    border-radius: 20px;
+                    height: ($font-size * 2.5);
+
+                    margin-top: 2vh;
+
+                    i, h4, span
+                    {
+                        font-size: $font-size;
+                    }
+
+                    i, span
+                    {
+                        margin-right: ($font-size - $font-size / 2);
+                    }
+                }
             }
         }
 
@@ -480,13 +506,21 @@ header
             {
                 #m-aboutme-name
                 {
+                    img 
+                    {
+                        height: 2.5rem;
+                    }
                 }
 
                 #m-aboutme-title
                 {
-                    img 
+                    padding-left: 2rem;
+
+                    i 
                     {
-                        height: 2rem;
+                        font-size: 2rem;
+
+                        margin: 0 0.6rem;
                     }
                 }
             }
