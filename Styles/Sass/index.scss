@@ -124,15 +124,6 @@ $secondary-color: #337ab7;
 
 body
 {
-    // Set fullscreen size.
-    height: 100vh;
-    width: 100vw;
-
-    background-image: url($old-images-folder + 'mybackground.jpg');
-    background-size: cover;
-
-    overflow: hidden;
-
     #m-page 
     {
         height: 100%;
@@ -346,40 +337,78 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+
+
+.sm-redirect-item, .sm-redirect-blank-item
+{
+    cursor: pointer;
+}
+
 #sm-viewport
 {
-    background-color: rgba(255, 255, 255, 0.4);
-    margin: 0 5vw;
+    padding: 0 2vw;
+}
 
-    .sm-menu
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//*************************************** MAIN MENU ***************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
+
+
+#sm-main-menu
+{
+
+    > .sm-layout
     {
-        .sm-layout 
-        {
-            height: 100%;
-            width: 100%;
 
-            .sm-item-container
+        #m-carousel
+        {
+            overflow: hidden;
+
+            position: relative;
+
+            #m-carousel-container
             {
-                padding: 1vmin;
+                justify-content: space-evenly;
+
+                padding: 0px;
 
                 .sm-item
                 {
-                    width:100%;
-                    height: 100%;
+                    width: 200px;
+                    height: 200px;
 
-                    text-align: center;
+                    border-radius: 20%;
 
                     overflow: hidden;
 
-                    .m-item-title
+                    &.m-carousel-item-active
                     {
-                        background-color: $menu-item-background;
+                        .m-item-hover
+                        {
+                            display: flex !important;
+                        }
                     }
 
-                    // This div is initially hidden, then becomes visible when overing through js.
+                    .m-item-title
+                    {
+                        background-color: blue;
+
+                        padding: 15px;
+                        
+                        text-align: center;
+
+                        h1 
+                        {
+                            font-size: 30px;
+                        }
+                    }
+
                     .m-item-hover
                     {
-                        background-color: $menu-item-background-hovered;
+                        background-color: red;
 
                         display: none !important;
                         position: relative;
@@ -389,76 +418,38 @@ header
                             color: #e74c3c; 
                             position: absolute;
                         }
-                    }
 
-                    .m-item-hover.m-active
-                    {
-                        display: flex !important;
+                        span
+                        {
+                            font-size: 10vmin;
+                        }
                     }
                 }
             }
-        }
-    }
-}
 
-.sm-redirect-item, .sm-redirect-blank-item
-{
-    cursor: pointer;
-}
-
-
-
-
-//*****************************************************************************************//
-//*****************************************************************************************//
-//*************************************** MAIN MENU ***************************************//
-//*****************************************************************************************//
-//*****************************************************************************************//
-
-#sm-main-menu
-{
-    .sm-main-layout 
-    {
-        .m-first-col
-        {
-            $first-child-height: 40;
-
-            .row:first-child
+            .m-carousel-control
             {
-                height: to-percentage($first-child-height);
-            }
+                height: 200px;
+                width: 1%;
 
-            .row:nth-child(2)
-            {
-                height: to-percentage(100 - $first-child-height);
-            }
-        }
+                background-color: rgba(1, 0, 0, 0.5);
 
-        // Set the size of the icon for every item.
-        $menu-items: ('about-me-item', 'skills-item', 'experience-item', 'projects-item', 'contact-me-item', 'credits-item');
-        $icon-sizes: (15vmin, 15vmin, 15vmin, 16vmin, 10vmin, 10vmin);
+                position: absolute;
+                top: 0;
 
-        @for $i from 1 through length($menu-items) {
-            $item: nth($menu-items, $i);
-            $size: nth($icon-sizes, $i);
-
-            .#{$item} 
-            {
-                .m-item-hover
+                &.m-carousel-control-left
                 {
-                    span
-                    {
-                        font-size: $size;
-                    }
+                    left: 0;
+                }
+
+                &.m-carousel-control-right
+                {
+                    right: 0;
                 }
             }
         }
     }
 }
-
-
-
-
 
 
 //*****************************************************************************************//
@@ -469,53 +460,71 @@ header
 
 #m-about-me
 {
-    padding: 10px;
-
-    .sm-main-layout 
+    .sm-main-layout
     {
-        $header-height: 25;
-
-        #m-aboutme-header
+        #m-my-photo
         {
-            height: to-percentage($header-height);
-        
-            #m-my-photo
+            img
             {
-                img 
+                border-radius: 15%;
+
+                width: 80%;
+            }
+        }
+
+        #m-aboutme-left
+        {
+            padding: 0px;
+
+            #m-aboutme-header
+            {
+                #m-aboutme-name
                 {
-                    margin-left: 20px;
-                    
-                    max-height: 100%;
-                    max-width: 100%;
+                }
+
+                #m-aboutme-title
+                {
+                    img 
+                    {
+                        height: 2rem;
+                    }
                 }
             }
 
-            #m-my-title
+            #m-aboutme-body
             {
-                div.d-flex:nth-of-type(2)
+                p
                 {
-                    h1
-                    {
-                        color: $secondary-color;
-                    }
+                    font-size: 1.5rem;
                 }
             }
         }
 
-        #m-aboutme-body
+        .h-divider //https://codepen.io/MiKr13/pen/yjaNYp
         {
-            height: to-percentage(100 - $header-height);
-            
-            padding-top: 20px;
+            margin: 3vh 0;
 
-            @include mobile 
+            position: relative;
+
+            .m-shadow
             {
-                padding-top: 5px;
+                overflow: hidden;
+                height: 20px;
+            }
+
+            .m-shadow:after 
+            {
+                content: '';
+                display: block;
+                margin: -25px auto 0;
+                width: 100%;
+                height: 25px;
+                border-radius: 125px/12px;
+                box-shadow: 0 0 8px black;
             }
         }
     }
 }
-
 
 
 
@@ -527,143 +536,7 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
-#m-skills
-{
-    $trees-height: 75;
 
-    > .sm-layout 
-    {
-        height: to-percentage($trees-height) !important;
-
-        > #m-skills-trees, > #m-skills-carousel
-        {
-            $skills-row-number: 5;
-            $title-row-height: 10;
-
-            .m-skills-title
-            {
-                color: $secondary-color;
-                height: to-percentage($title-row-height);
-                text-align: center;
-
-                > h1
-                {
-                    padding-bottom: 3px;
-                }
-            }
-
-            .row 
-            {
-                border-top: 3px solid;
-                height: to-percentage((100 - $title-row-height) / $skills-row-number);
-                padding: 10px 0;
-
-                .col-4
-                {
-                    text-align: center;
-                }
-            }
-
-            .row:last-child
-            {
-                border-bottom: 3px solid;
-            }
-
-            .m-skills-skill 
-            {
-                i 
-                {
-                    font-size: 70;
-                }
-            }
-
-            // Create skills category.
-            $skills-categories : ('m-skills-programming', 'm-skills-tools', 'm-skills-knowledge');
-            $skills-colors: (rgb(248, 118, 102), rgb(131, 151, 136), rgb(254, 256, 201));
-
-            @for $i from 1 through length($skills-categories) {
-                $category: nth($skills-categories, $i);
-                $color: nth($skills-colors, $i);
-
-                ##{$category} 
-                {
-                    background-color: rgba($color, 0.4);
-
-                    > div 
-                    {
-                        border-color: $color;
-
-                        > div.sm-active
-                        {
-                            i
-                            {
-                                color: $color;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    #m-skills-description
-    {
-        height: to-percentage(100 - $trees-height);
-        
-        #m-skills-icon-container
-        {
-            position: relative;
-            text-align: center;
-
-            > div
-            {
-                padding-bottom: 45%;
-                position: absolute;
-                width: 45%;
-
-                border: 3px solid lightgray;
-
-                svg, img
-                {
-                    display: none;
-                    position: absolute;
-                }
-
-                svg.m-active, img.m-active
-                {
-                    display: block;
-                }
-
-                img.m-active
-                {
-                    width: 100%;
-                }
-
-                @include mobile 
-                {
-                    padding-bottom: 80%;
-                    width: 85%;
-                }
-
-                @include flat-screen 
-                {
-                    padding-bottom: 30%;
-                    width: 30%;
-                }
-            }
-        }
-
-        p 
-        {
-            display: none;
-        }
-
-        p.m-active
-        {
-            display: inline;
-        }
-    }
-}
 
 
 
@@ -677,184 +550,6 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
-#m-experience
-{
-    $slider-border-radius: 30px;
-
-    padding: 15px;
-
-    // Create section of the slider.
-    @mixin createSliderSection ($ids, $colors) {
-        @for $i from 1 through length($ids) {
-            $category: nth($ids, $i);
-            $color: nth($colors, $i);
-
-            ##{$category} 
-            {
-                // Choose right type of background.
-                @if type-of($color) == color {
-                    background-color: $color;
-                }
-                @else {
-                    background-image: $color;
-                }
-
-                // To match the border radius of the slider.
-                @if $i == 1 {
-                    border-top-left-radius: $slider-border-radius;
-                    border-bottom-left-radius: $slider-border-radius;
-                }
-                @else if $i == length($ids) {
-                    border-top-right-radius: $slider-border-radius;
-                    border-bottom-right-radius: $slider-border-radius;
-                }
-            }
-
-            .m-slider-section:nth-child(#{$i})
-            {   
-                .m-exp-date
-                {
-                    @include left-border($color);
-                }
-            }
-        }
-    }
-
-    @mixin left-border($color)
-    {
-        border-left: 4px solid $color;
-    }
-
-    .sm-main-layout 
-    {
-        $education-height: 35;
-
-        .m-slider-info
-        {
-            height: 90%;
-            
-            .m-slider-section 
-            {
-                height: 100%;
-                padding: 15px;
-    
-                > .row:first-child
-                {
-                    padding: 0 15px;
-                }
-    
-                .m-exp-date > h2, .m-exp-title > h1
-                {
-                    margin: 0;
-                }
-    
-                .m-exp-date > h2 
-                {
-                    font-size: 2.8vmin;
-                }
-    
-                .m-exp-title > h1 
-                {
-                    font-size: 3.2vmin;
-
-                    @include mobile
-                    {
-                        font-size: 4.1vmin;
-                    }
-                }
-        
-                .m-exp-descr
-                {    
-                    height: 90%;
-
-                    .m-exp-location
-                    {
-                        color: $secondary-color;
-                        font-size: 20px;
-        
-                        @include mobile 
-                        {
-                            font-size: 15px;
-                        }
-
-                        span
-                        {
-                            margin-right: 10px;
-                        }
-                    }
-        
-                    .m-exp-descr-text-container
-                    {
-                        // Avoid some problems with starting size of flex-grow.
-                        overflow-y: hidden;
-
-                        > p
-                        {
-                            padding-top: 10px;
-                        }
-                    }
-                }
-            }
-        }
-
-        #m-education
-        {
-            height: to-percentage($education-height);
-
-            @include createSliderSection(('m-education-bachelor', 'm-education-master'), (#BA5C56, #659074));
-
-            .m-slider-info 
-            {
-                .m-exp-descr
-                {
-                    p 
-                    {
-                        font-size: 22px;
-
-                        @include mobile
-                        {
-                            font-size: 15px;
-                        }
-
-                        @media (max-width: 500px) {
-                            font-size: 13px;
-                        }
-                    }
-                }
-            }
-        }
-
-        #m-job
-        {
-            height: to-percentage(100 - $education-height);
-
-            @include createSliderSection(('m-job-internship', 'm-job-dojo', 'm-job-pisa', 'm-job-milestone'), 
-                (#C3B183, #EFCAA1, linear-gradient(#EFCAA1, #F68E62), #2ABBA3));
-
-            // Master's thesis color correction.
-            .m-slider-section:nth-child(3)
-            {   
-                .m-exp-date
-                {
-                    @include left-border(#F68E62);
-                }
-            }
-        }
-
-        // Slider
-        .m-slider
-        {
-            border-radius: $slider-border-radius;
-            
-            max-height: 10%;
-
-            .ui-slider-handle 
-            {
-                border-radius: 100%;
-            }
-        }
-    }
-}
 
 
 
@@ -867,84 +562,6 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
-#m-projects
-{
-    .sm-main-layout 
-    {
-        > .row 
-        {
-            > div 
-            {
-                padding: 0;
-            }
-        }
-
-        .m-projects-row
-        {
-            color: $secondary-color;
-            font-weight: bold;
-            font-size: 25px;
-            padding: 5px;
-
-            @include mobile
-            {
-                font-size: 18px;
-            }
-        }
-
-        .m-projects-row.sm-active
-        {
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .m-projects-container
-        {
-            $project-banner-height: 30;
-
-            .m-projects-banner
-            {
-                height: to-percentage($project-banner-height);
-
-                background-size: cover;
-
-                // To not over-extend the background opacity.
-                position: relative;
-
-                h1
-                {
-                    color: $secondary-color;
-                    font-size: 46px;
-                    text-align: center;
-
-                    @include mobile 
-                    {
-                        font-size: 30px;
-                    }
-
-                    // To be drawed over the background opacity
-                    z-index: 100;
-                }
-
-            }
-
-            .m-projects-banner::before
-            {
-                @include background-opacity(0.4);
-            }
-
-            .m-projects-description
-            {
-                background-color: rgba(255, 255, 255, 0.4);
-                height: to-percentage(100 - $project-banner-height);
-
-                padding: 10px;
-
-                // To not over-extend the background opacity.
-                position: relative;
-            }
-        }
-    }
-}
 
 
 
@@ -956,34 +573,6 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
-#m-contact-me
-{
-    .sm-main-layout 
-    {
-        $contact-me-items: 3;
-
-        > .row
-        {
-            height: to-percentage(100 / $contact-me-items);    
-
-            .m-item-title
-            {
-                font-size: 7.5vmax;
-            }
-
-            .m-item-hover
-            {
-                h1
-                {
-                    margin: 0;
-
-                    // This is to avoid father's height stretching (CSS MAGIC).
-                    position: absolute;
-                }
-            }
-        }
-    }
-}
 
 
 
@@ -994,35 +583,6 @@ header
 //**************************************** CREDITS ****************************************//
 //*****************************************************************************************//
 //*****************************************************************************************//
-
-#m-credits
-{
-    .sm-layout
-    {        
-        > div 
-        {
-            text-align: center;
-
-            padding-top: 20px;
-
-            h1
-            {
-                color: $secondary-color;
-                font-size: 4.1vmin;
-            }
-
-            h3
-            {
-                font-size: 3.3vmin;
-            }
-        }
-
-        > div:first-child
-        {
-            padding-top: 5px;
-        }
-    }
-}
 
 
 

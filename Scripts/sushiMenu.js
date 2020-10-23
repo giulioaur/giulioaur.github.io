@@ -187,6 +187,12 @@ var SM = {
             const mainLayout = menu.querySelector(`.${SM.CONST.mainLayoutClass}`);
             const layouts = menu.querySelectorAll(`.${SM.CONST.layoutClass}:not(.${SM.CONST.mainLayoutClass})`);
 
+            if (!mainLayout)
+            {
+                this._logError("Add a main layout to menu " + menu.id);
+                return;
+            }
+
             for (let layout of layouts) {
                 // Fill all the item's containers.
                 const containers = layout.getElementsByClassName(SM.CONST.itemContainerClass);
@@ -364,7 +370,14 @@ var SM = {
             for (let context of contexts)
                 animationContext = animationContext[context];
 
-            animationContext[animationFunction].call(animationContext, this._current, to, isBack);
+            if (animationContext[animationFunction])
+            {
+                animationContext[animationFunction].call(animationContext, this._current, to, isBack);
+            }
+            else
+            {
+                this._logError(`${animationFunction} not found.`);
+            }
         }
 
 

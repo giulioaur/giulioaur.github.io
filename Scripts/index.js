@@ -21,7 +21,7 @@ const GLOBALS = {
         'You can navigate the site also using your keyboard.',
         'Do you know? Sometimes a bug can be called "feature".',
         'Stealing data from your pc....',
-        'Dogs are better than cats in anything but evilness.'
+        'Have a puuuurfect day :3'
     ]
 }
 var menuGraph;
@@ -134,7 +134,7 @@ function setupPage() {
     GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({ shouldSave: true, logError: false, layoutMap: chooseLayout, playFirstAnimation: false});
+    menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout, playFirstAnimation: false});
     GLOBALS.loadingPercentage = 70;
 
     // Custom setup. Put here to animate after first focus.
