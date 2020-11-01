@@ -8,6 +8,16 @@ SM.CONST.lastActiveItemClass = 'sm-last-active';
 SM.CONST.inputActivationEvent = 'sm-activate';
 SM.CONST.inputDeactivationEvent = 'sm-deactivate';
 SM.CONST.noInputClass = 'sm-no-input';
+SM.CONST.inputEvent = {
+    firstFocus: 0,
+    hover: 1,
+    restoreFocus: 2,
+    leaveMenu: 3,
+    moveLeft: 4,
+    moveRight: 5,
+    moveUp: 6,
+    moveDown: 7
+}
 
 SM.CONST.inputData = [
         /* Back */ { events: [], callback: '_goBack' },
@@ -26,7 +36,7 @@ SM.input = {
             target: null,
             other: null,
             isMouseTrigger: false,
-            direction: ''
+            reason: ''
         }
     }),
     _deactivationEvent: new CustomEvent(SM.CONST.inputDeactivationEvent, {
@@ -34,7 +44,7 @@ SM.input = {
             target: null,
             other: null,
             isMouseTrigger: false,
-            direction: ''
+            reason: ''
         }
     }),
     _clickEvent: new MouseEvent('click'),
@@ -93,7 +103,7 @@ SM.input = {
             for (let item of items) {
                 // Add event listener for set the correct active menu with mouse.
                 item.addEventListener('mouseenter', function () {
-                    input._changeActive(this, true, 'hover');
+                    input._changeActive(this, true, SM.CONST.inputEvent.hover);
                 });
             }
 
@@ -102,7 +112,7 @@ SM.input = {
 
             // Set up the focus on first element.
             if (this._options.firstFocus)
-                this._changeActive(this._getItems()[0], false, 'firstFocus');
+                this._changeActive(this._getItems()[0], false, SM.CONST.inputEvent.firstFocus);
         }
         else
             console.error('No valid graph for input.')
@@ -117,7 +127,7 @@ SM.input = {
         const items = menu.getElementsByClassName(SM.CONST.activeItemClass);
 
         for (let item of items) {
-            this._changeEventDetails(this._deactivationEvent, item, null, false, 'leaveMenu');
+            this._changeEventDetails(this._deactivationEvent, item, null, false, SM.CONST.inputEvent.leaveMenu);
             item.dispatchEvent(this._deactivationEvent);
 
             if (item == this._activeItem) this._activeItem = null;
@@ -132,9 +142,9 @@ SM.input = {
      * @param {HTMLElement} [menu] The menu in which restore the focus. If null is passed, current menu is used instead.
      * @param {Number | HTMLElement} [element=0] The item on which set the focus.
      * @param {Boolean} [isMouseTrigger=false] True if the action has been fired by a mouse event.
-     * @param {string} [dir="firstFocus"] The direction of the movement.
+     * @param {string} [dir="firstFocus"] The event that moves the focus.
      */
-    setFocusOn(menu, element = 0, isMouseTrigger = false, dir = 'firstFocus') {
+    setFocusOn(menu, element = 0, isMouseTrigger = false, dir = SM.CONST.inputEvent.firstFocus) {
         if (!menu) menu = this._graph._current;
 
         const item = element instanceof HTMLElement ? element : menu.getElementsByClassName(SM.CONST.itemClass)[parseInt(element)];
@@ -181,10 +191,10 @@ SM.input = {
         // Remove last item class.
         if (itemToRestore) {
             itemToRestore.classList.remove(SM.CONST.lastActiveItemClass);
-            this._changeActive(itemToRestore, isMouseTrigger, 'restoreFocus');
+            this._changeActive(itemToRestore, isMouseTrigger, SM.CONST.inputEvent.restoreFocus);
         }
         else {
-            this.setFocusOn(menu, 0, isMouseTrigger, 'restoreFocus');
+            this.setFocusOn(menu, 0, isMouseTrigger, SM.CONST.inputEvent.restoreFocus);
         }
     },
 
@@ -221,13 +231,13 @@ SM.input = {
      * 
      * @param {HTMLElement} newActive The new active item.
      * @param {Boolean} mouseTrigger True if the action has been fired by a mouse event.
-     * @param {string} dir The direction of the movement.
+     * @param {string} evt The reason of the movement.
      */
-    _changeActive(newActive, mouseTrigger, dir) {
+    _changeActive(newActive, mouseTrigger, evt) {
         // Deactivate previous item if any.
         if (this._activeItem != newActive) {
             if (this._activeItem) {
-                this._changeEventDetails(this._deactivationEvent, this._activeItem, newActive, mouseTrigger, dir);
+                this._changeEventDetails(this._deactivationEvent, this._activeItem, newActive, mouseTrigger, evt);
 
                 // To avoid recursive call inside a callback for deactivation event, put activeitem to
                 // null, this way this branch will not be called again within the callback.
@@ -241,7 +251,7 @@ SM.input = {
                 // Activate new item.
                 newActive.classList.add(SM.CONST.activeItemClass);
 
-                this._changeEventDetails(this._activationEvent, newActive, this._activeItem, mouseTrigger, dir);
+                this._changeEventDetails(this._activationEvent, newActive, this._activeItem, mouseTrigger, evt);
                 this._activeItem = newActive;
                 newActive.dispatchEvent(this._activationEvent);
             }
@@ -285,7 +295,10 @@ SM.input = {
      * @param {Number} dirY The y direction in which move (-1 top, 1 down).
      */
     _move(dirX, dirY) {
-        const dir = dirX ? (dirX > 0 ? 'left' : 'right') : (dirY > 0 ? 'down' : 'up');
+        const dir = dirX ? 
+            (dirX > 0 ? SM.CONST.inputEvent.moveLeft : SM.CONST.inputEvent.moveRight) : 
+            (dirY > 0 ? SM.CONST.inputEvent.moveDown : SM.CONST.inputEvent.moveLeft);
+
         // Move active item
         if (this._activeItem) {
             const currPos = this._getAbsolutePos(this._activeItem);
@@ -310,7 +323,9 @@ SM.input = {
                 // NB: on going down / right x1 > x2 => x2 - x1 < 0 => x1 comes before x2,
                 //      on going up / left x1 < x2 => (x2 - x1) * (-1) < 0 => x1 comes before x2.
                 //      where x1 is side of a and x2 side of b. 
-                const side = dirX ? (dirX > 0 ? 'left' : 'right') : (dirY > 0 ? 'top' : 'bottom')
+                const side = dirX ? 
+                    (dirX > 0 ? 'left' : 'right') : 
+                    (dirY > 0 ? 'top' : 'bottom');
                 let distance = (b.bb[side] - a.bb[side]) * -(dirX ? dirX : dirY);
 
                 // Consider very near item as at the same distance.
@@ -391,12 +406,12 @@ SM.input = {
      * @param {HTMLElement} item The item to which dispatch the event.
      * @param {HTMLElement} other The new / old item.
      * @param {Boolean} isMouseTrigger True if the event is triggered by mouse.
-     * @param {string} direction The direction of the event.
+     * @param {string} reason The reason of the event.
      */
-    _changeEventDetails(event, item, other, isMouseTrigger, direction) {
+    _changeEventDetails(event, item, other, isMouseTrigger, reason) {
         event.detail.target = item;
         event.detail.other = other;
         event.detail.isMouseTrigger = isMouseTrigger;
-        event.detail.direction = direction;
+        event.detail.reason = reason;
     }
 }

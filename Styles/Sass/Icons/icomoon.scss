@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: '#{$icomoon-font-family}';
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?bl2ybd');
-  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?bl2ybd#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?bl2ybd') format('truetype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?bl2ybd') format('woff'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?bl2ybd##{$icomoon-font-family}') format('svg');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?bf7e8');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?bf7e8#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?bf7e8') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?bf7e8') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?bf7e8##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -27,6 +27,11 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icomoon-trophy-plain {
+  &:before {
+    content: $icomoon-trophy-plain; 
+  }
+}
 .icomoon-Battlenet-icon {
   &:before {
     content: $icomoon-Battlenet-icon; 
@@ -159,8 +164,7 @@ i {
 }
 .icomoon-gog-dot-com {
   &:before {
-    content: $icomoon-gog-dot-com;     
-    color: #86328a;
+    content: $icomoon-gog-dot-com;
   }
 }
 .icomoon-steam {
@@ -176,6 +180,16 @@ i {
 .icomoon-unrealengine {
   &:before {
     content: $icomoon-unrealengine; 
+  }
+}
+.icomoon-gamepad {
+  &:before {
+    content: $icomoon-gamepad; 
+  }
+}
+.icomoon-badge {
+  &:before {
+    content: $icomoon-badge; 
   }
 }
 

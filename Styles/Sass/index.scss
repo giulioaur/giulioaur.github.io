@@ -9,21 +9,32 @@
 $images-folder : 'Images/';
 $fonts-folder : 'Fonts/';
 
-$menu-item-background : #ecf0f1;
-$menu-item-background-hovered : #34495e; 
+$main-style : 'bright';
 
-$menu-item-inside-color : #e74c3c;
+$primary-color: #3500ff;        // blue
+$secondary-color: #afbfc0;      // grey
+$black-color: #0e0f19;          // background / outline
+$third-color: #139a43;
+$fourth-color: #cc2936;
 
-$secondary-color: #337ab7;
+@if $main-style != 'bright'
+{
+    $primary-color: #3500ff;        // blue
+    $secondary-color: #afbfc0;      // grey
+    $black-color: #0e0f19;          // background / outline
+    $third-color: #139a43;
+    $fourth-color: #cc2936;
+}
 
-@mixin background-opacity($opacity){
+@mixin background-opacity($opacity, $color: #FFFFFF){
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
     content: "";
     position: absolute;
-    background: rgba(255, 255, 255, $opacity);
+    background-color: $color;
+    opacity: $opacity;
 }
 
 @function to-percentage($value) {  
@@ -84,10 +95,6 @@ $secondary-color: #337ab7;
 }
 
 
-
-
-
-
 //*****************************************************************************************//
 //*****************************************************************************************//
 //***************************************** FONTS *****************************************//
@@ -103,7 +110,14 @@ $secondary-color: #337ab7;
 @font-face 
 {
     font-family: wowFont;
-    src: url($fonts-folder + 'LifeCraft_Font.ttf');
+    src: url($fonts-folder + 'LifeCraft_Font.woff') format('woff'),
+        url($fonts-folder + 'LifeCraft_Font.ttf') format('truetype');
+}
+
+@font-face 
+{
+    font-family: swFont;
+    src: url($fonts-folder + 'SfDistantGalaxy.ttf') format('truetype');
 }
 
 
@@ -121,6 +135,8 @@ $secondary-color: #337ab7;
 
 body
 {
+    height: 100vh;
+
     #m-page 
     {
         height: 100%;
@@ -134,10 +150,28 @@ body
     }
 }   
 
-body:before
+.h-divider //https://codepen.io/MiKr13/pen/yjaNYp
 {
-    @include background-opacity(0.2);
-    z-index: -1;
+    margin: 3vh 0;
+
+    position: relative;
+
+    .m-shadow
+    {
+        overflow: hidden;
+        height: 20px;
+    }
+
+    .m-shadow:after 
+    {
+        content: '';
+        display: block;
+        margin: -25px auto 0;
+        width: 100%;
+        height: 25px;
+        border-radius: 125px/12px;
+        box-shadow: 0 0 8px black;
+    }
 }
 
 
@@ -279,7 +313,57 @@ a.m-no-decoration
 }
 
 
+.m-background
+{
+    height: 100%;
+    width: 100%;
 
+    position: fixed;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    z-index: -1;
+
+    
+    &:before
+    {   
+        @if $main-style == 'bright'
+        {
+            @include background-opacity(0.2, $black-color);
+        }
+        @else
+        {
+            @include background-opacity(0.4);
+        }
+    }
+}
+
+@include landscape
+{
+    #m-background-port
+    {
+        display: none;
+    }
+}
+
+@include portrait
+{
+    #m-background-land
+    {
+        display: none;
+    }
+}
+
+
+//*****************************************************************************************//
+//*****************************************************************************************//
+//**************************************** HEADER *****************************************//
+//*****************************************************************************************//
+//*****************************************************************************************//
 
 
 //*****************************************************************************************//
@@ -290,37 +374,6 @@ a.m-no-decoration
 
 header
 {
-    margin-bottom: 20px;
-    padding: 10px 0;
-
-    .m-sushi-img
-    {
-        #m-left-sushi-img
-        {
-            float: right;
-        }
-
-        #m-right-sushi-img
-        {
-            float: left;
-        }
-
-        img
-        {
-            max-height: 8vmin;
-        }
-    }
-
-    #m-title
-    {
-        text-align: center;
-
-        h1
-        {
-            color: $secondary-color;
-            font-size: 6vmin;
-        }
-    }
 }
 
 
@@ -356,6 +409,7 @@ header
 
 #sm-main-menu
 {
+    padding-top: 2rem;
 
     > .sm-layout
     {
@@ -374,14 +428,14 @@ header
 
                 .sm-item
                 {
-                    width: 200px;
-                    height: 200px;
+                    width: 20vmin;
+                    height: 20vmin;
 
                     border-radius: 20%;
 
                     overflow: hidden;
 
-                    &.m-carousel-item-active
+                    &.m-carousel-item-active, &.m-item-selected
                     {
                         .m-item-hover
                         {
@@ -389,9 +443,14 @@ header
                         }
                     }
 
+                    &.m-item-selected
+                    {
+                        overflow: visible;
+                    }
+
                     .m-item-title
                     {
-                        background-color: blue;
+                        background-color: $secondary-color;
 
                         padding: 15px;
                         
@@ -399,37 +458,43 @@ header
 
                         h1 
                         {
-                            font-size: 30px;
+                            color: $black-color;
+                            font-size: 2rem;
                         }
                     }
 
                     .m-item-hover
                     {
-                        background-color: red;
+                        background-color: $primary-color;
 
                         display: none !important;
                         position: relative;
 
                         span, h1, i
                         {
-                            color: #e74c3c; 
+                            color: $secondary-color; 
                             position: absolute;
                         }
 
-                        span
+                        span, i
                         {
                             font-size: 10vmin;
                         }
+                    }
+
+                    .m-item-title, .m-item-hover
+                    {
+                        border-radius: 20%;
                     }
                 }
             }
 
             .m-carousel-control
             {
-                height: 200px;
+                height: 100%;
                 width: 1%;
 
-                background-color: rgba(1, 0, 0, 0.5);
+                // background-color: rgba(1, 0, 0, 0.5);
 
                 position: absolute;
                 top: 0;
@@ -459,46 +524,36 @@ header
 {
     .sm-main-layout
     {
-        #m-aboutme-right
+        width: 98%;
+        margin: auto;
+
+        #m-aboutme-left
         {
             #m-my-photo
             {
                 img
                 {
                     border-radius: 15%;
-
-                    width: 80%;
                 }
             }
 
             #m-contact-me
             {
-                $font-size: 1.5rem;
-
-                padding-top: 5vh;
-
                 .col
                 {
-                    background-color: blue;
+                    background-color: $secondary-color;
                     border-radius: 20px;
-                    height: ($font-size * 2.5);
 
-                    margin-top: 2vh;
-
-                    i, h4, span
+                    h4
                     {
-                        font-size: $font-size;
-                    }
-
-                    i, span
-                    {
-                        margin-right: ($font-size - $font-size / 2);
+                        color: $black-color;
+                        margin: 0px;
                     }
                 }
             }
         }
 
-        #m-aboutme-left
+        #m-aboutme-right
         {
             padding: 0px;
 
@@ -506,6 +561,8 @@ header
             {
                 #m-aboutme-name
                 {
+                    color: $primary-color;
+
                     img 
                     {
                         height: 2.5rem;
@@ -514,6 +571,7 @@ header
 
                 #m-aboutme-title
                 {
+                    color: $primary-color;
                     padding-left: 2rem;
 
                     i 
@@ -533,30 +591,6 @@ header
                 }
             }
         }
-
-        .h-divider //https://codepen.io/MiKr13/pen/yjaNYp
-        {
-            margin: 3vh 0;
-
-            position: relative;
-
-            .m-shadow
-            {
-                overflow: hidden;
-                height: 20px;
-            }
-
-            .m-shadow:after 
-            {
-                content: '';
-                display: block;
-                margin: -25px auto 0;
-                width: 100%;
-                height: 25px;
-                border-radius: 125px/12px;
-                box-shadow: 0 0 8px black;
-            }
-        }
     }
 }
 
@@ -570,7 +604,57 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+#m-skills
+{
+    .sm-main-layout
+    {
+        #m-skills-accordion
+        {
+            .m-skill-left
+            {
+                padding: .75rem;
+                
+                i
+                {
+                    font-size: 5rem;
+                }
 
+                svg, img
+                {
+                    height: 5rem;
+                }
+
+                $color-name: ('bronze', 'silver', 'gold', 'platinum');
+                $codor-code: (#cd7f32, #c0c0c0, #ffd700, #e5e4e2);
+
+                @for $i from 1 through length($color-name) {
+                    $name: nth($color-name, $i);
+                    $code: nth($codor-code, $i);
+
+                    i.#{$name} 
+                    {
+                        color: $code;
+                        
+                        font-size: 3.5rem;
+                    }
+                }
+            }
+
+            .m-skill-right
+            {
+                padding: .75rem 1.25rem;
+                
+                .m-skill-header
+                {
+                }
+
+                .m-skill-desc
+                {
+                }
+            }
+        }
+    }
+}
 
 
 
@@ -585,7 +669,30 @@ header
 //*****************************************************************************************//
 
 
+#m-experience
+{
+    .sm-main-layout
+    {
+        .m-exp-accordion
+        {
+            .m-exp
+            {
+                .m-exp-header
+                {
+                    .col-lg-2
+                    {
+                        
+                    }
+                }
 
+                .m-exp-body
+                {
+
+                }
+            }
+        }
+    }
+}
 
 
 
@@ -618,9 +725,79 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+#m-credits
+{    
+    .sm-layout
+    {
+    }
+}
 
+#m-credits .sm-layout, #m-sw-box
+{
+    div
+    {
+        padding-bottom: 5rem;
 
+        h1, h3, a 
+        {
+            text-align: center;
+        }
+    }
+}
 
+#m-sw-container
+{
+    display: none;
+
+    height: 100vh;
+    position: absolute;
+    width: 100vw;
+
+    #m-sw-credits
+    {
+        height: 100%;
+        position: relative;
+        width: 100%;
+
+        #m-sw-box
+        {
+            height: 95%;
+            width: 100%;
+            position: absolute;
+
+            overflow: hidden;
+
+            transform-origin: 50% 100%;
+            transform: perspective(350px) rotateX(30deg);
+        }
+
+        #m-sw-intro
+        {
+            left: 50%;
+            position: absolute;
+            top: 40%;
+
+            div 
+            {
+                left: -50%;
+                position: relative;
+
+                h1
+                {
+                    display: none;
+
+                    font-family: swFont;
+                    text-align: center;
+                }
+
+                p
+                {
+                    display: none;
+                }
+            }
+        }
+    }
+}
 
 
 
@@ -652,5 +829,8 @@ header
 }
 
 
-// Include the portrait mode css at the end to give it higher priority over those rules.
-@import 'index_portrait'; 
+// Include the css for elements that change in different resolution
+@import 'index_res'; 
+
+// Include the css for custom scrollbar
+@import 'scrollbar'; 

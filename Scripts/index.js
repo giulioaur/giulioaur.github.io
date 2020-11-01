@@ -11,10 +11,8 @@ const GLOBALS = {
         up: [87, 38],
         right: [68, 39],
     },
-    isSkillPicked: false,
     loadingPercentage: 0,
     projCurrIndex: -1,
-    sliderData: {},
     textsToFit: document.getElementsByClassName('m-fit-text'),
     textIncrement : 1,
     tip: [
@@ -134,25 +132,22 @@ function setupPage() {
     GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({ shouldSave: true, logError: true, layoutMap: chooseLayout, playFirstAnimation: false});
+    menuGraph = new SM.Graph({ shouldSave: false, logError: true, layoutMap: chooseLayout, playFirstAnimation: false});
     GLOBALS.loadingPercentage = 70;
 
     // Custom setup. Put here to animate after first focus.
     bindAnimations();
-    bindCustomEvents();
     GLOBALS.loadingPercentage = 73;
 
     // Setup graph input.
-    SM.input.bindInput(menuGraph, GLOBALS.inputMap);
+    SM.input.bindInput(menuGraph, GLOBALS.inputMap, {firstFocus: true});
     GLOBALS.loadingPercentage = 87;
 
     // Custom setup.
     fitTexts();
     GLOBALS.loadingPercentage = 93;
 
-    // Create slider.
-    $('.m-slider').slider({ create: createSliderData, slide: updateSliderElements, change: updateSliderElements});
-    $('.m-slider').draggable();
+    initScrollbar();
     GLOBALS.loadingPercentage = 95;
 
     imageLoader.waitForLoading();
@@ -235,210 +230,8 @@ function fitTexts(textsToResizes = null) {
 }
 
 
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////
-//////////////////////////////// EVENTS ////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-/**
- * Binds all the custom events.
- */
-function bindCustomEvents() {
-    skillsNavigation();
-
-    touchEvents();
-
-    // Correctly bind event in m-experience, since no starting animation is played.
-    if (menuGraph.currentMenu.id == 'm-experience')
-        document.addEventListener('keydown', changeSliderValue);
-}
-
-/**
- * Allows the navigation of skills section with keyboard/gamepad.
- */
-function skillsNavigation() {
-    const skills = document.querySelectorAll('#m-skills #m-skills-trees .m-skills-skill.sm-item');
-
-    for(let skill of skills) {
-        const changeItem = (event) => {
-            // Change visualized item only if item changing is not fired by mouse.
-            if (!event.detail.isMouseTrigger || event.detail.direction == 'click') {
-                // Simulate drag and drop.
-                const ev = { dataTransfer: new DataTransfer(), target: event.target.nodeName.toLowerCase() == 'i' ? event.target : event.target.getElementsByTagName("i")[0] };
-                pickUpSkill(ev);
-                ev.target = document.querySelector('#m-skills #m-skills-description #m-skills-icon-container > div');
-                dropSkill(ev);
-            }
-        }
-        skill.addEventListener('sm-activate', changeItem);
-        skill.addEventListener('click', changeItem);
-    }
-
-    // For portrait carousel.
-    skillsPortrait();
-}
-
-function skillsPortrait() {
-    // Before sliding.
-    $('#m-skills-carousel').on('slide.bs.carousel', function (event) {
-        // Prevent carousel sliding if holding an item.
-        if (GLOBALS.isSkillPicked)
-            event.preventDefault();
-    });
-
-    // After sliding.
-    $('#m-skills-carousel').on('slid.bs.carousel', function () {
-        fitTexts();
-
-        // Simulate drag and drop.
-        const ev = { dataTransfer: new DataTransfer(), target: document.querySelector('#m-skills-carousel .active i:first-of-type') };
-        pickUpSkill(ev);
-        ev.target = document.querySelector('#m-skills #m-skills-description #m-skills-icon-container > div');
-        dropSkill(ev);
-    });
-    // $('#m-skills-carousel').trigger('slid.bs.carousel');
-
-    // Correctly resizes all icons within carousel (even if the not shown ones).
-    const items = document.querySelectorAll('#m-skills-carousel .carousel-item');
-
-    for (let item of items) {
-        item.style.display = 'block';
-        fitTexts(item.getElementsByClassName('m-fit-text'));
-        item.style.display = '';
-    }
-}
-
-/**
- * Recalled on dragging a skills icon. Saves some skill's attributes to use them 
- * on dropping event.
- * 
- * @param {DOMEvent} ev The drag event.
- */
-function pickUpSkill(ev) {
-    const style = window.getComputedStyle(ev.target.closest('.sm-item.sm-no-input'));
-
-    // Save some attributes of the dragged skill.
-    ev.dataTransfer.setData("background", style.getPropertyValue('background-color'));
-    ev.dataTransfer.setData("id", ev.target.parentElement.id);
-
-    GLOBALS.isSkillPicked = true;
-}
-
-/**
- * Recalled when a skill is dropped. Apply some changes to the skill's description div.
- * 
- * @param {DOMEvent} ev The drop event.
- */
-function dropSkill(ev) {
-    const descrDiv = ev.target.closest('#m-skills-description');
-
-    // Change background color.
-    descrDiv.style.backgroundColor = ev.dataTransfer.getData("background");
-
-    // Show the right description.
-    const oldDescr = descrDiv.querySelector('p.m-active');
-    
-    if(oldDescr)    oldDescr.classList.remove('m-active');
-    descrDiv.querySelector(`p#${ev.dataTransfer.getData("id")}-descr`).classList.add('m-active');
-
-    // Show the right img.
-    const oldImg = descrDiv.querySelector('#m-skills-icon-container .m-active');
-
-    if (oldImg)     oldImg.classList.remove('m-active');
-    descrDiv.querySelector(`#m-skills-icon-container #${ev.dataTransfer.getData("id")}-img`).classList.add('m-active');
-
-    // Resize texts.
-    fitTexts(descrDiv.querySelectorAll(`p#${ev.dataTransfer.getData("id")}-descr`));
-
-    GLOBALS.isSkillPicked = false;
-}
-
-
-/**
- * Slider callback to initiliaze slider data.
- */
-function createSliderData() {
-    let childs = this.children;
-    GLOBALS.sliderData[this.id] = { percentage: [], elems: [] };
-    let elems = GLOBALS.sliderData[this.id].elems;
-    let percentage = GLOBALS.sliderData[this.id].percentage;
-
-    // Initialize array of percentage. The first position is for the current element's index.
-    // The other positions are the max percentage to visualize that element.
-    percentage.push(0);
-    for (child of childs) {
-        if (child.classList.contains('m-slider-percentage'))
-            percentage.push(percentage[percentage.length - 1] + parseFloat(child.style.width));
-    }
-
-    // The index of the current element starts from 1, but 0 is needed to avoid
-    // if branch into the for.
-    percentage[0] = 1;
-
-    // Set correct visibility.
-    Array.from(document.getElementsByClassName('m-slider-section'))
-        .filter(ele => ele.dataset.slider == this.id)
-        .forEach(ele => { elems.push(ele); ele.style.display = 'none'; });
-
-    elems[0].style.display = '';
-}
-
-/**
- * Slider callback to change visualized element based on slider value.
- * 
- * @param {*} event 
- * @param {*} ui 
- */
-function updateSliderElements(event, ui) {
-    let percentage = GLOBALS.sliderData[this.id].percentage;
-    let currEle = percentage[0];
-
-    // Check if previous element need to be shown.
-    if (currEle > 1 && percentage[currEle - 1] >= ui.value) {
-        let elems = GLOBALS.sliderData[this.id].elems;
-
-        elems[currEle - 2].style.display = '';
-        elems[currEle - 1].style.display = 'none';
-        --percentage[0];
-
-        fitTexts(elems[currEle - 2].getElementsByClassName('m-fit-text'));
-    }
-    // Check if next item need to be shown.
-    else if (currEle < percentage.length - 1 && percentage[currEle] < ui.value) {
-        let elems = GLOBALS.sliderData[this.id].elems;
-
-        elems[currEle - 1].style.display = 'none';
-        elems[currEle].style.display = '';
-        ++percentage[0];
-
-        fitTexts(elems[currEle].getElementsByClassName('m-fit-text'));
-    }
-}
-
-
-/**
- * Change the value of the sliders.
- * 
- * @param {Event} event 
- */
-function changeSliderValue(event) {
-    const increaseSlider = event.key == 'w' || event.key == 's';
-    const decreaseSlider = event.key == 'q' || event.key == 'a';
-    if (increaseSlider || decreaseSlider) {
-        const $slider = event.key == 'q' || event.key == 'w' ? $('#m-edu-slider') : $('#m-job-slider');
-        $slider.slider('value', $slider.slider('value') + (increaseSlider ? 1 : -1));
-    }
-}
-
-function touchEvents() {
-    // Allow sliding also if picked skill is not correctly dropped.
-    if ('ontouchend' in window || (window.DocumentTouch && document instanceof DocumentTouch))
-        document.addEventListener('touchend', e => GLOBALS.isSkillPicked = false);
-
+function initScrollbar() {
+    $('.scroll-pane').jScrollPane();
 }
 
 
@@ -450,80 +243,120 @@ function touchEvents() {
  * Add all the dynamic-generated content.
  */
 function dynamicGeneration() {
-    generateProjects();
+    // generateProjects();
     generateSkills();
+    generateExperiences();
 }
 
 /**
- * Fullify the skills' session.
+ * Fill the skills' session.
  */
 function generateSkills() {
-    let skillRows = ['<div class="col h-100 p-0"><div id="m-skills-programming" class="sm-item sm-no-input m-programming-skill w-100 h-100"><div class="w-100 m-skills-title"><h1 class="m-fit-text">Programming</h1></div>', 
-                     '<div class="col h-100 p-0"><div id="m-skills-tools" class="sm-item sm-no-input m-tools-skill w-100 h-100"><div class="w-100 m-skills-title"><h1 class="m-fit-text">Tools</h1></div>', 
-                     '<div class="col h-100 p-0"><div id="m-skills-knowledge" class="sm-item sm-no-input m-knowledge-skill w-100 h-100"><div class="w-100 m-skills-title"><h1 class="m-fit-text">Knowledge</h1></div>'];
-    let skillDescr = '';
-    let skillImgs = '';
-    const rowNums = 5;
+    let skillsList = "";
+    let skillCategory;
 
-    skillDescr += `
-    <p id="m-skills-start-descr" class="m-fit-text m-active" data-minfont="13">
-        Drag the skill into the square to the left or click on it to read its description. It works also on mobile, even if the item seems not to be dragged.
-    </p>
-    `
+    for (skillCategory of GLOBALS.skills) 
+    {
+        skillCategory.forEach((skill) => {
+            let skillImg = "";
 
-    for (let i = 0; i < GLOBALS.skills.length; ++i) {
-        const category = GLOBALS.skills[i];
-
-        // Creates the levels of each category.
-        for (let j = 0; j < rowNums; ++j) {
-            const row = j < category.length ? category[j] : null;
-            skillRows[i] += '<div class="row justify-content-center w-100 m-0">';
-
-            // Creates all the element skills-related.
-            for (let k = 0; row && k < row.length; ++k) {
-                skillRows[i] += `
-                    <div id="m-skills-${row[k].name}" class="col-4 m-skills-skill sm-item h-100 p-0">
-                        <i draggable="true" ondragstart="pickUpSkill(event)" ${row[k].icon}></i>
-                    </div>
-                `;
-
-                skillDescr += `<p id="m-skills-${row[k].name}-descr" class="m-fit-text" data-minfont="13" data-maxfont="22">${row[k].description}</p>`;
-                
-                // Create svg or img for logo representation.
-                if (row[k].svg){
-                    skillImgs += `<svg viewBox="0 0 128 128" id="m-skills-${row[k].name}-img">${row[k].svg}</svg>`;
-                }
-                else if (row[k].img){
-                    skillImgs += `<img id="m-skills-${row[k].name}-img" src="${row[k].img}">`;
-                    imageLoader.loadImage(row[k].img);
-                }
+            // Create svg or img for logo representation.
+            if (skill.svg)
+            {
+                skillImg = `<svg viewBox="0 0 128 128" id="m-skills-${skill.name}-img">${skill.svg}</svg>`;
+            }
+            else if (skill.img)
+            {
+                skillImg = `<img id="m-skills-${skill.name}-img" src="${skill.img}">`;
+                imageLoader.loadImage(skill.img);
             }
 
-            skillRows[i] += '</div>';
-        }
+            skillsList += `
+            <div class="m-skill w-100 row m-0">
+                <div class="m-skill-left col-3 d-flex flex-row justify-content-around align-items-center">
+                    <span id="m-skill-symbol">${skillImg}</span>
+                    <i class="icomoon-trophy-plain ${skill.level}"></i>
+                </div>
+                <div class="m-skill-right col-9">
+                    <div class="m-skill-body row m-0 d-flex flex-col">
+                        <div class="m-skill-header">
+                            ${skill.name}
+                        </div>
+                        <div class="m-skill-desc">
+                            ${skill.description}
+                        </div>
+                    </div>
+                </div>   
+                <div class="h-divider col-12">
+                    <div class="m-shadow"></div>
+                </div>
+            </div>
+            `
+        });
     }
 
-    // Close rows
-    let allRows = '';
-
-    for (let i = 0; i < skillRows.length; ++i) {
-        skillRows[i] += '</div></div>';
-        allRows += skillRows[i];
-    }
-
-    
     // Add it to the dom.
-    document.querySelector('#m-skills > .sm-main-layout > #m-skills-trees').innerHTML = allRows;
-    document.querySelector('#m-skills #m-skills-icon-container > div').innerHTML = skillImgs;
-    document.querySelector('#m-skills > #m-skills-description > div:nth-child(2)').innerHTML = skillDescr;
-
-    // Add fit text class to all icon
-    const icons = document.querySelectorAll('#m-skills > .sm-main-layout > #m-skills-trees i');
-    for (let icon of icons)     icon.classList.add("m-fit-text");
+    document.querySelector('#m-skills > .sm-main-layout > #m-skills-accordion').innerHTML = skillsList;
 }
 
 /**
- * Fullify the projects' session.
+ * Fill the skills' session.
+ */
+function generateExperiences() {
+    let experienceList = "";
+    let exp;
+    const today = (new Date()).toLocaleString('en-US', {year: 'numeric', month: 'numeric'}).split('/');
+
+    GLOBALS.experiences.forEach((exp, index) => {
+        const dates = exp.time.replace(/\s+/g, '').split("-");
+        const startDates = dates[0].split("/");
+        const startDate = new Date(startDates[1], startDates[0] - 1);
+        const [elapsedYears, elapsedMonths] = computeElapsedTime(dates[0], dates[1].length <= 1 ? today[1] + '/' + today[0] : dates[1]);
+        const dateOptions = {
+			year: 'numeric',
+			month: 'long'
+        };
+        const progress = dates[1].length <= 1 ? 25 : 100;
+
+        experienceList += `
+            <div class="m-exp">
+                <div class="m-exp-header" id="headingOne">
+                    <div class="row" data-toggle="collapse" data-target="#exp-${index}" aria-expanded="${index == 0}" aria-controls="exp-${index}">
+                        <div class="col-12 col-lg-5 d-flex flex-column m-exp-title">
+                            <h4>${exp.name}</h4>
+                            <h5>${exp.company}</h4>
+                        </div>
+                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-start">
+                            <h4>First boot:</h4>
+                            <h5>${startDate.toLocaleString('en-US', dateOptions)}</h5>
+                        </div>
+                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-total">
+                            <h4>Total time:</h4>
+                            <h5>${elapsedYears}y ${elapsedMonths}m</h5>
+                        </div>
+                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-progress">
+                            <h4>Progress:</h4>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" 
+                                    aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="exp-${index}" class="collapse show" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
+                    <div class="m-exp-body">
+                        ${exp.desc}   
+                    </div>
+                </div>
+            </div>
+        `
+    });
+
+    document.querySelector('#m-experience > .sm-main-layout > #m-exp-accordion').innerHTML = experienceList;
+}
+
+/**
+ * Fill the projects' session.
  */
 function generateProjects() {
     let list = '';
@@ -580,8 +413,8 @@ function generateProjects() {
  * @type Number
  */
 Number.prototype.clamp = function (min, max) {
-    const first = min ? Math.max(this, min) : this;
-    return max ? Math.min(first, max) : first;
+    const first = min !== undefined ? Math.max(this, min) : this;
+    return max !== undefined ? Math.min(first, max) : first;
 };
 
 Number.prototype.lowerWithinTreshold = function(limit, threshold) {
@@ -631,6 +464,7 @@ function getElementSize(element)
  * 
  * @param {String} str The string to parse.
  * @param {Number} radix The radix of the result.
+ * @returns {[Number]} The elapsed years and months.
  */
 function myParseInt(str, radix = 10)
 {
@@ -638,7 +472,25 @@ function myParseInt(str, radix = 10)
     return result ? result : 0;
 }
 
+/**
+ * A parseInt function that returns 0 instead of NaN.
+ * 
+ * @param {String} from The starting date in the format "mm/yyyy".
+ * @param {String} to The ending date in the format "mm/yyyy".
+ */
+function computeElapsedTime(from, to)
+{
+    const startDates = from.split('/');
+    const endDates = to.split('/');
+    const elapsedYears = endDates[1] - startDates[1];
+    
+    if (endDates[0] < startDates[0])
+    {
+        return [Math.max(elapsedYears - 1, 0), 12 - (startDates[0] - endDates[0])];
+    }
 
+    return [elapsedYears, endDates[0] - startDates[0]];
+}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -662,24 +514,49 @@ function deferredEnterAnimation() {
  * Creates the hovering effect on the menu's items.
  */
 function itemHovering() {
-    let $items = $('.sm-item');
+    let $items = $('#m-carousel .sm-item');
 
     $items.bind( 'sm-activate', function (event) { 
         // Enter the item.
-        let hover = this.querySelector('.m-item-hover');
+        if (menuGraph.currentMenu.id == "sm-main-menu")
+        {
+            let hover = this.querySelector('.m-item-hover');
 
-        if (hover) {
-            hover.classList.add('m-active');
-            TweenMax.to(hover, event.detail.direction != 'restoreFocus' ?  0.1 : 0.001, { top: '-100%' });
+            if (hover) 
+            {
+                hover.classList.add('m-active');
+                gsap.to(hover, { 
+                    top: '-100%', 
+                    duration: event.detail.reason != SM.CONST.inputEvent.restoreFocus ?  0.1 : 0.001 
+                });
+            }
+
+            // Change the background.
+            const backs = this.dataset["backg"].split(",");
+            document.getElementById("m-background-land").style.backgroundImage = 
+                `url("Styles/Images/${backs[0]}")`;
+            document.getElementById("m-background-port").style.backgroundImage =
+                `url("Styles/Images/${backs.length > 1 ? backs[1] : backs[0]}")`;
+
+            m_carousel.goToItem($items.index(this));
         }
     });
 
     $items.bind( 'sm-deactivate', function (event) {
         // Exit the item.
-        let hover = this.querySelector('.m-item-hover');
+        if (menuGraph.currentMenu.id == "sm-main-menu")
+        {
+            let hover = this.querySelector('.m-item-hover');
 
-        if (hover)
-            TweenMax.to(hover, event.detail.direction != 'leaveMenu' ? 0.05 : 0.001, { top: 0, onComplete: () => { hover.classList.remove('m-active'); } });        
+            if (hover && event.detail.reason != SM.CONST.inputEvent.leaveMenu)
+            {
+                gsap.to(hover, { 
+                    top: 0,
+                    duration: event.detail.reason != SM.CONST.inputEvent.restoreFocus ?  0.1 : 0.001,
+                    onComplete: () => { hover.classList.remove('m-active'); } 
+                });        
+            }
+        }
     });
 }
 
@@ -760,81 +637,4 @@ function enterWithFirstFocus(from, to, isBack) {
     if (from && SM.input.wasKeyboard) {
         SM.input.setFocusOn(to, 0);
     }
-}
-
-/**
- * There are a lot of texts to resize, but since only icons are visible at beginning, it is
- * enough to resize just them.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function exitWithSaving(from, to, isBack) {
-    SM.input.saveFocus(from);
-    from.style.display = 'none';
-}
-
-/**
- * Show the new menu with a basic transition, fitting the texts before entering.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterSkills(from, to, isBack) {
-    const portraitMode = chooseLayout(to) == 'portrait';
-    to.style.opacity = 0;
-    to.style.display = '';
-
-    // Resize all carousel items.
-    if (portraitMode) {
-        const hiddenItem = to.querySelectorAll('.carousel-item:not(.active)');
-        hiddenItem.forEach( i => i.style.display = 'block');
-
-        fitTexts(to.getElementsByClassName('m-fit-text'));
-
-        hiddenItem.forEach(i => i.style.display = '');
-    }
-    else {
-        fitTexts(to.getElementsByClassName('m-fit-text'));
-    }
-
-    to.style.opacity = 1;
-}
-
-/**
- * Highlights the first project entering the project menu.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterExperience(from, to, isBack) {
-    document.addEventListener('keydown', changeSliderValue);
-    enterWithFirstFocus(from, to, isBack);
-}
-
-/**
- * Highlights the first project entering the project menu.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function exitExperience(from, to, isBack) {
-    document.removeEventListener('keydown', changeSliderValue);
-    from.style.display = 'none';
-}
-
-/**
- * Highlights the first project entering the project menu.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterProjects(from, to, isBack) {
-    enterWithText(from, to, isBack);
-    SM.input.restoreFocus(to);
 }

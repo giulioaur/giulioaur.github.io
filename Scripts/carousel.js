@@ -13,6 +13,7 @@ items : {},
 carouselState: {},
 activeItemClass: "m-carousel-item-active",
 currentTween: null,
+touchEvent: { start: 0, current: 0, momentum: 0 },
 
 
 initCarousel()
@@ -27,24 +28,9 @@ initCarousel()
     this.carousel.querySelector(".m-carousel-control-right").onmouseenter = 
         () => { this.goToItem(this.getRightOuterElement()); };
 
-    let width = 0;
+    this.resize();
 
-    this.items.forEach((item, i) =>
-    {
-        width += item.offsetWidth;
-
-        item.onmouseenter = () => { this.goToItem(i); };
-    });
-
-    // The width of the inner container must be at least as big as the sum of the child's width.
-    // Add some more space too to allow spacing among elements.
-    this.innerContainer.style.width = width + ((4.0/5.0) * width) + "px";
-
-    // One element at time must always be active.
-    if (!this.innerContainer.querySelector(`.${this.activeItemClass}`))
-    {
-        this.items[0].classList.add(this.activeItemClass);
-    }
+    this.bindTouchEvents();
 },
 
 goToItem(toIndex)
@@ -111,20 +97,67 @@ stopAnim()
 clearItem(item)
 {
     item.classList.remove(m_carousel.activeItemClass);
-    item.onmouseenter = null;
 },
 
 restoreItem(item, isActive)
 {
     if (isActive)   item.classList.add(m_carousel.activeItemClass);
-    
-    let itemIndex = 0;
-    for (itemIndex; itemIndex < m_carousel.items.length; ++itemIndex)
-    {
-        if (m_carousel.items[itemIndex] == item)  break;
-    }
+},
 
-    item.onmouseenter = () => { m_carousel.goToItem(itemIndex); };
+resize()
+{
+    let width = 0;
+
+    this.items.forEach((item, i) =>
+    {
+        width += item.offsetWidth;
+    });
+
+    // The width of the inner container must be at least as big as the sum of the child's width.
+    // Add some more space too to allow spacing among elements.
+    this.innerContainer.style.width = width + ((4.0/5.0) * width) + "px";
+},
+
+bindTouchEvents()
+{
+    const self = this;
+
+    this.innerContainer.addEventListener("touchstart", evt => {
+        const touch = evt.changedTouches[0];
+
+        if (!touch) return;
+
+        self.touchEvent.start = touch.pageX;
+        self.touchEvent.current = touch.pageX;
+    }, false);
+
+    this.innerContainer.addEventListener("touchend", evt => {
+        const touch = evt.changedTouches[0];
+
+        if (!touch) return;
+
+        const diff = self.touchEvent.start - touch.pageX;
+        const x = gsap.getProperty(self.innerContainer, "x");
+        const target = x - diff;
+
+        self.stopAnim();
+        // #TODO: Compute a momentum using touchmove and timed callback, than use it to move the slider.
+        self.currentTween = gsap.to(self.innerContainer, {x: target.clamp(-self.innerContainer.offsetWidth, 0)});
+    }, false);
+
+    this.innerContainer.addEventListener("touchmove", evt => {
+        const touch = evt.changedTouches[0];
+
+        if (!touch) return;
+
+        const prev = self.touchEvent.current;
+        const curr = touch.pageX;
+        const x = gsap.getProperty(self.innerContainer, "x");
+        const target = x - (prev - curr) * 10;
+
+        self.currentTween = gsap.to(self.innerContainer, {x: target.clamp(-self.innerContainer.offsetWidth, 0)});
+        self.touchEvent.current = curr;
+    }, false);
 }
 
 }
@@ -136,4 +169,8 @@ restoreItem(item, isActive)
 
 $(document).ready(() => {
     m_carousel.initCarousel();
+});
+
+$(window).resize(() => {
+    m_carousel.resize();
 });
