@@ -148,6 +148,8 @@ function setupPage() {
     GLOBALS.loadingPercentage = 93;
 
     initScrollbar();
+    menuGraph.addDataCallback((oldMenu, newMenu) => { $(newMenu).show(); initScrollbar(); return true; }, true);
+    menuGraph.addDataCallback(initScrollbar, false);
     GLOBALS.loadingPercentage = 95;
 
     imageLoader.waitForLoading();
@@ -230,10 +232,46 @@ function fitTexts(textsToResizes = null) {
 }
 
 
-function initScrollbar() {
-    $('.scroll-pane').jScrollPane();
+function initScrollbar(shouldMantain = false) {
+    const scrollPanels = document.getElementById("m-menu-container");
+
+    $(scrollPanels).jScrollPane({
+        contentWidth: 1,
+        maintainPosition: shouldMantain
+    });
+
+    $(scrollPanels).bind(
+        'jsp-will-scroll-y',
+        getGhostScrollbarCallback(scrollPanels)
+    );
+
+    getGhostScrollbarCallback(scrollPanels)();
+
+    updateScrollingPanelHeight();
 }
 
+function getGhostScrollbarCallback(container, delay = 1000) {
+    let fadingCallback;
+
+    return (event, destY) => {
+        const $scrollBar = $(container.querySelector(".jspVerticalBar"));
+        const effectDurability = 300;
+
+        $scrollBar.fadeIn(effectDurability);
+
+        if (fadingCallback) {
+            clearTimeout(fadingCallback);
+        }
+
+        fadingCallback = setTimeout(() => { $scrollBar.fadeOut(effectDurability); }, delay);
+    };
+}
+
+function updateScrollingPanelHeight() {
+    const jspContainer = document.querySelector("#sm-viewport .jspContainer");
+    const height = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+    jspContainer.style.height = height - document.getElementById("sm-main-menu").offsetHeight + "px";
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// DYNAMIC GENERATION ///////////////////////////
@@ -259,15 +297,17 @@ function generateSkills() {
     {
         skillCategory.forEach((skill) => {
             let skillImg = "";
-
+            const skillTag = skill.name.replace(/\s+/g, '-');
             // Create svg or img for logo representation.
-            if (skill.svg)
-            {
-                skillImg = `<svg viewBox="0 0 128 128" id="m-skills-${skill.name}-img">${skill.svg}</svg>`;
+            if (skill.icon) {
+                const content = skill.iconContent ? skill.iconContent : "";
+                skillImg = `<i id="m-skills-${skillTag}-img" ${skill.icon}>${content}</i>`;
             }
-            else if (skill.img)
-            {
-                skillImg = `<img id="m-skills-${skill.name}-img" src="${skill.img}">`;
+            if (skill.svg) {
+                skillImg = `<svg viewBox="0 0 128 128" id="m-skills-${skillTag}-img">${skill.svg}</svg>`;
+            }
+            else if (skill.img) {
+                skillImg = `<img id="m-skills-${skillTag}-img" src="${skill.img}">`;
                 imageLoader.loadImage(skill.img);
             }
 
@@ -275,7 +315,7 @@ function generateSkills() {
             <div class="m-skill w-100 row m-0">
                 <div class="m-skill-left col-3 d-flex flex-row justify-content-around align-items-center">
                     <span id="m-skill-symbol">${skillImg}</span>
-                    <i class="icomoon-trophy-plain ${skill.level}"></i>
+                    <i class="icomoon icomoon-trophy-plain ${skill.level}"></i>
                 </div>
                 <div class="m-skill-right col-9">
                     <div class="m-skill-body row m-0 d-flex flex-col">
@@ -326,7 +366,7 @@ function generateExperiences() {
                             <h4>${exp.name}</h4>
                             <h5>${exp.company}</h4>
                         </div>
-                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-start">
+                        <div class="col-6 col-lg-2 offset-lg-1 d-flex flex-column m-exp-start">
                             <h4>First boot:</h4>
                             <h5>${startDate.toLocaleString('en-US', dateOptions)}</h5>
                         </div>
@@ -338,12 +378,12 @@ function generateExperiences() {
                             <h4>Progress:</h4>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" 
-                                    aria-valuemin="0" aria-valuemax="100">${progress}%</div>
+                                    aria-valuemin="0" aria-valuemax="100"><span>${progress}%</span></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="exp-${index}" class="collapse show" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
+                <div id="exp-${index}" class="collapse" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
                     <div class="m-exp-body">
                         ${exp.desc}   
                     </div>
@@ -352,7 +392,20 @@ function generateExperiences() {
         `
     });
 
-    document.querySelector('#m-experience > .sm-main-layout > #m-exp-accordion').innerHTML = experienceList;
+    const expAccordion = document.querySelector('#m-experience > .sm-main-layout > #m-exp-accordion');
+    expAccordion.innerHTML = experienceList;
+
+    $(expAccordion.querySelectorAll('.m-exp')).on('show.bs.collapse', function () {
+        this.classList.add("m-active");
+    });
+    $(expAccordion.querySelectorAll('.m-exp')).on('shown.bs.collapse', function () {
+        // Recreate scroll effect. 
+        initScrollbar(true);
+    });
+
+    $(expAccordion.querySelectorAll('.m-exp')).on('hide.bs.collapse', function () {
+        this.classList.remove("m-active");
+    });
 }
 
 /**
@@ -535,8 +588,6 @@ function itemHovering() {
             const backs = this.dataset["backg"].split(",");
             document.getElementById("m-background-land").style.backgroundImage = 
                 `url("Styles/Images/${backs[0]}")`;
-            document.getElementById("m-background-port").style.backgroundImage =
-                `url("Styles/Images/${backs.length > 1 ? backs[1] : backs[0]}")`;
 
             m_carousel.goToItem($items.index(this));
         }

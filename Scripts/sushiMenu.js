@@ -308,12 +308,26 @@ var SM = {
             }
 
             // Play animations.
-            this._playAnimation(outAnimation, to, isBack);
-            this._playAnimation(inAnimation, to, isBack);
+            const outPromise = this._playAnimation(outAnimation, to, isBack);
+            const inPromise = this._playAnimation(inAnimation, to, isBack);
 
             // Play the data callback.
-            for (let func of this._afterAnimationFunc)
-                func(this._current, to);
+            const callAfterAnimFuncs = () => {
+                for (let func of this._afterAnimationFunc)
+                    func(this._current, to);
+            }
+
+            if (!outPromise && !inPromise)
+            {
+                callAfterAnimFuncs();
+            }
+            else
+            {
+                const firstPromise = outPromise ? outPromise : inPromise;
+                const secondPromise = outPromise ? inPromise : outPromise;
+
+                firstPromise.then(secondPromise ? () => { secondPromise.then(callAfterAnimFuncs); } : callAfterAnimFuncs);
+            }
 
             // Update current
             this._current = to;
@@ -360,6 +374,7 @@ var SM = {
          * @param {string} animation The name of the animation to play.
          * @param {HTMLElement} to The new menu to show.
          * @param {Boolean} isBack true if is a back animation.
+         * @return {Promise} The promise returned by the animation if asynchronous, can be null.
          */
         _playAnimation(animation, to, isBack) {
             // Resolve animation function call
@@ -372,7 +387,7 @@ var SM = {
 
             if (animationContext[animationFunction])
             {
-                animationContext[animationFunction].call(animationContext, this._current, to, isBack);
+                return animationContext[animationFunction].call(animationContext, this._current, to, isBack);
             }
             else
             {

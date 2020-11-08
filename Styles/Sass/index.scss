@@ -14,27 +14,36 @@ $main-style : 'bright';
 $primary-color: #3500ff;        // blue
 $secondary-color: #afbfc0;      // grey
 $black-color: #0e0f19;          // background / outline
+$white-color: #ffffff;          // mostly text
 $third-color: #139a43;
 $fourth-color: #cc2936;
 
-@if $main-style != 'bright'
+@if $main-style == 'soft'
 {
     $primary-color: #3500ff;        // blue
     $secondary-color: #afbfc0;      // grey
     $black-color: #0e0f19;          // background / outline
+    $white-color: #ffffff;          // mostly text
     $third-color: #139a43;
     $fourth-color: #cc2936;
 }
 
 @mixin background-opacity($opacity, $color: #FFFFFF){
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    content: "";
-    position: absolute;
-    background-color: $color;
-    opacity: $opacity;
+    position: relative;
+
+    &:before
+    {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        content: "";
+        position: absolute;
+        background-color: $color;
+        opacity: $opacity;
+
+        border-radius: inherit;
+    }
 }
 
 @function to-percentage($value) {  
@@ -137,6 +146,12 @@ body
 {
     height: 100vh;
 
+    color: $white-color;
+
+    background-color: $black-color;
+
+    overflow: hidden;
+
     #m-page 
     {
         height: 100%;
@@ -170,7 +185,7 @@ body
         width: 100%;
         height: 25px;
         border-radius: 125px/12px;
-        box-shadow: 0 0 8px black;
+        box-shadow: 0 0 8px $secondary-color;
     }
 }
 
@@ -190,16 +205,6 @@ body
 
     // Set this font size to correclty set-up initial size.
     font-size: 20px;
-}
-
-.m-slider-percentage
-{
-    position: absolute;
-}
-
-.m-slider
-{
-    border: none;
 }
 
 a.m-no-decoration
@@ -313,52 +318,6 @@ a.m-no-decoration
 }
 
 
-.m-background
-{
-    height: 100%;
-    width: 100%;
-
-    position: fixed;
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    z-index: -1;
-
-    
-    &:before
-    {   
-        @if $main-style == 'bright'
-        {
-            @include background-opacity(0.2, $black-color);
-        }
-        @else
-        {
-            @include background-opacity(0.4);
-        }
-    }
-}
-
-@include landscape
-{
-    #m-background-port
-    {
-        display: none;
-    }
-}
-
-@include portrait
-{
-    #m-background-land
-    {
-        display: none;
-    }
-}
-
-
 //*****************************************************************************************//
 //*****************************************************************************************//
 //**************************************** HEADER *****************************************//
@@ -396,7 +355,32 @@ header
 
 #sm-viewport
 {
-    padding: 0 2vw;
+}
+
+
+#m-menu-container
+{
+    .m-background
+    {
+        height: 300px;
+
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        margin-bottom: 4rem;
+
+        @if $main-style == 'bright'
+        {
+            @include background-opacity(0.5, $black-color);
+        }
+        @else
+        {
+            @include background-opacity(0.4);
+        }
+    }
 }
 
 
@@ -409,7 +393,7 @@ header
 
 #sm-main-menu
 {
-    padding-top: 2rem;
+    padding: 2rem 1vw;
 
     > .sm-layout
     {
@@ -458,7 +442,6 @@ header
 
                         h1 
                         {
-                            color: $black-color;
                             font-size: 2rem;
                         }
                     }
@@ -546,7 +529,6 @@ header
 
                     h4
                     {
-                        color: $black-color;
                         margin: 0px;
                     }
                 }
@@ -591,6 +573,22 @@ header
                 }
             }
         }
+
+        #m-aboutme-doggo
+        {
+            margin-top: 10px;
+            h1
+            {
+                color: $primary-color;
+            }
+
+            img
+            {
+                width: 90vmin;
+
+                margin-top: 5px;
+            }
+        }
     }
 }
 
@@ -624,8 +622,8 @@ header
                     height: 5rem;
                 }
 
-                $color-name: ('bronze', 'silver', 'gold', 'platinum');
-                $codor-code: (#cd7f32, #c0c0c0, #ffd700, #e5e4e2);
+                $color-name: ('copper', 'bronze', 'silver', 'gold', 'platinum');
+                $codor-code: (#B87333, #cd7f32, #c0c0c0, #ffd700, #e5e4e2);
 
                 @for $i from 1 through length($color-name) {
                     $name: nth($color-name, $i);
@@ -673,10 +671,23 @@ header
 {
     .sm-main-layout
     {
-        .m-exp-accordion
+        #m-exp-accordion
         {
             .m-exp
             {
+                margin-bottom: 10px;
+                padding: 10px;
+
+                border: $secondary-color 2px solid;
+                border-radius: 7px;
+
+                @include background-opacity(0.4);
+
+                &.m-active
+                {
+                    border: $primary-color 2px solid;
+                }
+
                 .m-exp-header
                 {
                     .col-lg-2
@@ -703,16 +714,70 @@ header
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+#m-projects
+{
+    .sm-main-layout
+    {
+        >.row
+        {
+            margin-top: 2rem;
+            margin-bottom: 10px;
 
+            >.col-12 
+            {
+                padding: 0;
 
+                >h1
+                {
+                    color: $primary-color;
+                }
+            }
 
+            .m-game
+            {
+                height: 15vw;
+                
+                padding: 0px 8px 5px 0px;
 
+                .m-game-container
+                {
+                    padding: 0;
 
-//*****************************************************************************************//
-//*****************************************************************************************//
-//************************************** CONTACT ME ***************************************//
-//*****************************************************************************************//
-//*****************************************************************************************//
+                    position: relative;
+
+                    .m-game-background
+                    {
+                        position: relative;
+                        background-size: cover;
+                    }
+
+                    .m-game-info
+                    {
+                        bottom: 20px;
+                        left: 20px;
+                        position: absolute;
+                        z-index: 10;
+                        
+                    }
+                }
+                
+
+                &:not(.sm-active)
+                {
+                    .m-game-container
+                    {
+                        @include background-opacity(0.4, black);
+
+                        &:before
+                        {
+                            z-index: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 
@@ -768,7 +833,7 @@ header
             overflow: hidden;
 
             transform-origin: 50% 100%;
-            transform: perspective(350px) rotateX(30deg);
+            transform: perspective(350px) rotateX(25deg);
         }
 
         #m-sw-intro

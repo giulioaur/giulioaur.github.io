@@ -88,9 +88,6 @@
                 <img id="m-error-image" src="Styles/Images/Sushi.png">
             </div>
         </div>
-        <!--------------------- BACKGROUND --------------------->
-        <div id="m-background-land" class="m-background"></div>
-        <div id="m-background-port" class="m-background"></div>
         <!--------------------- SW EFFECT BOX --------------------->
         <div id="m-sw-container">
             <div id="m-sw-credits">
@@ -118,7 +115,7 @@
                     <div class="sm-layout sm-main-layout">
                         <div id="m-carousel" class="w-100">
                             <div id="m-carousel-container" class="container-fluid d-flex flex-row">
-                                <div class="sm-item m-carousel-item" data-goto="m-about-me" data-backg="about-me-back.jpg,about-me-port-back.jpg">
+                                <div class="sm-item m-carousel-item" data-goto="m-about-me" data-backg="about-me-back.jpg">
                                     <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
                                         <h1>Profile</h1>
                                     </div>
@@ -131,7 +128,7 @@
                                         <h1>Achievement</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
-                                        <i class="icoomon icomoon-badge"></i>
+                                        <i class="icoomon icomoon-trophy-plain"></i>
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-experience" data-backg="about-me-back.jpg">
@@ -164,197 +161,273 @@
                         </div>
                     </div>
                 </div>
-                <!--------------------- ABOUT ME --------------------->
-                <div id="m-about-me" class="sm-menu container-fluid m-0 scroll-pane" data-sm-in="simpleScrollerInAnimation">
-                    <div class="sm-layout sm-main-layout">
-                        <div class="sm-item">
-                            <div class="row">
-                                <div id="m-aboutme-left" class="col-12 col-lg-4 d-flex">
-                                    <div id="m-my-photo" class="d-flex justify-content-center">
-                                        <img src="Styles/Images/me.jpg"/>
-                                    </div>
-                                    <div id="m-contact-me" class="row justify-content-around">
-                                        <div class="col col-3 col-lg-5 sm-item sm-redirect-blank-item d-flex align-items-center justify-content-start" data-goto="http://steamcommunity.com/id/DrSushi">
-                                            <i class="icomoon icomoon-steam"></i>
-                                            <h4>DrSushi</h4>
+                <div id="m-menu-container">
+                    <!--------------------- BACKGROUND --------------------->
+                    <div id="m-background-land" class="m-background container-fluid"></div>
+                    <!--------------------- ABOUT ME --------------------->
+                    <div id="m-about-me" class="sm-menu container-fluid m-0">
+                        <div class="sm-layout sm-main-layout">
+                            <div class="sm-item">
+                                <div class="row">
+                                    <div id="m-aboutme-left" class="col-12 col-lg-4 d-flex">
+                                        <div id="m-my-photo" class="d-flex justify-content-center">
+                                            <img src="Styles/Images/me.jpg" />
                                         </div>
-                                        <div class="col col-3 col-lg-5 sm-item d-flex align-items-center justify-content-start"> <!--DottorSushi-->
-                                            <i class="icomoon icomoon-gog-dot-com"></i>
-                                            <h4>Dottor Sushi</h4>
-                                        </div>
-                                        <div class="col col-3 col-lg-5 sm-item sm-redirect-blank-item d-flex align-items-center justify-content-start" data-goto="https://github.com/giulioaur">
-                                            <i class="devicon-github-plain"></i>
-                                            <h4>giulioaur</h4>
-                                        </div>
-                                        <div class="col col-4 col-lg-5 sm-item sm-redirect-blank-item d-flex align-items-center justify-content-start" data-goto="https://www.linkedin.com/in/giulioaur/">
-                                            <i class="devicon-linkedin-plain"></i>
-                                            <h4>Giulio Auriemma</h4>
-                                        </div>
-                                        <div class="col col-6 col-lg-10 sm-item d-flex align-items-center justify-content-start">
-                                            <span class="oi" data-glyph="envelope-open" aria-hidden="true"></span>
-                                            <h4>giulioaur&lsaquo;at&rsaquo;gmail&lsaquo;dot&rsaquo;com</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="m-aboutme-right" class="col-12 col-lg-8 d-flex flex-column">
-                                    <div id="m-aboutme-header" class="w-100">
-                                        <div class="d-flex flex-column">
-                                            <div id="m-aboutme-name" class="d-flex align-items-center">
-                                                <img id="m-left-sushi-img" src="Styles/Images/Sushi.png">
-                                                <h1>Dr.Sushi (Giulio Auriemma)</h1>
+                                        <div id="m-contact-me" class="row justify-content-around">
+                                            <div class="col col-3 col-lg-5 sm-item sm-redirect-blank-item d-flex align-items-center justify-content-start"
+                                                data-goto="http://steamcommunity.com/id/DrSushi">
+                                                <i class="icomoon icomoon-steam"></i>
+                                                <h4>DrSushi</h4>
                                             </div>
-                                            <div id="m-aboutme-title" class="d-flex align-items-center justify-content-start">
-                                                <i class="icomoon icomoon-game-controller"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span><span class="path17"></span><span class="path18"></span></i>  
-                                                <h2>Game Developer</h2>
+                                            <div class="col col-3 col-lg-5 sm-item d-flex align-items-center justify-content-start">
+                                                <!--DottorSushi-->
+                                                <i class="icomoon icomoon-gog-dot-com"></i>
+                                                <h4>Dottor Sushi</h4>
+                                            </div>
+                                            <div class="col col-3 col-lg-5 sm-item sm-redirect-blank-item d-flex align-items-center justify-content-start"
+                                                data-goto="https://github.com/giulioaur">
+                                                <i class="devicon-github-plain"></i>
+                                                <h4>giulioaur</h4>
+                                            </div>
+                                            <div class="col col-4 col-lg-5 sm-item sm-redirect-blank-item d-flex align-items-center justify-content-start"
+                                                data-goto="https://www.linkedin.com/in/giulioaur/">
+                                                <i class="devicon-linkedin-plain"></i>
+                                                <h4>Giulio Auriemma</h4>
+                                            </div>
+                                            <div class="col col-6 col-lg-10 sm-item d-flex align-items-center justify-content-start">
+                                                <span class="oi" data-glyph="envelope-open" aria-hidden="true"></span>
+                                                <h4>giulioaur&lsaquo;at&rsaquo;gmail&lsaquo;dot&rsaquo;com</h4>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="h-divider">
-                                        <div class="m-shadow"></div>
-                                    </div>
-                                    <div id="m-aboutme-body">
-                                        <p>
-                                            Hello, it's me, Giulio, a young computer science with a very big passion for videogames and other nerdy stuff. My adventure
-                                            began years ago, in a Christmas'Eve night, when my parents gave me a big grey box that allowed me to play the story of a 
-                                            little purple dragon. From that moment on, I have always been a videogames lover, and when the moment of choosing my path came,
-                                            my decision was pretty simple to take: I will become a videogames programmer. As every computer scientist, I started my path with
-                                            the programming language's god (no Assembly, I'm not talking about you!): C. Then during my studies I have tried a lot of other 
-                                            languages and technologies, moved by my eclecticism and my will to know about everything. During this journey I have found a lot
-                                            of other intersting things, and sometimes I have also forgot about my very final quest, attracted by amazing secondary missions, 
-                                            but at the end Gollum cannot be kept far from the Ring for too much time, so here am I, as I have always seen myself: a videogame 
-                                            programmer. <br/>
-                                            Actually I'm C++ main (sorry Unity, not your time yet) since I really like the low-level (memory management, pointer's arithmetic,
-                                            possibility of handling any aspect of programming...) and high-level (classes, polymorphism, virtualization...) features it has, that
-                                            allows you to have room for subtle optimization and without getting rid of design's abstraction. Anyway I also try to keep my knowledge 
-                                            of other technologies up to date, since I really like to have many aces in my sleeve. <br/>
-                                            My secret is to see programming more as a game than as a work: every project is a level in which you must defeat some mini-boss 
-                                            (the bugs) using your weapon (your knowledge) and your magic book (StackOverflow) until you save the princess (your program) and
-                                            gain her kiss (I would say it is something like personal satisfaction or gratification, but we all know that it represent money). Sometimes 
-                                            the level is timed (the tremendous timelines), but if you hate the laggard as much as I do, it will be not a problem. But remember: 
-                                            if you can beat a monster with a jump, you don't need to do a triple somersault, as Ockham said: "Between many solutions, the simplest 
-                                            is often the best one".
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--------------------- SKILLS --------------------->
-                <div id="m-skills" class="sm-menu container-fluid w-100 p-0 scroll-pane" data-sm-in="skillsInAnimation" data-sm-out="skillsOutAnimation">
-                    <div class="sm-layout sm-main-layout">
-                        <div id="m-skills-accordion" class="w-100 h-100">
-                            <!-- <div class="m-skill w-100 row m-0">
-                                <div class="m-skill-left col-3 d-flex flex-row justify-content-around align-items-center">
-                                    <span id="m-skill-symbol"><i class="devicon-cplusplus-plain"></i></span>
-                                    <i class="icomoon-trophy-plain gold"></i>
-                                </div>
-                                <div class="m-skill-right col-9">
-                                    <div class="m-skill-body row m-0 d-flex flex-col">
-                                        <div class="m-skill-header">
-                                            Skill title
-                                        </div>
-                                        <div class="m-skill-desc">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="h-divider">
-                                <div class="m-shadow"></div>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <!--------------------- EXPERIENCE --------------------->
-                <div id="m-experience" class="sm-menu container-fluid w-100 scroll-pane">
-                    <div class="sm-layout sm-main-layout">
-                        <div id="m-exp-accordion">
-                            <!-- <div class="m-exp">
-                                <div class="m-exp-header" id="headingOne">
-                                    <div class="row" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <div class="col-12 col-lg-5 d-flex flex-column m-exp-title">
-                                            <h4>Bachelor's degree</h4>
-                                            <h5>Università degli studi di Napoli</h4>
-                                        </div>
-                                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-start">
-                                            <h4>First boot:</h4>
-                                            <h5>jun-2020</h5>
-                                        </div>
-                                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-total">
-                                            <h4>Total time:</h4>
-                                            <h5>10h</h5>
-                                        </div>
-                                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-progress">
-                                            <h4>Progress:</h4>
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" 
-                                                    aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    <div id="m-aboutme-right" class="col-12 col-lg-8 d-flex flex-column">
+                                        <div id="m-aboutme-header" class="w-100">
+                                            <div class="d-flex flex-column">
+                                                <div id="m-aboutme-name" class="d-flex align-items-center">
+                                                    <img id="m-left-sushi-img" src="Styles/Images/Sushi.png">
+                                                    <h1>Dr.Sushi (Giulio Auriemma)</h1>
+                                                </div>
+                                                <div id="m-aboutme-title" class="d-flex align-items-center justify-content-start">
+                                                    <i class="icomoon icomoon-game-controller"><span class="path1"></span><span
+                                                            class="path2"></span><span class="path3"></span><span class="path4"></span><span
+                                                            class="path5"></span><span class="path6"></span><span class="path7"></span><span
+                                                            class="path8"></span><span class="path9"></span><span
+                                                            class="path10"></span><span class="path11"></span><span
+                                                            class="path12"></span><span class="path13"></span><span
+                                                            class="path14"></span><span class="path15"></span><span
+                                                            class="path16"></span><span class="path17"></span><span
+                                                            class="path18"></span></i>
+                                                    <h2>Game Developer</h2>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="h-divider">
+                                            <div class="m-shadow"></div>
+                                        </div>
+                                        <div id="m-aboutme-body">
+                                            <p>
+                                                Hello, it's a me, Giulio (or DrSushi for my online fellows), Italian who does not love espresso but does
+                                                love pizza. My adventure began years ago, in a Christmas'Eve night, when my parents gifted me a big grey box that
+                                                allowed me to play the story of a little purple dragon. From that moment on, I have always been a videogames lover, and when
+                                                the moment of choosing my class specialization come, my decision was pretty simple to take: become a videogames programmer.
+                                                Now I finally am the one that creates new amazing world and allows billions of people to live wonderful adventures. Now I am 
+                                                the one that add more PEW PEW to your game, and I do love it a lot!
+                                                <br><br>
+                                                Videogames are my main quest, but not my entire (open) world, I'm a base-pack nerd: tabletop games, d&d experience, tv-series, most famous anime 
+                                                and stuff like that. Furthermore the shadow of my Italian roots lords over me, usually pulling me down to a well full of love for every kind of 
+                                                cuisine and cooking. Craft Weisse beer, buying fancy costumes and cutie stuff are the three things I never say no to. But the Ring will always
+                                                try to return to its Master, so you would eventually find me playing some online videogame, losing most of the time since I am definitely 
+                                                not a good player.
+                                                <br><br>
+                                                *Insert catching phrase here*, pizza e chiudo!
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
-                                    <div class="m-exp-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    <div id="m-aboutme-doggo" class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                        <h1>Enjoy this photo of my beautiful doggo (she)</h1>
+                                        <img src="Styles/Images/doggo.jpg"></img>
                                     </div>
+                                    <div class="w-100" style="height: 15vh;"></div>
                                 </div>
-                            </div> -->
-                        </div> 
-                    </div>
-                </div>
-                <!--------------------- PROJECTS --------------------->
-                <div id="m-projects" class="sm-menu container-fluid w-100" data-sm-in="enterProjects" data-sm-out="exitWithSaving">
-                    <div class="sm-layout sm-main-layout">
-                        <div class="row h-100">
-                            <div class="col-4 h-100">
-                               <!-- Dynamically filled -->
-                            </div>
-                            <div class="col-8 h-100">
-                               <!-- Dynamically filled -->                            
                             </div>
                         </div>
                     </div>
-                </div>                
-                <!--------------------- CREDITS --------------------->
-                <div id="m-credits" class="sm-menu container-fluid w-100" data-sm-in="creditsInAnimation">
-                    <div class="sm-layout sm-main-layout d-flex justify-content-center">
-                        <div id="m-credits-container">
-                            <div class="d-flex flex-column justify-content-center">
-                                <h1>Website realized by</h1>
-                                <h1>me</h1>
+                    <!--------------------- SKILLS --------------------->
+                    <div id="m-skills" class="sm-menu container-fluid w-100 p-0" data-sm-in="skillsInAnimation"
+                        data-sm-out="skillsOutAnimation">
+                        <div class="sm-layout sm-main-layout">
+                            <div id="m-skills-accordion" class="w-100 h-100">
+                                <!-- <div class="m-skill w-100 row m-0">
+                                                    <div class="m-skill-left col-3 d-flex flex-row justify-content-around align-items-center">
+                                                        <span id="m-skill-symbol"><i class="devicon-cplusplus-plain"></i></span>
+                                                        <i class="icomoon-trophy-plain gold"></i>
+                                                    </div>
+                                                    <div class="m-skill-right col-9">
+                                                        <div class="m-skill-body row m-0 d-flex flex-col">
+                                                            <div class="m-skill-header">
+                                                                Skill title
+                                                            </div>
+                                                            <div class="m-skill-desc">
+                                                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="h-divider">
+                                                    <div class="m-shadow"></div>
+                                                </div> -->
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
-                                <h1>Programming</h1>
-                                <h3><a class="m-no-decoration" href="https://greensock.com/gsap" target="_blank">GSAP</a></h3>
-                                <!-- <h3><a class="m-no-decoration" href="https://github.com/Bernardo-Castilho/dragdroptouch" target="_blank">DragDropTouch</a></h3> -->
-                                <h3><a class="m-no-decoration" href="http://jscrollpane.kelvinluck.com/#support" target="_blank">JScrollPane</a></h3>
+                        </div>
+                    </div>
+                    <!--------------------- EXPERIENCE --------------------->
+                    <div id="m-experience" class="sm-menu container-fluid w-100" data-sm-in="experienceInAnimation">
+                        <div class="sm-layout sm-main-layout">
+                            <div id="m-exp-accordion">
+                                <!-- <div class="m-exp">
+                                                    <div class="m-exp-header" id="headingOne">
+                                                        <div class="row" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            <div class="col-12 col-lg-5 d-flex flex-column m-exp-title">
+                                                                <h4>Bachelor's degree</h4>
+                                                                <h5>Università degli studi di Napoli</h4>
+                                                            </div>
+                                                            <div class="col-6 col-lg-2 d-flex flex-column m-exp-start">
+                                                                <h4>First boot:</h4>
+                                                                <h5>jun-2020</h5>
+                                                            </div>
+                                                            <div class="col-6 col-lg-2 d-flex flex-column m-exp-total">
+                                                                <h4>Total time:</h4>
+                                                                <h5>10h</h5>
+                                                            </div>
+                                                            <div class="col-6 col-lg-2 d-flex flex-column m-exp-progress">
+                                                                <h4>Progress:</h4>
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" 
+                                                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
+                                                        <div class="m-exp-body">
+                                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                                        </div>
+                                                    </div>
+                                                </div> -->
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
-                                <h1>Art</h1>
-                                <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a></h3>
-                                <h3><a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a></h3>
-                                <h3><a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a></h3>
-                                <h3>Icons made by <a class="m-no-decoration" href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> 
-                                    from <a class="m-no-decoration" href="https://www.flaticon.com/" title="Flaticon"> flaticon </a></h3>
-                                <h3><a class="m-no-decoration" href="https://github.com/simple-icons/simple-icons" target="_blank">Simple Icons</a></h3>
-                                <h3><a style="font-family: wowFont" class="m-no-decoration" href="https://www.dafont.com/lifecraft.font" target="_blank">LifeCraft</a></h3>
-                                <h3><a style="font-family: swFont" class="m-no-decoration" href="https://www.fontspace.com/sf-distant-galaxy-font-f6436" target="_blank">Distant Galaxy</a></h3>
+                        </div>
+                    </div>
+                    <!--------------------- PROJECTS --------------------->
+                    <div id="m-projects" class="sm-menu container-fluid w-100">
+                        <div class="sm-layout sm-main-layout">
+                            <div class="row h-100">
+                                <div class="col-12">
+                                    <h1>Owned Games</h1>
+                                </div>
+                                <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
+                                    data-goto="https://github.com/VRcolVento/ChatVRoom">
+                                    <div class="m-game-container w-100 h-100">
+                                        <div class="m-game-background w-100 h-100"
+                                            style="background-image: url('Styles/Images/chatvrroom.jpg')"></div>
+                                        <div class="m-game-info">
+                                            <h2 class="m-title">ChatVR</h2>
+                                            <h3 class="m-role">Ft. Andrea Lisi</h3>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
-                                <h1>Design</h1>
-                                <h3><a class="m-no-decoration" href="https://getbootstrap.com/" target="_blank">Bootstrap</a></h3>
-                                <h3><a class="m-no-decoration" href="https://coolors.co/515a47-d7be82-7a4419-755c1b-400406" target="_blank">Color palette</a></h3>
-                                <h3><a class="m-no-decoration" href="https://www.cssscript.com/demo/create-star-wars-intro-crawl-pure-css/#welcome" target="_blank">Star Wars effect</a></h3>
+                            <div class="row h-100">
+                                <div class="col-12">
+                                    <h1>Shared Games</h1>
+                                </div>
+                                <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
+                                    data-goto="https://generationzero.com/en/">
+                                    <div class="m-game-container  w-100 h-100">
+                                        <div class="m-game-background w-100 h-100"
+                                            style="background-image: url('Styles/Images/gen-zero.jpg')"></div>
+                                        <div class="m-game-info">
+                                            <h2 class="m-title">Generation Zero</h2>
+                                            <h3 class="m-role">Gameplay Programmer</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
+                                    data-goto="https://supercrossthegame.com/">
+                                    <div class="m-game-container  w-100 h-100">
+                                        <div class="m-game-background w-100 h-100"
+                                            style="background-image: url('Styles/Images/supercross3.jpg')"></div>
+                                        <div class="m-game-info">
+                                            <h2 class="m-title">Supercross 3</h2>
+                                            <h3 class="m-role">Junior Online Programmer</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
+                                    data-goto="https://motogpvideogame.com/it/">
+                                    <div class="m-game-container  w-100 h-100">
+                                        <div class="m-game-background w-100 h-100"
+                                            style="background-image: url('Styles/Images/motogp19.jpg')"></div>
+                                        <div class="m-game-info">
+                                            <h2 class="m-title">Motogp 19</h2>
+                                            <h3 class="m-role">Junior Online Programmer</h3>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
-                                <h1>Other thanks to</h1>
-                                <h3><a class="m-no-decoration" href="http://mstudios.altervista.org" target="_blank">Maurizio Cimino</a></h3>
-                                <h3><a class="m-no-decoration" href="https://0alic.github.io/" target="_blank">Andrea Lisi</a></h3>
+                        </div>
+                    </div>
+                    <!--------------------- CREDITS --------------------->
+                    <div id="m-credits" class="sm-menu container-fluid w-100" data-sm-in="creditsInAnimation" data-sm-out="creditsOutAnimation">
+                        <div class="sm-layout sm-main-layout d-flex justify-content-center">
+                            <div id="m-credits-container">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h1>Website realized by</h1>
+                                    <h1>me</h1>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h1>Programming</h1>
+                                    <h3><a class="m-no-decoration" href="https://greensock.com/gsap" target="_blank">GSAP</a></h3>
+                                    <!-- <h3><a class="m-no-decoration" href="https://github.com/Bernardo-Castilho/dragdroptouch" target="_blank">DragDropTouch</a></h3> -->
+                                    <h3><a class="m-no-decoration" href="http://jscrollpane.kelvinluck.com/#support"
+                                            target="_blank">JScrollPane</a></h3>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h1>Art</h1>
+                                    <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a></h3>
+                                    <h3><a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a></h3>
+                                    <h3><a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a>
+                                    </h3>
+                                    <h3>Icons made by <a class="m-no-decoration" href="https://www.flaticon.com/authors/flat-icons"
+                                            title="Flat Icons">Flat Icons</a>
+                                        from <a class="m-no-decoration" href="https://www.flaticon.com/" title="Flaticon"> flaticon </a>
+                                    </h3>
+                                    <h3><a class="m-no-decoration" href="https://github.com/simple-icons/simple-icons"
+                                            target="_blank">Simple Icons</a></h3>
+                                    <h3><a style="font-family: wowFont" class="m-no-decoration" href="https://www.dafont.com/lifecraft.font"
+                                            target="_blank">LifeCraft</a></h3>
+                                    <h3><a style="font-family: swFont" class="m-no-decoration"
+                                            href="https://www.fontspace.com/sf-distant-galaxy-font-f6436" target="_blank">Distant Galaxy</a>
+                                    </h3>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h1>Design</h1>
+                                    <h3><a class="m-no-decoration" href="https://getbootstrap.com/" target="_blank">Bootstrap</a></h3>
+                                    <h3><a class="m-no-decoration" href="https://coolors.co/515a47-d7be82-7a4419-755c1b-400406"
+                                            target="_blank">Color palette</a></h3>
+                                    <h3><a class="m-no-decoration"
+                                            href="https://www.cssscript.com/demo/create-star-wars-intro-crawl-pure-css/#welcome"
+                                            target="_blank">Star Wars effect</a></h3>
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h1>Other thanks to</h1>
+                                    <h3><a class="m-no-decoration" href="http://mstudios.altervista.org" target="_blank">Maurizio Cimino</a>
+                                    </h3>
+                                    <h3><a class="m-no-decoration" href="https://0alic.github.io/" target="_blank">Andrea Lisi</a></h3>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </section>
             <!--------------------- NAVBAR --------------------->
             <!-- <div id="m-navbar" class="d-flex flex-row justify-content-center align-items-center">
