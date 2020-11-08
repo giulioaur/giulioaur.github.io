@@ -22,6 +22,7 @@ function mainMenuOutAnimation(from, to, isBack)
     const textContainer = selectedItem.querySelector(".m-item-title");
     const iconContainer = selectedItem.querySelector(".m-item-hover");
     const background = document.getElementById("m-background-land");
+    const back = carousel.querySelector("#m-main-esc");
     const containerX = gsap.getProperty(carouselContainer, "x");
     const x = $(selectedItem).position().left + (containerX ? containerX : 0);
 
@@ -47,14 +48,17 @@ function mainMenuOutAnimation(from, to, isBack)
         .call(DOMTokenList.prototype.add.bind(selectedItem.classList), ["m-item-selected"])
         .set(carouselContainer, { x: 0 })                                                       // Slide the item in the first position.
         .set(carouselContainer, { justifyContent: "start" })
-        .add("nowTogether")
-        .from(selectedItem, { x: x, duration: 0.5 }, "nowTogether")
-        .set(selectedItem, { transformOrigin: "top left" }, "nowTogether")                      // While scaling it.
-        .to(selectedItem, { scale: 0.35, duration: 0.5, onUpdate: updateScrollingPanelHeight }, "nowTogether")
-        .to(carousel, { height: carousel.offsetHeight * 0.35, duration: 0.5 }, "nowTogether")
-        .to(background, { height: background.offsetHeight + (carousel.offsetHeight - carousel.offsetHeight * 0.35), duration: 0.5 }, "nowTogether")
+        .add("nowTogether0")
+        .from(selectedItem, { x: x, duration: 0.5 }, "nowTogether0")
+        .set(selectedItem, { transformOrigin: "top left" }, "nowTogether0")                      // While scaling it.
+        .to(selectedItem, { scale: 0.35, duration: 0.5, onUpdate: updateScrollingPanelHeight }, "nowTogether0")
+        .to(carousel, { height: carousel.offsetHeight * 0.35, duration: 0.5 }, "nowTogether0")
+        .to(background, { height: background.offsetHeight + (carousel.offsetHeight - carousel.offsetHeight * 0.35), duration: 0.5 }, "nowTogether0")
         .set(textContainer, {background: 'none'})                                               // Move the background to the right.
-        .to(textContainer, {x: selectedItem.offsetWidth});
+        .call(jQuery.fn.show.bind($(back)), [])
+        .add("nowTogether1")
+        .to(textContainer, { x: selectedItem.offsetWidth, duration: 0.5 }, "nowTogether1")
+        .fromTo(back, { right: -100 }, { right: 0 }, "nowTogether1");
 }
 
 function mainMenuInAnimation(from, to, isBack) 
@@ -65,17 +69,20 @@ function mainMenuInAnimation(from, to, isBack)
     const items = document.querySelectorAll("#sm-main-menu .sm-item");    
     const textContainer = selectedItem.querySelector(".m-item-title");
     const background = document.getElementById("m-background-land");
+    const back = carousel.querySelector("#m-main-esc");
     
     const tl = gsap.timeline();
 
     tl
-        .to(textContainer, {x: 0})
+        .add("nowTogether0")
+        .to(textContainer, { x: 0, duration: 0.5 }, "nowTogether0")
+        .to(back, { right: -200, duration: 0.5, onComplete: jQuery.fn.hide.bind($(back)) }, "nowTogether0")
         .set(textContainer, {background: ''})  
         .call(DOMTokenList.prototype.remove.bind(selectedItem.classList), ["m-item-selected"])
-        .add("nowTogether")
-        .to(background, { height: ANIM_DATA.mainMenu.backgroundHeight, duration: 0.5 }, "nowTogether")
-        .to(selectedItem, { scale: 1, duration: 0.5 }, "nowTogether")
-        .to(carousel, { height: () => { return selectedItem.offsetHeight; } }, "nowTogether")
+        .add("nowTogether1")
+        .to(background, { height: ANIM_DATA.mainMenu.backgroundHeight, duration: 0.5 }, "nowTogether1")
+        .to(selectedItem, { scale: 1, duration: 0.5 }, "nowTogether1")
+        .to(carousel, { height: () => { return selectedItem.offsetHeight; } }, "nowTogether1")
         .set(carouselContainer, { justifyContent: "" })
         .call(m_carousel.restoreItem, [selectedItem, true])
         .call(element => { $(element).show(); }, [items])

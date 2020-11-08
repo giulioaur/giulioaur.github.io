@@ -409,65 +409,90 @@ header
                 justify-content: space-evenly;
 
                 padding: 0px;
+            }
 
-                .sm-item
+            .sm-item
+            {
+                width: 20vmin;
+                height: 20vmin;
+
+                border-radius: 20%;
+
+                overflow: hidden;
+
+                &.m-carousel-item-active, &.m-item-selected
                 {
-                    width: 20vmin;
-                    height: 20vmin;
+                    .m-item-hover
+                    {
+                        display: flex !important;
+                    }
+                }
 
+                &.m-item-selected
+                {
+                    overflow: visible;
+                }
+
+                .m-item-title
+                {
+                    background-color: $secondary-color;
+
+                    padding: 15px;
+                    
+                    text-align: center;
+
+                    h1 
+                    {
+                        font-size: 2rem;
+                    }
+                }
+
+                .m-item-hover
+                {
+                    background-color: $primary-color;
+
+                    display: none !important;
+                    position: relative;
+
+                    span, h1, i
+                    {
+                        color: $secondary-color; 
+                        position: absolute;
+                    }
+
+                    span, i
+                    {
+                        font-size: 10vmin;
+                    }
+                }
+
+                .m-item-title, .m-item-hover
+                {
                     border-radius: 20%;
+                }
 
-                    overflow: hidden;
+                &#m-main-esc
+                {
+                    display: none;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
 
-                    &.m-carousel-item-active, &.m-item-selected
-                    {
-                        .m-item-hover
-                        {
-                            display: flex !important;
-                        }
-                    }
-
-                    &.m-item-selected
-                    {
-                        overflow: visible;
-                    }
+                    transform: scale(0.35, 0.35);
+                    transform-origin: 100% 0%;
 
                     .m-item-title
                     {
-                        background-color: $secondary-color;
-
-                        padding: 15px;
-                        
-                        text-align: center;
-
-                        h1 
-                        {
-                            font-size: 2rem;
-                        }
-                    }
-
-                    .m-item-hover
-                    {
                         background-color: $primary-color;
 
-                        display: none !important;
-                        position: relative;
-
-                        span, h1, i
+                        #m-main-esc-key
                         {
-                            color: $secondary-color; 
-                            position: absolute;
+                            background-color: $secondary-color;
+                            
+                            border-radius: 3px;
+                            margin-right: 5px;
+                            padding: 0 2px;
                         }
-
-                        span, i
-                        {
-                            font-size: 10vmin;
-                        }
-                    }
-
-                    .m-item-title, .m-item-hover
-                    {
-                        border-radius: 20%;
                     }
                 }
             }
@@ -644,6 +669,10 @@ header
                 
                 .m-skill-header
                 {
+                    font-weight: bold;
+                    font-size: 1.2rem;
+
+                    margin-bottom: 5px;
                 }
 
                 .m-skill-desc
@@ -720,6 +749,7 @@ header
     {
         >.row
         {
+            padding: 0 30px;
             margin-top: 2rem;
             margin-bottom: 10px;
 

@@ -13,8 +13,10 @@ const GLOBALS = {
     },
     loadingPercentage: 0,
     projCurrIndex: -1,
-    textsToFit: document.getElementsByClassName('m-fit-text'),
-    textIncrement : 1,
+    text: {
+        textIncrement: 0.5,
+        textUnit: 'px'
+    },
     tip: [
         'You can navigate the site also using your keyboard.',
         'Do you know? Sometimes a bug can be called "feature".',
@@ -113,9 +115,6 @@ const imageLoader = {
             setTimeout(() => {
                 document.getElementById("m-loading").style.display = 'none';
                 clearInterval(loadingCheck);
-    
-                // Play an enter animation for the menu.
-                deferredEnterAnimation();
             }, 800)
         }
     }, 200);
@@ -144,7 +143,7 @@ function setupPage() {
     GLOBALS.loadingPercentage = 87;
 
     // Custom setup.
-    fitTexts();
+    // fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
     GLOBALS.loadingPercentage = 93;
 
     initScrollbar();
@@ -160,7 +159,8 @@ function setupPage() {
  * Called on page resizing.
  */
 function resizePage() {
-    fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
+    // fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
+    initScrollbar();
 }
 
 /**
@@ -184,7 +184,7 @@ function chooseLayout(menu) {
  */
 function fitTexts(textsToResizes = null) {
     if (!textsToResizes) 
-        textsToResizes = GLOBALS.textsToFit;
+        return;
 
     // Resize all the visible texts.
     for (let textToFit of textsToResizes) {
@@ -192,41 +192,42 @@ function fitTexts(textsToResizes = null) {
             const min = textToFit.dataset.minfont;
             const max = textToFit.dataset.maxfont;
             const parentHeight = getElementSize(textToFit.parentElement)[0];
-            const parentWidth = textToFit.parentElement.offsetWidth;
+            const parentWidth = $(textToFit.parentElement).width();
+            const $textToFit = $(textToFit);
             
             // Set the right starter size.
             let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
-            currentSize *= (parentHeight / textToFit.offsetHeight);     // This helps to make much less cycle below
+            currentSize *= (parentWidth / $textToFit.width());     // This helps to make much less cycle below
             currentSize = currentSize.clamp(min, max);
-            textToFit.style.fontSize = currentSize + 'px';
+            textToFit.style.fontSize = currentSize + GLOBALS.text.textUnit;
 
-            const isLower = textToFit.offsetHeight < parentHeight ? 1 : -1;
+            const isLower = $textToFit.width() < parentWidth ? 1 : -1;
 
             // Resize the text until the father size is not reached or text size overflows a range.
             while (currentSize &&
-                (isLower > 0 ? textToFit.offsetHeight < parentHeight : textToFit.offsetHeight > parentHeight) &&
+                (isLower > 0 ? $textToFit.width() < parentWidth : $textToFit.width() > parentWidth) &&
                 currentSize.isWithinRange(min, max)) {
-                currentSize += GLOBALS.textIncrement * isLower;
-                textToFit.style.fontSize = currentSize + 'px';
+                currentSize += GLOBALS.text.textIncrement * isLower;
+                textToFit.style.fontSize = currentSize + GLOBALS.text.textUnit;
             }
 
             // If the height are equal, stop, otherwise make last change.
-            if (isLower > 0 && textToFit.offsetHeight > parentHeight) {
-                currentSize -= GLOBALS.textIncrement * isLower;
-                textToFit.style.fontSize = currentSize + 'px';
+            if (isLower > 0 && $textToFit.width() > parentWidth) {
+                currentSize -= GLOBALS.text.textIncrement * isLower;
+                textToFit.style.fontSize = currentSize + GLOBALS.text.textUnit;
             }
 
             // This normalize the result.
-            textToFit.style.fontSize = currentSize.clamp(min, max) + 'px';
+            textToFit.style.fontSize = currentSize.clamp(min, max) + GLOBALS.text.textUnit;
 
             // // Get an extra check on the width since the text could oveflow by width.
-            // while (currentSize && textToFit.offsetWidth > parentWidth && currentSize.isWithinRange(min, max)) {
+            // while (currentSize && $textToFit.width() > parentWidth && currentSize.isWithinRange(min, max)) {
             //     currentSize -= GLOBALS.textIncrement;
             //     textToFit.style.fontSize = currentSize + 'px';
             // }
 
             // Change overflow.
-            textToFit.parentElement.style.overflowY = textToFit.offsetHeight > parentHeight ? 'scroll' : 'hidden';
+            textToFit.parentElement.style.overflowY = $textToFit.width() > parentWidth ? 'scroll' : 'hidden';
         }
     }
 }
@@ -319,10 +320,10 @@ function generateSkills() {
                 </div>
                 <div class="m-skill-right col-9">
                     <div class="m-skill-body row m-0 d-flex flex-col">
-                        <div class="m-skill-header">
+                        <div class="m-skill-header w-100">
                             ${skill.name}
                         </div>
-                        <div class="m-skill-desc">
+                        <div class="m-skill-desc w-100">
                             ${skill.description}
                         </div>
                     </div>
@@ -351,7 +352,7 @@ function generateExperiences() {
         const dates = exp.time.replace(/\s+/g, '').split("-");
         const startDates = dates[0].split("/");
         const startDate = new Date(startDates[1], startDates[0] - 1);
-        const [elapsedYears, elapsedMonths] = computeElapsedTime(dates[0], dates[1].length <= 1 ? today[1] + '/' + today[0] : dates[1]);
+        const [elapsedYears, elapsedMonths] = computeElapsedTime(dates[0], dates[1] == 'now' ? today[0] + '/' + today[1] : dates[1]);
         const dateOptions = {
 			year: 'numeric',
 			month: 'long'
@@ -385,7 +386,7 @@ function generateExperiences() {
                 </div>
                 <div id="exp-${index}" class="collapse" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
                     <div class="m-exp-body">
-                        ${exp.desc}   
+                        ${exp.description}   
                     </div>
                 </div>
             </div>
@@ -552,15 +553,6 @@ function computeElapsedTime(from, to)
 
 function bindAnimations() {
     itemHovering();
-    projectsSelection();
-}
-
-/**
- * Plays an enter animation for the current menu.
- */
-function deferredEnterAnimation() {
-    if (menuGraph.currentMenu.id == 'm-projects')
-        enterProjects(null, menuGraph.currentMenu);
 }
 
 /**
@@ -609,83 +601,4 @@ function itemHovering() {
             }
         }
     });
-}
-
-/**
- * Setup the projects section adding the possibility of switching between
- * the projects with mouse hovering.
- */
-function projectsSelection() {
-    const projectRows = document.getElementsByClassName('m-projects-row');
-    const projects = document.getElementsByClassName('m-projects-container');
-
-    if (projects.length == projectRows.length) {
-        // Bind project's changing on hovering the mouse.
-        for (let i = 0; i < projectRows.length; ++i) {
-            projects[i].style.display = 'none';
-
-            projectRows[i].addEventListener(SM.CONST.inputActivationEvent, (event) => {                
-                // Change visibility.
-                if (GLOBALS.projCurrIndex >= 0 && GLOBALS.projCurrIndex < projects.length)
-                    projects[GLOBALS.projCurrIndex].style.display = 'none';
-                projects[i].style.display = 'block';
-                GLOBALS.projCurrIndex = i;
-
-                // Fit text.
-                fitTexts();
-            });
-        }
-    }
-    else {
-        console.error("At least one project is not correctly setup.");
-    }
-}
-
-
-/**
- * Show the new menu with a basic transition, fitting the texts before entering.
- * 
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterWithText(from, to, isBack) {
-    to.style.opacity = 0;
-    to.style.display = '';
-
-    fitTexts(to.getElementsByClassName('m-fit-text'));
-
-    to.style.opacity = 1;
-}
-
-/**
- * Show the new menu with a basic transition, fitting the texts before entering and 
- * setting focus on the last focused element if transition has been triggered by mouse.
- *
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterWithRestore(from, to, isBack) {
-    enterWithText(from, to, isBack);
-
-    if (from && SM.input.wasKeyboard) {
-        SM.input.restoreFocus(to);
-    }
-}
-
-/**
- * Show the new menu with a basic transition, fitting the texts before entering and
- * setting focus on the first item if transition has been triggered by mouse.
- *
- * @param {HTMLElement} from The old menu.
- * @param {HTMLElement} to The menu to show.
- * @param {Boolean} isBack True if this is a back transition.
- */
-function enterWithFirstFocus(from, to, isBack) {
-    enterWithText(from, to, isBack);
-
-    if (from && SM.input.wasKeyboard) {
-        SM.input.setFocusOn(to, 0);
-    }
 }

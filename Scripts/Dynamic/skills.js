@@ -111,6 +111,16 @@ GLOBALS.skills = [
             description: `The one to rule the all. Seriously, since I discover the Visual Studio suits (both in its "standard" and "code" edition), I have
             never used any other developing environment; mostly because I really think that it has everything a developer needs, and even when it does not 
             have something, someone has already written an extension for it (thank you, mr. stranger).`
+        },
+        {
+            name: 'Multiplatform',
+            icon: 'class="icomoon icomoon-playstation"',
+            level: 'gold',
+            description: `"Jack of all trades and master of none". I really want to put this idiom somewhere and what a better place than something that
+            perfectly fits this definition (incredible, eh?). During my studies I have easily switched between Linux and Windows for one project or another,
+            while lately I stick with the latter. Instead, in my still small game developing career I have worked with every "old gen" console: PS4, XboxOne, 
+            Switch and also Stadia (I hated this one). Currently I take care only for the Windows build, but who knows, maybe one day I will go back to work with
+            my old friends Pix and Razer.`
         }
     ],
     // KNOWLEDGE

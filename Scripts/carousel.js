@@ -14,6 +14,7 @@ carouselState: {},
 activeItemClass: "m-carousel-item-active",
 currentTween: null,
 touchEvent: { start: 0, current: 0, momentum: 0 },
+width: 0,
 
 
 initCarousel()
@@ -106,16 +107,17 @@ restoreItem(item, isActive)
 
 resize()
 {
-    let width = 0;
-
-    this.items.forEach((item, i) =>
+    if (this.width == 0)
     {
-        width += item.offsetWidth;
-    });
+        this.items.forEach((item, i) =>
+        {
+            this.width += item.offsetWidth;
+        });
+    }
 
     // The width of the inner container must be at least as big as the sum of the child's width.
     // Add some more space too to allow spacing among elements.
-    this.innerContainer.style.width = width + ((4.0/5.0) * width) + "px";
+    this.innerContainer.style.width = this.width + ((4.0 / 5.0) * this.width) + "px";
 },
 
 bindTouchEvents()
