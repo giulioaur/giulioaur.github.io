@@ -26,8 +26,9 @@ function mainMenuOutAnimation(from, to, isBack)
     const containerX = gsap.getProperty(carouselContainer, "x");
     const x = $(selectedItem).position().left + (containerX ? containerX : 0);
 
-    ANIM_DATA.mainMenu.oldPos = - $(selectedItem).position().left;
-    ANIM_DATA.mainMenu.backgroundHeight = background.offsetHeight;
+    ANIM_DATA.mainMenu.oldPos = x;
+    ANIM_DATA.mainMenu.oldScroll = containerX;
+    ANIM_DATA.mainMenu.backgroundHeight = getComputedStyle(background).height;
 
     // Avoid anim overlapping.
     m_carousel.stopAnim();
@@ -58,7 +59,7 @@ function mainMenuOutAnimation(from, to, isBack)
         .call(jQuery.fn.show.bind($(back)), [])
         .add("nowTogether1")
         .to(textContainer, { x: selectedItem.offsetWidth, duration: 0.5 }, "nowTogether1")
-        .fromTo(back, { right: -100 }, { right: 0 }, "nowTogether1");
+        .fromTo(back, { right: -100 }, { right: 0, duration: 0.5 }, "nowTogether1");
 }
 
 function mainMenuInAnimation(from, to, isBack) 
@@ -81,12 +82,14 @@ function mainMenuInAnimation(from, to, isBack)
         .call(DOMTokenList.prototype.remove.bind(selectedItem.classList), ["m-item-selected"])
         .add("nowTogether1")
         .to(background, { height: ANIM_DATA.mainMenu.backgroundHeight, duration: 0.5 }, "nowTogether1")
-        .to(selectedItem, { scale: 1, duration: 0.5 }, "nowTogether1")
-        .to(carousel, { height: () => { return selectedItem.offsetHeight; } }, "nowTogether1")
+        .to(selectedItem, { scale: 1, x: ANIM_DATA.mainMenu.oldPos, duration: 0.5 }, "nowTogether1")
+        .to(carousel, { height: () => { return selectedItem.offsetHeight; }, duration: 0.5 }, "nowTogether1")
+        .set(carousel, { height: "auto" })
         .set(carouselContainer, { justifyContent: "" })
+        .set(selectedItem, { x: 0 })
         .call(m_carousel.restoreItem, [selectedItem, true])
-        .call(element => { $(element).show(); }, [items])
-        .set(carouselContainer, { x: ANIM_DATA.mainMenu.oldPos });
+        .call(jQuery.fn.show.bind($(items)), [])
+        .set(carouselContainer, { x: ANIM_DATA.mainMenu.oldScroll });
 
     SM.input.restoreFocus(to);
 }
@@ -115,15 +118,18 @@ function skillsInAnimation(from, to, isBack)
 
 function skillsOutAnimation(from, to, isBack) 
 {
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
-    const skillHeight = 100;
-
-    gsap.timeline()
-        .to(from, {
-            duration: 1,
-            y: windowHeight + skillHeight,
-        })
-        .call(jQuery.fn.hide.bind($(from)));
+    return new Promise((resolve, reject) => {
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+        const skillHeight = 100;
+    
+        gsap.timeline()
+            .to(from, {
+                duration: 1,
+                y: windowHeight + skillHeight,
+            })
+            .call(jQuery.fn.hide.bind($(from)))
+            .eventCallback("onComplete", resolve);
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -137,19 +143,26 @@ function experienceInAnimation(from, to, isBack) {
         .call(jQuery.fn.show.bind($(to)), [])
         .addLabel("animation");
 
-    to.querySelectorAll('.m-exp .progress-bar').forEach((progress, index) => {
-        tl 
-            .fromTo(progress, 
+    to.querySelectorAll('.m-exp .progress').forEach((progress, index) => {
+        const progressBar = progress.querySelector(".progress-bar");
+        const progressCover = progress.querySelector(".m-cover");
+        let x = {progress: 0};
+        tl
+            .fromTo(x,
                 {
-                    width: 0
+                    progress: 0 
                 },
                 {
-                    width: progress.getAttribute('aria-valuenow') + '%',
+                    progress: progressBar.getAttribute('aria-valuenow'),
                     duration: 1,
                     ease: "none",
                     onUpdate: () => {
-                        const percentage = gsap.getProperty(progress, 'width');
-                        progress.innerHTML = percentage + '%';
+                        const percentage = Math.ceil(x.progress);
+                        const inversePercentage = Math.ceil(100 - x.progress);
+                        progressBar.innerHTML =  percentage + '%';
+                        progressCover.innerHTML = percentage + '%';
+                        gsap.set(progressBar, { webkitClipPath: `inset(0 ${inversePercentage}% 0 0)` });
+                        gsap.set(progressBar, { clipPath: `inset(0 ${inversePercentage}% 0 0)` });
                     },
                     onComplete: () => {
                         if (index == 0)
@@ -161,6 +174,33 @@ function experienceInAnimation(from, to, isBack) {
                 },
                 "animation"
             )
+    });
+}
+
+function experienceOutAnimation(from, to, isBack) {
+    return new Promise((resolve, reject) => {
+        const tl = gsap.timeline();
+
+        tl
+            .call(jQuery.fn.click.bind($(from.querySelector('.m-exp.m-active .row'))), [])
+            .addLabel("animation");
+
+        from.querySelectorAll('.m-exp .progress').forEach((progress, index) => {
+            const progressBar = progress.querySelector(".progress-bar");
+            
+            tl
+                .set(progressBar,
+                    {
+                        webkitClipPath: ``,
+                        clipPath: ``
+                    },
+                    "animation"
+                );
+        });
+        
+        tl
+            .call(jQuery.fn.hide.bind($(from)), [])
+            .eventCallback("onComplete", resolve);
     });
 }
 
@@ -202,9 +242,14 @@ function creditsInAnimation(from, to, isBack) {
 }
 
 function creditsOutAnimation(from, to, isBack) {
-    ANIM_DATA.credits.tl.kill();
+    return new Promise((resolve, reject) => {
+        ANIM_DATA.credits.tl.kill();
 
-    $(document.getElementById("m-sw-container")).hide();
+        $(document.getElementById("m-sw-container")).hide();
+        $(document.getElementById("m-background-land")).show();
+
+        resolve();
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////

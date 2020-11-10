@@ -226,8 +226,15 @@ a.m-no-decoration
     }
 }
 
+.m-primary-color
+{
+    color: $primary-color;
+}
 
-
+.m-secondary-color
+{
+    color: $secondary-color;
+}
 
 
 
@@ -362,7 +369,7 @@ header
 {
     .m-background
     {
-        height: 300px;
+        height: 35vh;
 
         /* Create the parallax scrolling effect */
         background-attachment: fixed;
@@ -601,7 +608,8 @@ header
 
         #m-aboutme-doggo
         {
-            margin-top: 10px;
+            margin-top: 10vh;
+
             h1
             {
                 color: $primary-color;
@@ -719,15 +727,18 @@ header
 
                 .m-exp-header
                 {
-                    .col-lg-2
+                    .progress
                     {
-                        
+                        .progress-bar
+                        {
+                            z-index: 10;
+                            transition: clip-path 0.5s linear;
+                        }
                     }
                 }
 
                 .m-exp-body
                 {
-
                 }
             }
         }

@@ -357,7 +357,7 @@ function generateExperiences() {
 			year: 'numeric',
 			month: 'long'
         };
-        const progress = dates[1].length <= 1 ? 25 : 100;
+        const progress = dates[1] == 'now' ? Math.ceil((elapsedMonths + elapsedYears * 12) * 100 / 120) : 100;
 
         experienceList += `
             <div class="m-exp">
@@ -377,9 +377,10 @@ function generateExperiences() {
                         </div>
                         <div class="col-6 col-lg-2 d-flex flex-column m-exp-progress">
                             <h4>Progress:</h4>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" 
-                                    aria-valuemin="0" aria-valuemax="100"><span>${progress}%</span></div>
+                            <div class="progress position-relative">
+                                <div class="progress-bar position-absolute w-100" role="progressbar" aria-valuenow="${progress}" 
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="m-cover justify-content-center d-flex position-absolute w-100 m-primary-color">${progress}%</div>
                             </div>
                         </div>
                     </div>
