@@ -107,17 +107,21 @@ restoreItem(item, isActive)
 
 resize()
 {
-    if (this.width == 0)
+    this.width = 0;
+    
+    if (this.items.length > 0)
     {
         this.items.forEach((item, i) =>
         {
             this.width += item.offsetWidth;
         });
+    
+        this.width = Math.max(this.width + ((4.0 / 5.0) * this.width), document.getElementById('m-carousel').offsetWidth);
     }
 
     // The width of the inner container must be at least as big as the sum of the child's width.
     // Add some more space too to allow spacing among elements.
-    this.innerContainer.style.width = this.width + ((4.0 / 5.0) * this.width) + "px";
+    this.innerContainer.style.width = this.width + "px";
 },
 
 bindTouchEvents()

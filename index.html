@@ -26,6 +26,7 @@
                 crossorigin="anonymous"></script>
         <!-- GSAP -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/TextPlugin.min.js"></script>
         <!-- JScrollPanel -->
         <script type="text/javascript" src="Scripts/3DParty/jquery.jscrollpane.min.js"></script>
         <script type="text/javascript" src="Scripts/3DParty/mwheelIntent.js"></script>
@@ -36,10 +37,15 @@
         <link rel="stylesheet" href="Styles/Icons/devicon-colors.css">
         <!-- Mine -->
         <!-- Sushi Menu -->
+        <!-- <script type="text/javascript" src="Scripts/Release/sushiMenu.min.js"></script>
+        <script type="text/javascript" src="Scripts/Release/sushiMenuInput.min.js"></script> -->
         <script type="text/javascript" src="Scripts/sushiMenu.js"></script>
         <script type="text/javascript" src="Scripts/sushiMenuInput.js"></script>
         <!-- Site -->
         <link rel="stylesheet" href="Styles/index.min.css" />
+        <!-- <script type="text/javascript" src="Scripts/Release/index.min.js"></script>
+        <script type="text/javascript" src="Scripts/Release/carousel.min.js"></script>
+        <script type="text/javascript" src="Scripts/Release/animations.min.js"></script> -->
         <script type="text/javascript" src="Scripts/index.js"></script>
         <script type="text/javascript" src="Scripts/carousel.js"></script>
         <script type="text/javascript" src="Scripts/animations.js"></script>
@@ -89,22 +95,28 @@
             </div>
         </div>
         <!--------------------- SW EFFECT BOX --------------------->
-        <div id="m-sw-container">
-            <div id="m-sw-credits">
-                <div id="m-sw-intro">
-                    <div>
+        <div id="m-sw-container" class="position-absolute">
+            <div id="m-sw-credits" class="w-100 h-100 position-relative">
+                <div id="m-sw-intro" class="position-absolute">
+                    <div class="position-relative">
                         <p>Right now, in a very messy code...</p>
-                        <h1>Star </br>Helps</h1>
+                        <h1 class="text-center">Star </br>Helps</h1>
                     </div>
                 </div>
-                <div id="m-sw-box">
+                <div id="m-sw-box" class="w-100 position-absolute">
                     <div id="m-sw-box-content">
                     </div>
                 </div>
             </div>
         </div>
+        <div id="sw-checkbox" class="form-check position-absolute bottom-0">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+                I don't like SW
+            </label>
+        </div>
         <!--------------------- MAIN PAGE --------------------->
-        <div id="m-page">
+        <div id="m-page" class="w-100 h-100">
             <!--------------------- HEADER --------------------->
             <header class="container-fluid">
             </header>
@@ -113,10 +125,10 @@
                 <!--------------------- MAIN MENU --------------------->
                 <div id="sm-main-menu" class="sm-menu container-fluid" data-sm-in="mainMenuInAnimation" data-sm-out="mainMenuOutAnimation">
                     <div class="sm-layout sm-main-layout">
-                        <div id="m-carousel" class="w-100">
+                        <div id="m-carousel" class="position-relative w-100">
                             <div id="m-carousel-container" class="container-fluid d-flex flex-row">
                                 <div class="sm-item m-carousel-item" data-goto="m-about-me" data-backg="about-me-back.jpg">
-                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100 text-center">
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Profile</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
@@ -124,7 +136,7 @@
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-skills" data-backg="skills-back.jpg">
-                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100 text-center">
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Achiev- ments</h1>
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Achievments</h1>
                                     </div>
@@ -133,7 +145,7 @@
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-experience" data-backg="exp-back.jpg">
-                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100 text-center">
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Progress</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
@@ -141,7 +153,7 @@
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-projects" data-backg="games-back.jpg">
-                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100 text-center">
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Owned Games</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
@@ -149,7 +161,7 @@
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-credits" data-backg="credits-back.jpg">
-                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
+                                    <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100 text-center">
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Credits</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
@@ -157,9 +169,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="m-carousel-control m-carousel-control-left"></a>
-                            <a class="m-carousel-control m-carousel-control-right"></a>
-                            <div id="m-main-esc" class="sm-item sm-back-item">
+                            <a class="m-carousel-control m-carousel-control-left position-absolute"></a>
+                            <a class="m-carousel-control m-carousel-control-right position-absolute"></a>
+                            <div id="m-main-esc" class="sm-item sm-back-item position-absolute">
                                 <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100">
                                     <div id="m-main-esc-key">
                                         esc
@@ -174,7 +186,7 @@
                     <!--------------------- BACKGROUND --------------------->
                     <div id="m-background-land" class="m-background container-fluid"></div>
                     <!--------------------- ABOUT ME --------------------->
-                    <div id="m-about-me" class="sm-menu container-fluid m-0">
+                    <div id="m-about-me" class="sm-menu container-fluid m-0" data-sm-in="aboutMeInAnimation" data-sm-out="scrollOutAnimation">
                         <div class="sm-layout sm-main-layout">
                             <div class="sm-item">
                                 <div class="row">
@@ -212,11 +224,11 @@
                                     <div id="m-aboutme-right" class="col-12 col-lg-8 d-flex flex-column">
                                         <div id="m-aboutme-header" class="w-100">
                                             <div class="d-flex flex-column">
-                                                <div id="m-aboutme-name" class="d-flex align-items-center">
+                                                <div id="m-aboutme-name" class="d-flex align-items-center m-primary-color">
                                                     <img id="m-left-sushi-img" src="Styles/Images/Sushi.png">
                                                     <h1>Dr.Sushi (Giulio Auriemma)</h1>
                                                 </div>
-                                                <div id="m-aboutme-title" class="d-flex align-items-center justify-content-start">
+                                                <div id="m-aboutme-title" class="d-flex align-items-center justify-content-start m-primary-color">
                                                     <i class="icomoon icomoon-game-controller"><span class="path1"></span><span
                                                             class="path2"></span><span class="path3"></span><span class="path4"></span><span
                                                             class="path5"></span><span class="path6"></span><span class="path7"></span><span
@@ -253,7 +265,7 @@
                                         </div>
                                     </div>
                                     <div id="m-aboutme-doggo" class="col-12 d-flex flex-column justify-content-center align-items-center">
-                                        <h1>Enjoy this photo of my beautiful doggo (she)</h1>
+                                        <h1 class="m-primary-color">Enjoy this photo of my beautiful doggo (she)</h1>
                                         <img src="Styles/Images/doggo.jpg"></img>
                                     </div>
                                     <div class="w-100" style="height: 15vh;"></div>
@@ -292,52 +304,22 @@
                     <div id="m-experience" class="sm-menu container-fluid w-100" data-sm-in="experienceInAnimation"  data-sm-out="experienceOutAnimation">
                         <div class="sm-layout sm-main-layout">
                             <div id="m-exp-accordion">
-                                <!-- <div class="m-exp">
-                                                    <div class="m-exp-header" id="headingOne">
-                                                        <div class="row" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            <div class="col-12 col-lg-5 d-flex flex-column m-exp-title">
-                                                                <h4>Bachelor's degree</h4>
-                                                                <h5>Università degli studi di Napoli</h4>
-                                                            </div>
-                                                            <div class="col-6 col-lg-2 d-flex flex-column m-exp-start">
-                                                                <h4>First boot:</h4>
-                                                                <h5>jun-2020</h5>
-                                                            </div>
-                                                            <div class="col-6 col-lg-2 d-flex flex-column m-exp-total">
-                                                                <h4>Total time:</h4>
-                                                                <h5>10h</h5>
-                                                            </div>
-                                                            <div class="col-6 col-lg-2 d-flex flex-column m-exp-progress">
-                                                                <h4>Progress:</h4>
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" 
-                                                                        aria-valuemin="0" aria-valuemax="100">25%</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#m-exp-accordion">
-                                                        <div class="m-exp-body">
-                                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                                        </div>
-                                                    </div>
-                                                </div> -->
                             </div>
                         </div>
                     </div>
                     <!--------------------- PROJECTS --------------------->
-                    <div id="m-projects" class="sm-menu container-fluid w-100">
+                    <div id="m-projects" class="sm-menu container-fluid w-100" data-sm-in="projectsInAnimation" data-sm-out="scrollOutAnimation">
                         <div class="sm-layout sm-main-layout">
                             <div class="row h-100">
-                                <div class="col-12">
-                                    <h1>Owned Games</h1>
+                                <div class="col-12 p-0">
+                                    <h1 class="m-primary-color">Owned Games</h1>
                                 </div>
                                 <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
                                     data-goto="https://github.com/VRcolVento/ChatVRoom">
-                                    <div class="m-game-container w-100 h-100">
-                                        <div class="m-game-background w-100 h-100"
+                                    <div class="m-game-container w-100 h-100 position-relative">
+                                        <div class="m-game-background w-100 h-100 position-relative"
                                             style="background-image: url('Styles/Images/chatvrroom.jpg')"></div>
-                                        <div class="m-game-info">
+                                        <div class="m-game-info position-absolute">
                                             <h2 class="m-title">ChatVR</h2>
                                             <h3 class="m-role">Ft. Andrea Lisi</h3>
                                         </div>
@@ -345,15 +327,15 @@
                                 </div>
                             </div>
                             <div class="row h-100">
-                                <div class="col-12">
-                                    <h1>Shared Games</h1>
+                                <div class="col-12 p-0">
+                                    <h1 class="m-primary-color">Shared Games</h1>
                                 </div>
                                 <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
                                     data-goto="https://generationzero.com/en/">
-                                    <div class="m-game-container  w-100 h-100">
-                                        <div class="m-game-background w-100 h-100"
+                                    <div class="m-game-container w-100 h-100 position-relative">
+                                        <div class="m-game-background w-100 h-100 position-relative"
                                             style="background-image: url('Styles/Images/gen-zero.jpg')"></div>
-                                        <div class="m-game-info">
+                                        <div class="m-game-info position-absolute">
                                             <h2 class="m-title">Generation Zero</h2>
                                             <h3 class="m-role">Gameplay Programmer</h3>
                                         </div>
@@ -361,10 +343,10 @@
                                 </div>
                                 <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
                                     data-goto="https://supercrossthegame.com/">
-                                    <div class="m-game-container  w-100 h-100">
-                                        <div class="m-game-background w-100 h-100"
+                                    <div class="m-game-container w-100 h-100 position-relative">
+                                        <div class="m-game-background w-100 h-100 position-relative"
                                             style="background-image: url('Styles/Images/supercross3.jpg')"></div>
-                                        <div class="m-game-info">
+                                        <div class="m-game-info position-absolute">
                                             <h2 class="m-title">Supercross 3</h2>
                                             <h3 class="m-role">Junior Online Programmer</h3>
                                         </div>
@@ -372,10 +354,10 @@
                                 </div>
                                 <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
                                     data-goto="https://motogpvideogame.com/it/">
-                                    <div class="m-game-container  w-100 h-100">
-                                        <div class="m-game-background w-100 h-100"
+                                    <div class="m-game-container w-100 h-100 position-relative">
+                                        <div class="m-game-background w-100 h-100 position-relative"
                                             style="background-image: url('Styles/Images/motogp19.jpg')"></div>
-                                        <div class="m-game-info">
+                                        <div class="m-game-info position-absolute">
                                             <h2 class="m-title">Motogp 19</h2>
                                             <h3 class="m-role">Junior Online Programmer</h3>
                                         </div>
@@ -389,18 +371,18 @@
                         <div class="sm-layout sm-main-layout d-flex justify-content-center">
                             <div id="m-credits-container">
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h1>Website realized by</h1>
+                                    <h1 class="m-primary-color">Website realized by</h1>
                                     <h1>me</h1>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h1>Programming</h1>
+                                    <h1 class="m-primary-color">Programming</h1>
                                     <h3><a class="m-no-decoration" href="https://greensock.com/gsap" target="_blank">GSAP</a></h3>
                                     <!-- <h3><a class="m-no-decoration" href="https://github.com/Bernardo-Castilho/dragdroptouch" target="_blank">DragDropTouch</a></h3> -->
                                     <h3><a class="m-no-decoration" href="http://jscrollpane.kelvinluck.com/#support"
                                             target="_blank">JScrollPane</a></h3>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h1>Art</h1>
+                                    <h1 class="m-primary-color">Art</h1>
                                     <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a></h3>
                                     <h3><a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a></h3>
                                     <h3><a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a>
@@ -418,7 +400,7 @@
                                     </h3>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h1>Design</h1>
+                                    <h1 class="m-primary-color">Design</h1>
                                     <h3><a class="m-no-decoration" href="https://getbootstrap.com/" target="_blank">Bootstrap</a></h3>
                                     <h3><a class="m-no-decoration" href="https://coolors.co/515a47-d7be82-7a4419-755c1b-400406"
                                             target="_blank">Color palette</a></h3>
@@ -427,7 +409,7 @@
                                             target="_blank">Star Wars effect</a></h3>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h1>Other thanks to</h1>
+                                    <h1 class="m-primary-color">Other thanks to</h1>
                                     <h3><a class="m-no-decoration" href="http://mstudios.altervista.org" target="_blank">Maurizio Cimino</a>
                                     </h3>
                                     <h3><a class="m-no-decoration" href="https://0alic.github.io/" target="_blank">Andrea Lisi</a></h3>

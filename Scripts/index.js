@@ -12,17 +12,16 @@ const GLOBALS = {
         right: [68, 39],
     },
     loadingPercentage: 0,
-    projCurrIndex: -1,
-    text: {
-        textIncrement: 0.5,
-        textUnit: 'px'
-    },
     tip: [
-        'You can navigate the site also using your keyboard.',
+        // 'You can navigate the site also using your keyboard.',
         'Do you know? Sometimes a bug can be called "feature".',
         'Stealing data from your pc....',
-        'Have a puuuurfect day :3'
-    ]
+        'Optimizing assembly code...',
+        'Have a puuuurfect day :3',
+        'Once a great sage said: "Bau Bau Bau"',
+        'Stop procrastinating and do your job!!'
+    ],
+    scrollPanel: undefined
 }
 var menuGraph;
 
@@ -131,7 +130,7 @@ function setupPage() {
     GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({ shouldSave: false, logError: true, layoutMap: chooseLayout, playFirstAnimation: false});
+    menuGraph = new SM.Graph({ shouldSave: false, logError: true, playFirstAnimation: false});
     GLOBALS.loadingPercentage = 70;
 
     // Custom setup. Put here to animate after first focus.
@@ -143,13 +142,14 @@ function setupPage() {
     GLOBALS.loadingPercentage = 87;
 
     // Custom setup.
-    // fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
     GLOBALS.loadingPercentage = 93;
 
     initScrollbar();
-    menuGraph.addDataCallback((oldMenu, newMenu) => { $(newMenu).show(); initScrollbar(); return true; }, true);
+    menuGraph.addDataCallback((oldMenu, newMenu) => { $(newMenu).show(); initScrollbar(true); return true; }, true);
     menuGraph.addDataCallback(initScrollbar, false);
     GLOBALS.loadingPercentage = 95;
+
+    setupCredits();
 
     imageLoader.waitForLoading();
     GLOBALS.loadingPercentage = 100;
@@ -159,87 +159,19 @@ function setupPage() {
  * Called on page resizing.
  */
 function resizePage() {
-    // fitTexts(menuGraph.currentMenu.getElementsByClassName('m-fit-text'));
     initScrollbar();
 }
 
 /**
- * The function used to choose the correct menu.
- * 
- * @param {HTMLElement} menu The current menu.
+ * Re-inits the jscrollpane and correctly set scrollbar.
  */
-function chooseLayout(menu) {
-    const width = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
-    const height = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
-    const aspectRatio = height / width;
-
-    return aspectRatio <= 1 ? 'main' : 'portrait';
-}
-
-/**
- * Resizes texts to perfectly fit container.
- * 
- * @param {HTMLCollection} [textsToResizes] The texts to resize. If null, all visibles elements will be resized.
- *                                           It may be used due to performance reasons.
- */
-function fitTexts(textsToResizes = null) {
-    if (!textsToResizes) 
-        return;
-
-    // Resize all the visible texts.
-    for (let textToFit of textsToResizes) {
-        if (textToFit.offsetParent) {
-            const min = textToFit.dataset.minfont;
-            const max = textToFit.dataset.maxfont;
-            const parentHeight = getElementSize(textToFit.parentElement)[0];
-            const parentWidth = $(textToFit.parentElement).width();
-            const $textToFit = $(textToFit);
-            
-            // Set the right starter size.
-            let currentSize = textToFit.style.fontSize ? parseInt(textToFit.style.fontSize, 10) : 20;
-            currentSize *= (parentWidth / $textToFit.width());     // This helps to make much less cycle below
-            currentSize = currentSize.clamp(min, max);
-            textToFit.style.fontSize = currentSize + GLOBALS.text.textUnit;
-
-            const isLower = $textToFit.width() < parentWidth ? 1 : -1;
-
-            // Resize the text until the father size is not reached or text size overflows a range.
-            while (currentSize &&
-                (isLower > 0 ? $textToFit.width() < parentWidth : $textToFit.width() > parentWidth) &&
-                currentSize.isWithinRange(min, max)) {
-                currentSize += GLOBALS.text.textIncrement * isLower;
-                textToFit.style.fontSize = currentSize + GLOBALS.text.textUnit;
-            }
-
-            // If the height are equal, stop, otherwise make last change.
-            if (isLower > 0 && $textToFit.width() > parentWidth) {
-                currentSize -= GLOBALS.text.textIncrement * isLower;
-                textToFit.style.fontSize = currentSize + GLOBALS.text.textUnit;
-            }
-
-            // This normalize the result.
-            textToFit.style.fontSize = currentSize.clamp(min, max) + GLOBALS.text.textUnit;
-
-            // // Get an extra check on the width since the text could oveflow by width.
-            // while (currentSize && $textToFit.width() > parentWidth && currentSize.isWithinRange(min, max)) {
-            //     currentSize -= GLOBALS.textIncrement;
-            //     textToFit.style.fontSize = currentSize + 'px';
-            // }
-
-            // Change overflow.
-            textToFit.parentElement.style.overflowY = $textToFit.width() > parentWidth ? 'scroll' : 'hidden';
-        }
-    }
-}
-
-
 function initScrollbar(shouldMantain = false) {
     const scrollPanels = document.getElementById("m-menu-container");
 
-    $(scrollPanels).jScrollPane({
+    GLOBALS.scrollPanel = $(scrollPanels).jScrollPane({
         contentWidth: 1,
         maintainPosition: shouldMantain
-    });
+    }).data('jsp');
 
     $(scrollPanels).bind(
         'jsp-will-scroll-y',
@@ -251,6 +183,9 @@ function initScrollbar(shouldMantain = false) {
     updateScrollingPanelHeight();
 }
 
+/**
+ * Applies the appear/disappear scrollbar effect.
+ */
 function getGhostScrollbarCallback(container, delay = 1000) {
     let fadingCallback;
 
@@ -268,10 +203,40 @@ function getGhostScrollbarCallback(container, delay = 1000) {
     };
 }
 
+/**
+ * Makes the scrollable panel as big as the page remaining available space.
+ */
 function updateScrollingPanelHeight() {
     const jspContainer = document.querySelector("#sm-viewport .jspContainer");
     const height = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
     jspContainer.style.height = height - document.getElementById("sm-main-menu").offsetHeight + "px";
+}
+
+function setupCredits() 
+{
+    if (localStorage.getItem('swEffect') === null) {
+        localStorage.setItem('swEffect', true);
+    }
+
+    if (localStorage.getItem('swEffect') == 'false')    $('#sw-checkbox .form-check-input').click();
+
+    $('#sw-checkbox .form-check-input').change(function () {
+        const mustShowSWEffect = !$(this).is(':checked');
+        localStorage.setItem('swEffect', mustShowSWEffect);
+
+        if (mustShowSWEffect) {
+            hideCredits(() => showSWEffect(initScrollbar));
+        }
+        else
+        {
+            hideSWEffect(() => showCredits(initScrollbar));
+        }
+
+        initScrollbar();
+    });
+
+    const creditsContainer = document.getElementById("m-credits-container");
+    document.getElementById("m-sw-box-content").innerHTML = creditsContainer.innerHTML;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -314,7 +279,7 @@ function generateSkills() {
 
             skillsList += `
             <div class="m-skill w-100 row m-0">
-                <div class="m-skill-left col-3 d-flex flex-row justify-content-around align-items-center">
+                <div class="m-skill-left col-3 d-flex justify-content-around align-items-center">
                     <span id="m-skill-symbol">${skillImg}</span>
                     <i class="icomoon icomoon-trophy-plain ${skill.level}"></i>
                 </div>
@@ -375,12 +340,12 @@ function generateExperiences() {
                             <h4>Total time:</h4>
                             <h5>${elapsedYears}y ${elapsedMonths}m</h5>
                         </div>
-                        <div class="col-6 col-lg-2 d-flex flex-column m-exp-progress">
+                        <div class="col-12 col-lg-2 d-flex flex-column align-items-center m-exp-progress">
                             <h4>Progress:</h4>
-                            <div class="progress position-relative">
-                                <div class="progress-bar position-absolute w-100" role="progressbar" aria-valuenow="${progress}" 
+                            <div class="progress position-relative w-100">
+                                <div class="progress-bar position-absolute w-100 h-100" role="progressbar" aria-valuenow="${progress}" 
                                     aria-valuemin="0" aria-valuemax="100"></div>
-                                <div class="m-cover justify-content-center d-flex position-absolute w-100 m-primary-color">${progress}%</div>
+                                <div class="m-cover justify-content-center d-flex position-absolute w-100 h-100 m-primary-color">${progress}%</div>
                             </div>
                         </div>
                     </div>
@@ -410,43 +375,12 @@ function generateExperiences() {
     });
 }
 
-/**
- * Fill the projects' session.
- */
-function generateProjects() {
-    let list = '';
-    let descriptions = '';
+// /**
+//  * Fill the projects' session.
+//  */
+// function generateProjects() {
 
-    // Creates all the project.
-    for (project of GLOBALS.projects) {
-        list += `
-            <div class="m-projects-row sm-item d-flex align-items-center">
-                ${project.title}
-            </div>
-        `;
-
-        descriptions += `
-            <div class="m-projects-container h-100 sm-redirect-blank-item" data-goto="${project.link}">
-                <div class="m-projects-banner d-flex align-items-center justify-content-center"
-                style="background-image: url('${project.screen}')">
-                    <h1>${project.extendedTitle}</h1>
-                </div>
-                <div class="m-projects-description">
-                    <p class="m-fit-text" data-maxfont="30" data-minfont="15">
-                        ${project.description}
-                    </p>
-                </div>
-            </div>
-        `;
-
-        // Add the image to the dynamically loaded list.
-        imageLoader.loadImage(project.screen);
-    }
-
-    // Add it to the dom.
-    document.querySelector('#m-projects > .sm-main-layout > .row > div:first-child').innerHTML = list;
-    document.querySelector('#m-projects > .sm-main-layout > .row > div:nth-child(2)').innerHTML = descriptions;
-}
+// }
 
 
 
@@ -457,7 +391,6 @@ function generateProjects() {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////// UTILITIES ///////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-
 
 /**
  * Returns a number whose value is limited to the given range.
@@ -470,21 +403,6 @@ function generateProjects() {
 Number.prototype.clamp = function (min, max) {
     const first = min !== undefined ? Math.max(this, min) : this;
     return max !== undefined ? Math.min(first, max) : first;
-};
-
-Number.prototype.lowerWithinTreshold = function(limit, threshold) {
-    return this <= limit && this >= limit - threshold; 
-};
-
-/**
- * Checks if a number has not overcame a certain boundaries.
- * 
- * @param {Number} min The minimum.
- * @param {Number} max The maximum.
- * @returns {bool} true if the number has not overcame boundaries, false otherwise.
- */
-Number.prototype.isWithinRange = function(min, max) {
-    return  (!min || this >= min) && (!max || this <= max); 
 };
 
 /**
@@ -602,4 +520,17 @@ function itemHovering() {
             }
         }
     });
+}
+
+
+////////////////////////////////////////////////////////////////////////
+///////////////////////////// SW-EFFECT ////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+/**
+ * Returns true if must show the sw credits page.
+ */
+function shouldShowSWEffect()
+{
+    return localStorage.getItem('swEffect') == "true";
 }
