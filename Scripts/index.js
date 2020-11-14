@@ -465,6 +465,18 @@ function computeElapsedTime(from, to)
     return [elapsedYears, endDates[0] - startDates[0]];
 }
 
+/**
+ * Check if the window is in portrait mode.
+ *
+ * @return True if the current windows has height > width.
+ */
+function isPortraitMode() {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+    const height = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+    const aspectRatio = height / width;
+
+    return aspectRatio > 1;
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////////// ANIMATIONS ///////////////////////////////
@@ -499,6 +511,8 @@ function itemHovering() {
             const backs = this.dataset["backg"].split(",");
             document.getElementById("m-background-land").style.backgroundImage = 
                 `url("Styles/Images/${backs[0]}")`;
+            document.getElementById("m-background-port").style.backgroundImage =
+                `url("Styles/Images/${backs[backs.length > 1 ? 1 : 0]}")`;
 
             m_carousel.goToItem($items.index(this));
         }

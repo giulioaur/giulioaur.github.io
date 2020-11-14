@@ -25,6 +25,7 @@ function mainMenuOutAnimation(from, to, isBack)
     const back = carousel.querySelector("#m-main-esc");
     const containerX = gsap.getProperty(carouselContainer, "x");
     const x = $(selectedItem).position().left + (containerX ? containerX : 0);
+    const scale = isPortraitMode() ? 0.5 : 0.35;
 
     ANIM_DATA.mainMenu.oldPos = x;
     ANIM_DATA.mainMenu.oldScroll = containerX;
@@ -54,9 +55,9 @@ function mainMenuOutAnimation(from, to, isBack)
         .to(carouselContainer, { width: '100%' }, "nowTogether0")
         .from(selectedItem, { x: x, duration: 0.5 }, "nowTogether0")
         .set(selectedItem, { transformOrigin: "top left" }, "nowTogether0")                      // While scaling it.
-        .to(selectedItem, { scale: 0.35, duration: 0.5, onUpdate: updateScrollingPanelHeight }, "nowTogether0")
-        .to(carousel, { height: carousel.offsetHeight * 0.35, duration: 0.5 }, "nowTogether0")
-        .to(background, { height: background.offsetHeight + (carousel.offsetHeight - carousel.offsetHeight * 0.35), duration: 0.5 }, "nowTogether0")
+        .to(selectedItem, { scale: scale, duration: 0.5, onUpdate: updateScrollingPanelHeight }, "nowTogether0")
+        .to(carousel, { height: carousel.offsetHeight * scale, duration: 0.5 }, "nowTogether0")
+        .to(background, { height: background.offsetHeight + (carousel.offsetHeight - carousel.offsetHeight * scale), duration: 0.5 }, "nowTogether0")
         .set(textContainer, {background: 'none'})                                               // Move the background to the right.
         .call(jQuery.fn.show.bind($(back)), [])
         .add("nowTogether1")
@@ -112,6 +113,7 @@ function aboutMeInAnimation(from, to, isBack) {
     const innerText1 = text1.innerHTML;
     const innerText2 = text2.innerHTML;
     const innerText3 = text3.innerHTML;
+    const backPercentage = isPortraitMode() ? '-600%' : '-200%';
 
     gsap.timeline()
         .call(jQuery.fn.show.bind($(to)), [])
@@ -122,8 +124,8 @@ function aboutMeInAnimation(from, to, isBack) {
         .to(text1, { duration: 1.2, text: innerText1 }, "nowTogether")
         .to(text2, { duration: 1.2, text: innerText2 }, "nowTogether")
         .to(text3, { duration: 8, text: innerText3, delay: 1.5 }, "nowTogether")
-        .from(to.querySelector("#m-my-photo"), { duration: 0.8, x: '-200%' }, "nowTogether")
-        .from(to.querySelectorAll("#m-contact-me >div"), { duration: 0.8, x: '-200%', stagger: 0.2 }, "nowTogether")
+        .from(to.querySelector("#m-my-photo"), { duration: 0.8, x: backPercentage }, "nowTogether")
+        .from(to.querySelectorAll("#m-contact-me >div"), { duration: 0.8, x: backPercentage, stagger: 0.2 }, "nowTogether")
         .from(to.querySelectorAll("#m-aboutme-doggo"), { duration: 0.8, x: '+300%', stagger: 0.2 }, "nowTogether");
 }
 
@@ -320,7 +322,7 @@ function showSWEffect(resolve) {
     const swBoxContent = swBox.querySelector("#m-sw-box-content");
     const firstText = swContainer.querySelector("#m-sw-intro p");
     const secondText = swContainer.querySelector("#m-sw-intro h1");
-    const background = document.getElementById("m-background-land");
+    const background = document.getElementById(isPortraitMode() ? "m-background-port" : "m-background-land");
 
     ANIM_DATA.credits.tl = gsap.timeline();
 
@@ -352,7 +354,7 @@ function hideSWEffect(resolve) {
 
     $('#sw-checkbox').hide();
     $("#m-sw-container").hide();
-    $("#m-background-land").show();
+    $(isPortraitMode() ? "#m-background-port" : "#m-background-land").show();
 
     if (resolve)        resolve();
 }

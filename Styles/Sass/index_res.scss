@@ -90,7 +90,25 @@ html
 //*****************************************************************************************//
 //*****************************************************************************************//
 
+#m-background-port
+{
+    display: none;
+}
 
+@include portrait
+{
+
+#m-background-port
+{
+    display: block;
+}
+
+#m-background-land
+{
+    display: none;
+}
+
+}
 
 
 //*****************************************************************************************//
@@ -125,6 +143,24 @@ html
                         {
                             display: none;
                         }
+                    }
+                }
+            }
+
+            #m-main-esc
+            {
+                transform: scale(0.35, 0.35);
+                
+                @include portrait
+                {
+                    transform: scale(0.5, 0.5);
+                }
+
+                @include bootstrap-not-lg
+                {
+                    #m-main-esc-key
+                    {
+                        display: none;
                     }
                 }
             }

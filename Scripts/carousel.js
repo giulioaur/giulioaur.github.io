@@ -13,7 +13,6 @@ items : {},
 carouselState: {},
 activeItemClass: "m-carousel-item-active",
 currentTween: null,
-touchEvent: { start: 0, current: 0, momentum: 0 },
 width: 0,
 
 
@@ -127,14 +126,19 @@ resize()
 bindTouchEvents()
 {
     const self = this;
+    const minRight = - (this.innerContainer.offsetWidth - this.items[0].offsetWidth * 3);
+    let current = 0;
+    let momentum = 0;
+    let momentumDecreaser;
 
     this.innerContainer.addEventListener("touchstart", evt => {
         const touch = evt.changedTouches[0];
 
         if (!touch) return;
 
-        self.touchEvent.start = touch.pageX;
-        self.touchEvent.current = touch.pageX;
+        current = touch.pageX;
+
+        momentumDecreaser = setInterval(() => momentum = momentum > 0 ? Math.max(momentum - 1, 0) : Math.min(momentum + 1, 0), 0.2);
     }, false);
 
     this.innerContainer.addEventListener("touchend", evt => {
@@ -142,13 +146,13 @@ bindTouchEvents()
 
         if (!touch) return;
 
-        const diff = self.touchEvent.start - touch.pageX;
         const x = gsap.getProperty(self.innerContainer, "x");
-        const target = x - diff;
-
+        const target = x - momentum;
+        
         self.stopAnim();
-        // #TODO: Compute a momentum using touchmove and timed callback, than use it to move the slider.
-        self.currentTween = gsap.to(self.innerContainer, {x: target.clamp(-self.innerContainer.offsetWidth, 0)});
+        self.currentTween = gsap.to(self.innerContainer, { x: target.clamp(minRight, 0) });
+
+        clearInterval(momentumDecreaser);
     }, false);
 
     this.innerContainer.addEventListener("touchmove", evt => {
@@ -156,13 +160,14 @@ bindTouchEvents()
 
         if (!touch) return;
 
-        const prev = self.touchEvent.current;
+        const prev = current;
         const curr = touch.pageX;
         const x = gsap.getProperty(self.innerContainer, "x");
         const target = x - (prev - curr) * 10;
+        momentum += 4 * Math.sign(prev - curr);
 
-        self.currentTween = gsap.to(self.innerContainer, {x: target.clamp(-self.innerContainer.offsetWidth, 0)});
-        self.touchEvent.current = curr;
+        self.currentTween = gsap.to(self.innerContainer, { x: target.clamp(minRight, 0)});
+        current = curr;
     }, false);
 }
 
