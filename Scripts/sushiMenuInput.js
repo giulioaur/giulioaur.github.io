@@ -108,7 +108,7 @@ SM.input = {
             }
 
             // Set up the menu cleaning.
-            this._graph.addDataCallback(this._cleanMenu.bind(this), false);
+            this._graph.addDataCallback((oldMenu, newMenu) => this._cleanMenu(newMenu), true);
 
             // Set up the focus on first element.
             if (this._options.firstFocus)

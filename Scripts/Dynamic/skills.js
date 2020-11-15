@@ -19,9 +19,9 @@ GLOBALS.skills = [
             `,
             level: 'gold',
             description: `My main languages, the one I have studied the most and I work with everyday. I really like its versatility and its power, 
-            that allows you to basically make everything you want (sometimes with a big effort). Altough every time I find something new about it I feel
+            that allows you to basically make everything you want (sometimes with a big effort). Altough, every time I find something new about it I feel
             like an astronomer looking the universe: lost in its immense vastity. Still a lot to be learn, but during years I have used mostly of its 
-            most famous library and tools: stdlib, OpenMP, OpenCV, OpenGL, glmath, boost and cmake to name a few (I kinda like open source).`
+            most famous libraries and tools: stdlib, OpenMP, OpenCV, OpenGL, glmath, boost and cmake to name a few (I kinda like open source).`
         },
         {
             name: 'Java / CSharp',
@@ -59,8 +59,8 @@ GLOBALS.skills = [
             level: 'silver',
             description: `Indeed Javascript is one of the language I enjoy the most thanks to its madness (remember that 'NaN === NaN' is false). 
             Jokes aside, I really like javascript for allowing you to make with relatively simplicity things that in other languages are absurdly complex
-            (full reflection *cof*cof*). But I am one of those bad persons that use it mostly as it was an imperative / oo language, really sorry. 
-            I have also played a bit also with its brothers (Angular and Node), but I found them sometimes unnecessary complex. BTW, I have put Web language
+            (full reflection *cof*cof*). But I am one of those bad persons that uses it mostly as it was an imperative / oo language, really sorry. 
+            I have also played a bit with its brothers (Angular and Node), but I found them sometimes unnecessary complex. BTW, I have put Web language
             in the title just because I wanted to include also html and css, but came on! They are not real languages!`
         },
         {
@@ -85,7 +85,7 @@ GLOBALS.skills = [
             level: 'silver',
             description: `Unity, Unreal and Apex, this is the list of the engine I have used so far, but I hope this become bigger and bigger since I 
             really love to discover how every engine has its peculiar approach to a specific problem. And maybe, one day, I will be also able (and not-lazy 
-            enough) to write my small cute engine. I really love the world of engine programming, with all its awesome trick to spill every single frame 
+            enough) to write my small cute engine. I really love the world of engine programming, with all its awesome tricks to spill every single frame 
             from the hardware. Optimization, low-level code and fancy algorithms are some of the stuff I love more about programming.`
         },
         {
@@ -97,7 +97,7 @@ GLOBALS.skills = [
             `,
             level: 'bronze',
             description: `Do I really have to add something to that? The main tool in every programmer's toolbox. Is it more the time I gain using it
-            or the one I spent trying to merge conflicting files, who knows (at least with git)? I mainly use git for my own projects and Perforce in 
+            or the one I spent trying to merge conflicting files, who knows (at least with Git)? I mainly use Git for my own projects and Perforce in 
             production environment.`
         },
         {
@@ -108,14 +108,14 @@ GLOBALS.skills = [
                 </path>
             `,
             level: 'silver',
-            description: `The one to rule the all. Seriously, since I discover the Visual Studio suits (both in its "standard" and "code" edition), I have
+            description: `The one to rule them all. Seriously, since I discover the Visual Studio suits (both in its "standard" and "code" edition), I have
             never used any other developing environment; mostly because I really think that it has everything a developer needs, and even when it does not 
             have something, someone has already written an extension for it (thank you, mr. stranger).`
         },
         {
             name: 'Multiplatform',
             icon: 'class="icomoon icomoon-playstation"',
-            level: 'gold',
+            level: 'silver',
             description: `"Jack of all trades and master of none". I really want to put this idiom somewhere and what a better place than something that
             perfectly fits this definition (incredible, eh?). During my studies I have easily switched between Linux and Windows for one project or another,
             while lately I stick with the latter. Instead, in my still small game developing career I have worked with every "old gen" console: PS4, XboxOne, 
@@ -130,17 +130,17 @@ GLOBALS.skills = [
             icon: 'class="oi" data-glyph="document"',
             level: 'gold',
             description: `I'm one of that boring programmer that tries to have everything well documented, even my personal-only projects. I really
-                feel that this not only helps me to came back to work on my old project if I ever need it, but also allow me to have a clear idea of 
-                where I am and where I am going. And also, I love to read well written documentation (do you understand, Unreal?), so kudos to it!`
+                feel that this not only helps me to came back to work on my old projects if I ever need it, but also allows me to have a clear idea of 
+                where I am and where I am going. And I love to read well written documentation (do you understand, Unreal?), so kudos to it!`
         },
         {
             name: 'Other fantastic skills',
             img: 'Styles/Images/Pusheen.png',
             level: 'platinum',
             description: `This is the part in a curriculum when you write amazing stuff like "I am like the most team player of the universe" or "great
-            soft skills ability" whatever they means. But I prefer just to put a photo of pusheen, show the platinum medal, really different from the 
+            soft skills ability" whatever they mean. But I prefer just to put a photo of pusheen, show the platinum medal, really different from the 
             silver one (accordingly to its color code, so if you cannot see it, time to upgrade your monitor) and say the I love the pink and cute stuff 
-            like puppy, unicorn and dragon. And I think Ready Player One and Episode IX are really enjoyable movies.`
+            like puppies, unicorns and dragons. And I think Ready Player One and Episode IX are really enjoyable movies.`
         },
         {
             name: 'Game ability',
