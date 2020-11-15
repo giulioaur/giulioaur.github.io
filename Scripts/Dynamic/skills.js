@@ -135,7 +135,7 @@ GLOBALS.skills = [
         },
         {
             name: 'Other fantastic skills',
-            img: 'Styles/Images/Pusheen.png',
+            img: 'Styles/Images/pusheen.png',
             level: 'platinum',
             description: `This is the part in a curriculum when you write amazing stuff like "I am like the most team player of the universe" or "great
             soft skills ability" whatever they mean. But I prefer just to put a photo of pusheen, show the platinum medal, really different from the 
