@@ -260,14 +260,18 @@ var SM = {
          */
         goto(label, isBack = false, clearHistory = false) {
             const oldHistory = this._history;
-            let to;
+            let to = null;
             let inAnimation, outAnimation;
 
             if (!isBack) {
                 // Go to menu.
-                if (this._nodes[label]) {
-                    this._history.push(this._current.id);
-                    to = this._nodes[label];
+                const nextMenu = this._nodes[label];
+                if (nextMenu) {
+                    if (nextMenu != this._current)
+                    {
+                        this._history.push(this._current.id);
+                        to = nextMenu;
+                    }
                 }
                 // Error.
                 else {
@@ -291,6 +295,8 @@ var SM = {
                 this._logError(`${this._current.id} cannot go back, no previous menu found.`);
                 return false;
             }
+
+            if (!to)    return;
 
             // Set current layout for the menu to show.
             this._setCorrectLayout(to);

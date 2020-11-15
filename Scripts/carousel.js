@@ -7,9 +7,9 @@
 const m_carousel = 
 {
   
-carousel : {},
-innerContainer : {},
-items : {},
+carousel : null,
+innerContainer : null,
+items : [],
 carouselState: {},
 activeItemClass: "m-carousel-item-active",
 currentTween: null,
@@ -35,7 +35,7 @@ initCarousel()
 
 goToItem(toIndex)
 {
-    if (toIndex < 0 || toIndex >= this.items.length)     return;
+    if (toIndex < 0 || toIndex >= this.items.length || !this.innerContainer)     return;
 
     const previousElement = this.innerContainer.querySelector(`.${this.activeItemClass}`);
     const nextElement = this.items[toIndex];

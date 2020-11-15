@@ -32,6 +32,8 @@ function mainMenuOutAnimation(from, to, isBack)
     ANIM_DATA.mainMenu.oldWidth = carouselContainer.offsetWidth;
     ANIM_DATA.mainMenu.backgroundHeight = getComputedStyle(background).height;
 
+    SM.input.saveFocus(from);
+
     // Avoid anim overlapping.
     m_carousel.stopAnim();
 
@@ -401,7 +403,7 @@ function hideCredits(resolve) {
 ////////////////////////////////////////////////////////////////////////
 
 function scrollOutAnimation(from, to, isBack) {
-    new Promise(resolve =>
+    return new Promise(resolve =>
     {
         gsap.timeline()
             .call(() => { GLOBALS.scrollPanel.scrollToY(0, { animateScroll: true, animateDuration: 0.7 }) })

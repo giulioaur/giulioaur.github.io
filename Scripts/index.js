@@ -44,8 +44,8 @@ const imageLoader = {
         // Add a new promises which is resolved after the image has been loaded.
         this._images.push(new Promise((resolve, reject) => {
             const image = new Image();
-            img.addEventListener("load", () => resolve());
-            img.addEventListener("error", () => reject());
+            image.onLoad = resolve;
+            // img.addEventListener("error", reject);
             image.url = url;
         }));
     }, 
@@ -124,13 +124,14 @@ const imageLoader = {
  * It is called when page is fully loaded and setup all the necessary stuff.
  */
 function setupPage() {
+    preLoadImages();
     GLOBALS.loadingPercentage = 30;
     // Dynamic generation of contents.
     dynamicGeneration();
     GLOBALS.loadingPercentage = 50;
 
     // Build the menu graph.
-    menuGraph = new SM.Graph({ shouldSave: false, logError: true, playFirstAnimation: false});
+    menuGraph = new SM.Graph({ shouldSave: false, logError: false, playFirstAnimation: false});
     GLOBALS.loadingPercentage = 70;
 
     // Custom setup. Put here to animate after first focus.
@@ -237,6 +238,22 @@ function setupCredits()
 
     const creditsContainer = document.getElementById("m-credits-container");
     document.getElementById("m-sw-box-content").innerHTML = creditsContainer.innerHTML;
+}
+
+/**
+ * Starts the loading of all the background images to avoid loading them at run-time.
+ */
+function preLoadImages(){
+    document.querySelectorAll('#sm-main-menu .sm-item').forEach(item => {
+        if (item.dataset["backg"])
+        {
+            const backs = item.dataset["backg"].split(",");
+            imageLoader.loadImage(`Styles/Images/${backs[0]}`);
+    
+            if (backs.length > 1)
+                imageLoader.loadImage(`Styles/Images/${backs[1]}`);
+        }
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////
