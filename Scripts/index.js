@@ -339,7 +339,9 @@ function generateExperiences() {
 			year: 'numeric',
 			month: 'long'
         };
-        const progress = dates[1] == 'now' ? Math.ceil((elapsedMonths + elapsedYears * 12) * 100 / 120) : 100;
+        const CURRENT_COMPANY_MONTH_EXPECTATION = 48;
+        const progress = dates[1] == 'now' ? 
+            Math.ceil((elapsedMonths + elapsedYears * 12) * 100 / CURRENT_COMPANY_MONTH_EXPECTATION) : 100;
 
         experienceList += `
             <div class="m-exp">
@@ -474,7 +476,7 @@ function computeElapsedTime(from, to)
     const endDates = to.split('/');
     const elapsedYears = endDates[1] - startDates[1];
     
-    if (endDates[0] < startDates[0])
+    if (parseInt(endDates[0]) < parseInt(startDates[0]))
     {
         return [Math.max(elapsedYears - 1, 0), 12 - (startDates[0] - endDates[0])];
     }
