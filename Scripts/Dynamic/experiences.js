@@ -1,14 +1,42 @@
 GLOBALS.experiences = [
     {
+        name: "Senior Gameplay and Tool Programmer",
+        company: "Scattershot",
+        time: "01/2023 - now",
+        description: `After two years of forced separation, I finally reconnected with my one true love: Unreal Engine. But this time both
+                it and me were a bit grown up: it has a whole new aspect and it was now called UE5, while I had gained the Senior title 
+                through various quests around Europe. <br/>
+                While I already had my fair share of remote experience (probably the one good things of a pandemy), this was my first full
+                remote experience, and what an experience. Luckily I also had the pleasure of meeting the team in person for a bit. <br/>
+                But in this new adventure, it was time to increase the difficulty and face yet a new genre: online competitive shooter, but
+                with a twist, an integration with a scripting language (LUA) that would have allowed the users to customize the game modes. 
+                When I started the game was already taking shape, but yet in its very first stages, so my first tasks were around basic 
+                gameplay systems like inventory, weapon purchase and a data-driven attribute system, ideal to easily speak with LUA. Then for 
+                a while I took full ownership of the UI, to create a general UI framework for the game (both C++ and LUA). But probably the
+                biggest challenge I faced here was the creation from scratch of a UGC editor that would have allowed users to create custom
+                maps, with focus on rapid iteration and game design. The editor should have been built without using Unreal Editor modules and
+                without changing the Unreal Engine code. To be honest it was quite satisfying when the prototype was ready and we could play
+                with a bunch of meshes. This is the main reason while I added the world "Tool" in the title for this role (a bit arbitrary,
+                you would say, but aren't titles just arbitrary words after all? Yeah, I agree, this last phrase doesn't make a lot of sense). `
+    },
+    {
         name: "Experienced Gameplay Programmer",
         company: "Avalanche Studios Group",
-        time: "09/2020 - now",
-        description: `For a videogame developer, joining a company that develop AAA games is like joining a pro team for a really good player:
-                a dream coming true. I was hired as Gameplay programmer for joining the GenerationZero team at Systemic Reaction. As the
-                time I'm writing this, few months are passed, so I can tell little about my experience here. Indeed switching to Apex engine
-                was really challenging, starting to work anew with a game engine is a completely different experience after you already 
-                worked in this world. Everything seems a bit more clear, even if as much exiting as the first time. As I stated, nothing much 
-                more to say for the moment, but indeed the premises are the best I have ever seen.`
+        time: "09/2020 - 12/2022",
+        description: `For a videogame developer, joining a company that develop AAA games is like joining a pro team for a videogame player:
+                a dream coming true. I was hired as Gameplay programmer to join the GenerationZero live team at Systemic Reaction. During my 
+                time here, I helped the team both dealing with legacy systems, trying to improve and modernize them, and building entirely new 
+                systems from scratch. My proudest achievements here were indeed the development of two revolutionary gameplay mechanics for the 
+                game: the building system and the procedural generated bases. The former allowed the players to build its own base, thanks to a 
+                grid-system and a big range of pre-made buildings, that would have helped them to repel the horde of FNIX robots. But FNIX is 
+                not just any AI, so, thanks to the procedural generation, the evil robots were able to build their own bases, ready to destroy 
+                every human that would have had the courage to enter their walls. <br/> 
+                However, in more than two years, I touched almost every aspect of the game and tried to help the team with every request. I also 
+                spent a fair amount of time optimizing the CPU performances for old-gen consoles (Xbox One and PS4). <br/>
+                Here I also had a small parenthesis as a mentor for a junior programmer, but truly speaking he did not need too much mentoring.
+                <br/><br/> 
+                But all the programming gigs aside, what I really appreciated here the most of my team here was indeed the team and all the super
+                fun things we did together. They really helped my growing as a team member more then a programmer.`
     },
     {
         name: "Junior Online/Gameplay Programmer",

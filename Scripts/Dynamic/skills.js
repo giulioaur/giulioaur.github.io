@@ -42,7 +42,7 @@ GLOBALS.skills = [
                     d="M52.214 126.021c22.476 1.437 57-.8 57.817-11.436 0 0-1.571 4.032-18.577 7.231-19.186 3.612-42.854 3.191-56.887.874 0 .001 2.875 2.381 17.647 3.331z">
                 </path>
             `,
-            level: 'silver',
+            level: 'bronze',
             description: `The pure object-oriented language I have used the most is Java, mainly for cs courses though. 
             Thanks to its simplicity I have quickly developed some desktop application (yeah, obliviously among them, one was for accessing a db) and 
             also a couple of web application. <br />My knowledge of C#, instead, is limited to the Unity engine framework, since all the experience with the
@@ -64,7 +64,7 @@ GLOBALS.skills = [
             in the title just because I wanted to include also html and css, but came on! They are not real languages!`
         },
         {
-            name: 'Python',
+            name: 'Other scripting friends',
             svg: `
                 <path fill="#306998"
                     d="M63.391 1.988c-4.222.02-8.252.379-11.8 1.007-10.45 1.846-12.346 5.71-12.346 12.837v9.411h24.693v3.137h-33.961c-7.176 0-13.46 4.313-15.426 12.521-2.268 9.405-2.368 15.275 0 25.096 1.755 7.311 5.947 12.519 13.124 12.519h8.491v-11.282c0-8.151 7.051-15.34 15.426-15.34h24.665c6.866 0 12.346-5.654 12.346-12.548v-23.513c0-6.693-5.646-11.72-12.346-12.837-4.244-.706-8.645-1.027-12.866-1.008zm-13.354 7.569c2.55 0 4.634 2.117 4.634 4.721 0 2.593-2.083 4.69-4.634 4.69-2.56 0-4.633-2.097-4.633-4.69-.001-2.604 2.073-4.721 4.633-4.721z">
@@ -74,7 +74,8 @@ GLOBALS.skills = [
                 </path>
             `,
             level: 'copper',
-            description: `Put this here just to remember myself that one day I should definitely learn it better.`
+            description: `During my professional carrier I have touched Python as an helper for building process and external tools and LUA as 
+            a game scripting language, but I have never made a whole project with them, so most of their capabilities are still a mystery to me.`
         }
     ],
     // TOOLS
@@ -82,8 +83,8 @@ GLOBALS.skills = [
         {
             name: 'Game engines',
             icon: 'class="icomoon icomoon-unrealengine"',
-            level: 'silver',
-            description: `Unity, Unreal and Apex, this is the list of the engine I have used so far, but I hope this become bigger and bigger since I 
+            level: 'gold',
+            description: `Unity, Unreal and Apex: this is the list of the engine I have used so far, but I hope this become bigger and bigger since I 
             really love to discover how every engine has its peculiar approach to a specific problem. And maybe, one day, I will be also able (and not-lazy 
             enough) to write my small cute engine. I really love the world of engine programming, with all its awesome tricks to spill every single frame 
             from the hardware. Optimization, low-level code and fancy algorithms are some of the stuff I love more about programming.`
@@ -97,7 +98,7 @@ GLOBALS.skills = [
             `,
             level: 'bronze',
             description: `Do I really have to add something to that? The main tool in every programmer's toolbox. Is it more the time I gain using it
-            or the one I spent trying to merge conflicting files, who knows (at least with Git)? I mainly use Git for my own projects and Perforce in 
+            or the one I spent trying to merge conflicting files, who knows? I mainly use Git for my own projects and Perforce and Plastic in professionals 
             production environment.`
         },
         {
@@ -126,14 +127,6 @@ GLOBALS.skills = [
     // KNOWLEDGE
     [
         {
-            name: 'Documentation',
-            icon: 'class="oi" data-glyph="document"',
-            level: 'gold',
-            description: `I'm one of that boring programmer that tries to have everything well documented, even my personal-only projects. I really
-                feel that this not only helps me to came back to work on my old projects if I ever need it, but also allows me to have a clear idea of 
-                where I am and where I am going. And I love to read well written documentation (do you understand, Unreal?), so kudos to it!`
-        },
-        {
             name: 'Other fantastic skills',
             img: 'Styles/Images/Compressed/pusheen.webp',
             level: 'platinum',
@@ -141,6 +134,14 @@ GLOBALS.skills = [
             soft skills ability" whatever they mean. But I prefer just to put a photo of pusheen, show the platinum medal, really different from the 
             silver one (accordingly to its color code, so if you cannot see it, time to upgrade your monitor) and say the I love the pink and cute stuff 
             like puppies, unicorns and dragons. And I think Ready Player One and Episode IX are really enjoyable movies.`
+        },
+        {
+            name: 'Documentation',
+            icon: 'class="oi" data-glyph="document"',
+            level: 'gold',
+            description: `I'm one of that boring programmer that tries to have everything well documented, even my personal-only projects. I really
+                feel that this not only helps me to came back to work on my old projects if I ever need it, but also allows me to have a clear idea of 
+                where I am and where I am going. And I love to read well written documentation (do you understand, Unreal?), so kudos to it!`
         },
         {
             name: 'Game ability',
