@@ -25,7 +25,7 @@ function mainMenuOutAnimation(from, to, isBack)
     const back = carousel.querySelector("#m-main-esc");
     const containerX = gsap.getProperty(carouselContainer, "x");
     const x = $(selectedItem).position().left + (containerX ? containerX : 0);
-    const scale = isPortraitMode() ? 0.5 : 0.35;
+    const scale = isPortraitMode() ? 0.5 : 0.45;
 
     ANIM_DATA.mainMenu.oldPos = x;
     ANIM_DATA.mainMenu.oldScroll = containerX;
@@ -59,7 +59,7 @@ function mainMenuOutAnimation(from, to, isBack)
         .set(selectedItem, { transformOrigin: "top left" }, "nowTogether0")                      // While scaling it.
         .to(selectedItem, { scale: scale, duration: 0.5, onUpdate: updateScrollingPanelHeight }, "nowTogether0")
         .to(carousel, { height: carousel.offsetHeight * scale, duration: 0.5 }, "nowTogether0")
-        .to(background, { height: background.offsetHeight + (carousel.offsetHeight - carousel.offsetHeight * scale), duration: 0.5 }, "nowTogether0")
+        // .to(background, { height: background.offsetHeight + (carousel.offsetHeight - carousel.offsetHeight * scale), duration: 0.5 }, "nowTogether0")
         .set(textContainer, {background: 'none'})                                               // Move the background to the right.
         .call(jQuery.fn.show.bind($(back)), [])
         .add("nowTogether1")
@@ -86,7 +86,7 @@ function mainMenuInAnimation(from, to, isBack)
         .set(textContainer, {background: ''})  
         .call(DOMTokenList.prototype.remove.bind(selectedItem.classList), ["m-item-selected"])
         .add("nowTogether1")
-        .to(background, { height: ANIM_DATA.mainMenu.backgroundHeight, duration: 0.5 }, "nowTogether1")
+        // .to(background, { height: ANIM_DATA.mainMenu.backgroundHeight, duration: 0.5 }, "nowTogether1")
         .to(selectedItem, { scale: 1, x: ANIM_DATA.mainMenu.oldPos, duration: 0.5 }, "nowTogether1")
         .to(carousel, { height: () => { return selectedItem.offsetHeight; }, duration: 0.5 }, "nowTogether1")
         .to(carouselContainer, { width: ANIM_DATA.mainMenu.oldWidth }, "nowTogether1")
@@ -111,21 +111,25 @@ function mainMenuInAnimation(from, to, isBack)
 function aboutMeInAnimation(from, to, isBack) {
     const text1 = to.querySelector('#m-aboutme-name h1');
     const text2 = to.querySelector('#m-aboutme-title h2');
-    const text3 = to.querySelector('#m-aboutme-body p');
+    const text3 = to.querySelector('#m-aboutme-jedi h2');
+    const textBody = to.querySelector('#m-aboutme-body p');
     const innerText1 = text1.innerHTML;
     const innerText2 = text2.innerHTML;
     const innerText3 = text3.innerHTML;
+    const innerTextBody = textBody.innerHTML;
     const backPercentage = isPortraitMode() ? '-600%' : '-200%';
 
     gsap.timeline()
         .call(jQuery.fn.show.bind($(to)), [])
         .set(text1, { innerHTML: "" })
         .set(text2, { innerHTML: "" })
-        .set(text3, { innerHTML: getLoremImpsum(innerText3.replace(/\s+/g, '-').length) })
+        .set(text3, { innerHTML: "" })
+        .set(textBody, { innerHTML: getLoremImpsum(innerTextBody.replace(/\s+/g, '-').length) })
         .addLabel("nowTogether")
-        .to(text1, { duration: 1.2, text: innerText1 }, "nowTogether")
+        .to(text1, { duration: 1.4, text: innerText1 }, "nowTogether")
         .to(text2, { duration: 1.2, text: innerText2 }, "nowTogether")
-        .to(text3, { duration: 8, text: innerText3, delay: 1.5 }, "nowTogether")
+        .to(text3, { duration: 1.0, text: innerText3 }, "nowTogether")
+        .to(textBody, { duration: 3, text: innerTextBody, delay: 2 }, "nowTogether")
         .from(to.querySelector("#m-my-photo"), { duration: 0.8, x: backPercentage }, "nowTogether")
         .from(to.querySelectorAll("#m-contact-me >div"), { duration: 0.8, x: backPercentage, stagger: 0.2 }, "nowTogether")
         .from(to.querySelectorAll("#m-aboutme-doggo"), { duration: 0.8, x: '+300%', stagger: 0.2 }, "nowTogether");

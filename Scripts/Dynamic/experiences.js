@@ -1,8 +1,16 @@
 GLOBALS.experiences = [
     {
+        name: "Senior Gameplay Programmer",
+        company: "Crytek",
+        icons: "<i class='icomoon icomoon-gamepad'></i>",
+        time: "01/2024 - now",
+        description: `We'll see.`
+    },
+    {
         name: "Senior Gameplay and Tool Programmer",
-        company: "Scattershot",
-        time: "01/2023 - now",
+        company: "Scattershot (closed)",
+        icons: "<i class='icomoon icomoon-gamepad'></i>",
+        time: "01/2023 - 11/2023",
         description: `After two years of forced separation, I finally reconnected with my one true love: Unreal Engine. But this time both
                 it and me were a bit grown up: it has a whole new aspect and it was now called UE5, while I had gained the Senior title 
                 through various quests around Europe. <br/>
@@ -17,11 +25,13 @@ GLOBALS.experiences = [
                 maps, with focus on rapid iteration and game design. The editor should have been built without using Unreal Editor modules and
                 without changing the Unreal Engine code. To be honest it was quite satisfying when the prototype was ready and we could play
                 with a bunch of meshes. This is the main reason while I added the world "Tool" in the title for this role (a bit arbitrary,
-                you would say, but aren't titles just arbitrary words after all? Yeah, I agree, this last phrase doesn't make a lot of sense). `
+                you would say, but aren't titles just arbitrary words after all? Yeah, I agree, this last phrase doesn't make a lot of sense).<br/>
+                Unfortunately the company was one of the many victimes of the big extermination of the industry in 2023/24. `
     },
     {
         name: "Experienced Gameplay Programmer",
         company: "Avalanche Studios Group",
+        icons: "<i class='icomoon icomoon-gamepad'></i>",
         time: "09/2020 - 12/2022",
         description: `For a videogame developer, joining a company that develop AAA games is like joining a pro team for a videogame player:
                 a dream coming true. I was hired as Gameplay programmer to join the GenerationZero live team at Systemic Reaction. During my 
@@ -41,6 +51,7 @@ GLOBALS.experiences = [
     {
         name: "Junior Online/Gameplay Programmer",
         company: "Milestone s.r.l",
+        icons: "<i class='icomoon icomoon-gamepad'></i>",
         time: "12/2018 - 08/2020",
         description: `My first experience in the world of professional game developer, a big Milestone in my journey (sorry :( ). When 
                 I started my experience here I was not really sure on which area of game programming I should have devoted myself to,
@@ -56,6 +67,7 @@ GLOBALS.experiences = [
     {
         name: "Volunteering",
         company: "Coder Dojo Pisa",
+        icons: "<i class='fa-solid fa-handshake-angle'></i>",
         time: "02/2017 - 09/2018",
         description: `CoderDojo is a no-profit association that aims to teach the computational thinking to children. I knew
                 this amazing project in Pisa, where I joined the association as a Mentor. During my period there, I have taken part to 
@@ -68,6 +80,7 @@ GLOBALS.experiences = [
     {
         name: "Junior Mobile Developer",
         company: "Blexin s.r.l.",
+        icons: "<i class='fa-solid fa-mobile-screen-button'></i>",
         time: "03/2016 - 07/2016",
         description: `During my bachelor's internship I have developed a mobile framework
                 with the purpose to make very simple the development of mobile app based on the same content of web apps developed 
@@ -79,6 +92,7 @@ GLOBALS.experiences = [
     {
         name: "Master's Degree in Computer Science",
         company: "Università di Pisa",
+        icons: "<i class='fa-solid fa-graduation-cap'></i>",
         time: "10/2016 - 10/2018",
         description: `Choosing another university for my master degree was an important growth opportunity. I wanted not only to try different
                 environments, different way of thinking and different professors, but also to start experiencing taking care of myself on
@@ -90,6 +104,7 @@ GLOBALS.experiences = [
     {
         name: "Bachelor's Degree in Computer Science",
         company: "Università di Napoli Federico II",
+        icons: "<i class='fa-solid fa-graduation-cap'></i>",
         time: "09/2013 - 09/2016",
         description: `One of the most difficult (and rewarding) choice of my life. Even if I already knew that this was what I wanted to do, 
                 when the moment of the choice came, thousands of doubts stormed in your mind, expecially at that early age. But now I can watch

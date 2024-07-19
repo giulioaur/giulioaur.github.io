@@ -1,0 +1,158 @@
+@import "variables2";
+
+@font-face {
+  font-family: '#{$icomoon2-font-family}';
+  src:
+    url('#{$icomoon2-font-path}/#{$icomoon2-font-family}.ttf?bnvv46') format('truetype'),
+    url('#{$icomoon2-font-path}/#{$icomoon2-font-family}.woff?bnvv46') format('woff'),
+    url('#{$icomoon2-font-path}/#{$icomoon2-font-family}.svg?bnvv46##{$icomoon2-font-family}') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+i.icomoon2 {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: '#{$icomoon2-font-family}' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconmoon2-saber .path1 {
+  &:before {
+    content: $iconmoon2-saber-path1;  
+    color: rgb(32, 45, 106);  
+    opacity: 0.958;
+  }
+}
+.iconmoon2-saber .path2 {
+  &:before {
+    content: $iconmoon2-saber-path2;  
+    margin-left: -1em;  
+    color: rgb(232, 89, 71);  
+    opacity: 0.988;
+  }
+}
+.iconmoon2-saber .path3 {
+  &:before {
+    content: $iconmoon2-saber-path3;  
+    margin-left: -1em;  
+    color: rgb(228, 56, 60);
+  }
+}
+.iconmoon2-saber .path4 {
+  &:before {
+    content: $iconmoon2-saber-path4;  
+    margin-left: -1em;  
+    color: rgb(234, 124, 113);
+  }
+}
+.iconmoon2-saber .path5 {
+  &:before {
+    content: $iconmoon2-saber-path5;  
+    margin-left: -1em;  
+    color: rgb(223, 211, 72);
+  }
+}
+.iconmoon2-saber .path6 {
+  &:before {
+    content: $iconmoon2-saber-path6;  
+    margin-left: -1em;  
+    color: rgb(159, 206, 158);
+  }
+}
+.iconmoon2-saber .path7 {
+  &:before {
+    content: $iconmoon2-saber-path7;  
+    margin-left: -1em;  
+    color: rgb(99, 184, 75);  
+    opacity: 0.999;
+  }
+}
+.iconmoon2-saber .path8 {
+  &:before {
+    content: $iconmoon2-saber-path8;  
+    margin-left: -1em;  
+    color: rgb(133, 166, 215);
+  }
+}
+.iconmoon2-saber .path9 {
+  &:before {
+    content: $iconmoon2-saber-path9;  
+    margin-left: -1em;  
+    color: rgb(64, 151, 71);
+  }
+}
+.iconmoon2-saber .path10 {
+  &:before {
+    content: $iconmoon2-saber-path10;  
+    margin-left: -1em;  
+    color: rgb(35, 52, 113);
+  }
+}
+.iconmoon2-saber .path11 {
+  &:before {
+    content: $iconmoon2-saber-path11;  
+    margin-left: -1em;  
+    color: rgb(97, 133, 195);  
+    opacity: 0.998;
+  }
+}
+.iconmoon2-saber .path12 {
+  &:before {
+    content: $iconmoon2-saber-path12;  
+    margin-left: -1em;  
+    color: rgb(33, 51, 113);
+  }
+}
+.iconmoon2-saber .path13 {
+  &:before {
+    content: $iconmoon2-saber-path13;  
+    margin-left: -1em;  
+    color: rgb(74, 101, 174);
+  }
+}
+.iconmoon2-saber .path14 {
+  &:before {
+    content: $iconmoon2-saber-path14;  
+    margin-left: -1em;  
+    color: rgb(31, 48, 111);
+  }
+}
+.iconmoon2-saber .path15 {
+  &:before {
+    content: $iconmoon2-saber-path15;  
+    margin-left: -1em;  
+    color: rgb(222, 210, 72);
+  }
+}
+.iconmoon2-saber .path16 {
+  &:before {
+    content: $iconmoon2-saber-path16;  
+    margin-left: -1em;  
+    color: rgb(230, 222, 154);
+  }
+}
+.iconmoon2-saber .path17 {
+  &:before {
+    content: $iconmoon2-saber-path17;  
+    margin-left: -1em;  
+    color: rgb(235, 221, 69);  
+    opacity: 0.994;
+  }
+}
+.iconmoon2-saber .path18 {
+  &:before {
+    content: $iconmoon2-saber-path18;  
+    margin-left: -1em;  
+    color: rgb(203, 180, 45);
+  }
+}

@@ -16,6 +16,7 @@
             crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
                 crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
         <!-- GSAP -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/TextPlugin.min.js"></script>
@@ -136,7 +137,7 @@
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Achievments</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
-                                        <i class="icoomon icomoon-trophy-plain" data-maxfont="40"></i>
+                                        <i class="icomoon icomoon-trophy-plain" data-maxfont="40"></i>
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-experience" data-backg="Compressed/exp-back.webp,Compressed/exp-back-p.webp">
@@ -144,15 +145,15 @@
                                         <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Progress</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
-                                        <span class="oi" data-glyph="briefcase" aria-hidden="true"></span>
+                                        <i class="fa-solid fa-arrow-up-right-dots"></i>
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-projects" data-backg="Compressed/games-back.webp,Compressed/games-back-p.webp">
                                     <div class="m-item-title d-flex justify-content-center align-items-center w-100 h-100 text-center">
-                                        <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Owned Games</h1>
+                                        <h1 class="m-fit-text" data-minfont="23" data-maxfont="40">Games</h1>
                                     </div>
                                     <div class="m-item-hover d-flex justify-content-center align-items-center w-100 h-100">
-                                        <i class="icoomon icomoon-gamepad"></i>
+                                        <i class="icomoon icomoon-gamepad"></i>
                                     </div>
                                 </div>
                                 <div class="sm-item m-carousel-item" data-goto="m-credits" data-backg="Compressed/credits-backg.webp">
@@ -222,7 +223,7 @@
                                             <div class="d-flex flex-column">
                                                 <div id="m-aboutme-name" class="d-flex align-items-center m-primary-color">
                                                     <img id="m-left-sushi-img" src="Styles/Images/Compressed/Sushi.webp">
-                                                    <h1>Dr.Sushi (Giulio Auriemma, he / him)</h1>
+                                                    <h1>Giulio 'Dr.Sushi' Auriemma (he / him)</h1>
                                                 </div>
                                                 <div id="m-aboutme-title" class="d-flex align-items-center justify-content-start m-primary-color">
                                                     <i class="icomoon icomoon-game-controller"><span class="path1"></span><span
@@ -235,6 +236,16 @@
                                                             class="path16"></span><span class="path17"></span><span
                                                             class="path18"></span></i>
                                                     <h2>Game Developer</h2>
+                                                </div>
+                                                <div id="m-aboutme-jedi" class="d-flex align-items-center justify-content-start m-primary-color">
+                                                    <i class="icomoon2 iconmoon2-saber"><span class="path1"></span><span class="path2"></span><span 
+                                                        class="path3"></span><span class="path4"></span><span class="path5"></span><span 
+                                                        class="path6"></span><span class="path7"></span><span class="path8"></span><span 
+                                                        class="path9"></span><span class="path10"></span><span class="path11"></span><span 
+                                                        class="path12"></span><span class="path13"></span><span class="path14"></span><span 
+                                                        class="path15"></span><span class="path16"></span><span class="path17"></span><span 
+                                                        class="path18"></span></i>
+                                                    <h2>Padawan</h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,9 +263,14 @@
                                                 <br><br>
                                                 Videogames are my main quest, but not my entire (open) world, I'm a base-pack nerd: tabletop games, d&d experience, tv-series, most famous anime 
                                                 and stuff like that. Furthermore the shadow of my Italian roots lords over me, usually pulling me down to a well full of love for every kind of 
-                                                cuisine and cooking. Craft Weisse beer, buying fancy costumes and cutie stuff are the three things I never say no to. But the Ring will always
+                                                cuisine and cooking. Delicious food, buying fancy costumes and cutie stuff are the three things I never say no to. But the Ring will always
                                                 try to return to its Master, so you would eventually find me playing some online videogame, losing most of the time since I am definitely 
                                                 not a good player.
+                                                <br><br>
+                                                In an attempt to increase my fighting skills I also joined the <a href="http://ludosport.net/" target="_blank">Ludosport</a> guild (Aemilia branch) and began my 
+                                                training in the way of the force but without force. Apparently they are not allowed to teach us that. Yet I suspect that I will be able to learn 
+                                                it once I will be appointed as a knight, only time will tell. Meanwhile I’ll try to enjoy every bit of my training which only sometimes involves 
+                                                the mass killing of younglings. 
                                                 <br><br>
                                                 *Insert catching phrase here*, pizza e chiudo!
                                             </p>
@@ -307,23 +323,18 @@
                         <div class="sm-layout sm-main-layout">
                             <div class="row h-100">
                                 <div class="col-12 p-0">
-                                    <h1 class="m-primary-color">Owned Games</h1>
+                                    <h1 class="m-primary-color">Shared Games</h1>
                                 </div>
                                 <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
-                                    data-goto="https://github.com/VRcolVento/ChatVRoom">
+                                    data-goto="https://www.huntshowdown.com/">
                                     <div class="m-game-container w-100 h-100 position-relative">
                                         <div class="m-game-background w-100 h-100 position-relative"
-                                            style="background-image: url('Styles/Images/Compressed/chatvrroom.webp')"></div>
+                                            style="background-image: url('Styles/Images/Compressed/hunt.webp')"></div>
                                         <div class="m-game-info position-absolute">
-                                            <h2 class="m-title">ChatVR</h2>
-                                            <h3 class="m-role">Ft. Andrea Lisi</h3>
+                                            <h2 class="m-title">Hunt: Showdown</h2>
+                                            <h3 class="m-role">Senior Game Programmer (live team)</h3>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row h-100">
-                                <div class="col-12 p-0">
-                                    <h1 class="m-primary-color">Shared Games</h1>
                                 </div>
                                 <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
                                     data-goto="https://generationzero.com/en/">
@@ -332,7 +343,7 @@
                                             style="background-image: url('Styles/Images/Compressed/gen-zero.webp')"></div>
                                         <div class="m-game-info position-absolute">
                                             <h2 class="m-title">Generation Zero</h2>
-                                            <h3 class="m-role">Gameplay Programmer</h3>
+                                            <h3 class="m-role">Gameplay Programmer (live team)</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -359,9 +370,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row h-100">
+                                <div class="col-12 p-0">
+                                    <h1 class="m-primary-color">Old Games</h1>
+                                </div>
+                                <div class="col-12 col-lg-6 m-game sm-item sm-redirect-blank-item"
+                                    data-goto="https://github.com/VRcolVento/ChatVRoom">
+                                    <div class="m-game-container w-100 h-100 position-relative">
+                                        <div class="m-game-background w-100 h-100 position-relative"
+                                            style="background-image: url('Styles/Images/Compressed/chatvrroom.webp')"></div>
+                                        <div class="m-game-info position-absolute">
+                                            <h2 class="m-title">ChatVR</h2>
+                                            <h3 class="m-role">Ft. Andrea Lisi</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!--------------------- CREDITS --------------------->
+                   <!--------------------- CREDITS --------------------->
                     <div id="m-credits" class="sm-menu container-fluid w-100" data-sm-in="creditsInAnimation" data-sm-out="creditsOutAnimation">
                         <div class="sm-layout sm-main-layout d-flex justify-content-center">
                             <div id="m-credits-container">
@@ -379,12 +406,13 @@
                                 <div class="d-flex flex-column justify-content-center">
                                     <h1 class="m-primary-color">Art</h1>
                                     <h3><a class="m-no-decoration" href="https://useiconic.com/open" target="_blank">Open Iconic</a></h3>
-                                    <h3><a class="m-no-decoration" href="http://konpa.github.io/devicon/" target="_blank">Devicon</a></h3>
+                                    <h3><a class="m-no-decoration" href="https://github.com/devicons/devicon" target="_blank">Devicon</a></h3>
                                     <h3><a class="m-no-decoration" href="https://www.favicon-generator.org/" target="_blank">Favicon</a>
                                     </h3>
                                     <h3>Icons made by <a class="m-no-decoration" href="https://www.flaticon.com/authors/flat-icons"
-                                            title="Flat Icons">Flat Icons</a>
-                                        from <a class="m-no-decoration" href="https://www.flaticon.com/" title="Flaticon"> flaticon </a>
+                                            target="_blank" title="Flat Icons">Flat Icons</a> <!--and <a class="m-no-decoration" href="https://www.flaticon.com/authors/mayor-icons"
+                                            title="Flat Icons">Mayor Icons</a>-->
+                                        from <a class="m-no-decoration" href="https://www.flaticon.com/" target="_blank" title="Flaticon"> flaticon </a>
                                     </h3>
                                     <h3><a class="m-no-decoration" href="https://github.com/simple-icons/simple-icons"
                                             target="_blank">Simple Icons</a></h3>
@@ -392,6 +420,8 @@
                                             target="_blank">LifeCraft</a></h3>
                                     <h3><a style="font-family: swFont" class="m-no-decoration"
                                             href="https://www.fontspace.com/sf-distant-galaxy-font-f6436" target="_blank">Distant Galaxy</a>
+                                    </h3>
+                                    <h3><a class="m-no-decoration" href="https://fontawesome.com/" target="_blank">Font Awesome</a>
                                     </h3>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
@@ -406,7 +436,7 @@
                                 <div class="d-flex flex-column justify-content-center">
                                     <h1 class="m-primary-color">QA</h1>
                                     <h3><a class="m-no-decoration" href="https://developers.google.com/speed/pagespeed/insights/" target="_blank">Insight</a></h3>
-                                </div>
+                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
                                     <h1 class="m-primary-color">Other thanks to</h1>
                                     <h3><a class="m-no-decoration" href="http://mstudios.altervista.org" target="_blank">Maurizio Cimino</a>

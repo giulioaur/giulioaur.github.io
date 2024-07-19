@@ -339,7 +339,7 @@ function generateExperiences() {
 			year: 'numeric',
 			month: 'long'
         };
-        const CURRENT_COMPANY_MONTH_EXPECTATION = 48;
+        const CURRENT_COMPANY_MONTH_EXPECTATION = 72;
         const progress = dates[1] == 'now' ? 
             Math.ceil((elapsedMonths + elapsedYears * 12) * 100 / CURRENT_COMPANY_MONTH_EXPECTATION) : 100;
 
@@ -348,7 +348,10 @@ function generateExperiences() {
                 <div class="m-exp-header" id="headingOne">
                     <div class="row" data-toggle="collapse" data-target="#exp-${index}" aria-expanded="${index == 0}" aria-controls="exp-${index}">
                         <div class="col-12 col-lg-5 d-flex flex-column m-exp-title">
-                            <h4>${exp.name}</h4>
+                            <span>
+                                <span class="m-exp-icon-container">${exp.icons}</span>
+                                <h4>${exp.name}</h4>
+                            </span>
                             <h5>${exp.company}</h4>
                         </div>
                         <div class="col-6 col-lg-2 offset-lg-1 d-flex flex-column m-exp-start">

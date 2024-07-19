@@ -5,13 +5,14 @@
 //*****************************************************************************************//
 
 @import "Icons/icomoon";
+@import "Icons/icomoon2";
 
 $images-folder : 'Images/';
 $fonts-folder : 'Fonts/';
 
 $main-style : 'bright';
 
-$primary-color: #3500ff;        // blue
+$primary-color: #1679AB;        // blue
 $secondary-color: #afbfc0;      // grey
 $black-color: #0e0f19;          // background / outline
 $white-color: #ffffff;          // mostly text
@@ -342,7 +343,7 @@ a.m-no-decoration
 {
     .m-background
     {
-        height: 35vh;
+        height: 50vh;
 
         /* Create the parallax scrolling effect */
         background-attachment: fixed;
@@ -384,15 +385,14 @@ a.m-no-decoration
 
             #m-carousel-container
             {
-                justify-content: space-evenly;
-
                 padding: 0px;
             }
 
             .sm-item
             {
-                width: 20vmin;
-                height: 20vmin;
+                width: 13vmin;
+                height: 13vmin;
+                margin: 0px 30px;
 
                 border-radius: 20%;
 
@@ -402,6 +402,9 @@ a.m-no-decoration
 
                 &.m-carousel-item-active, &.m-item-selected, &.sm-active
                 {
+                    width: 14vmin;
+                    height: 14vmin;
+                    
                     .m-item-hover
                     {
                         display: flex !important;
@@ -421,7 +424,7 @@ a.m-no-decoration
 
                     h1 
                     {
-                        font-size: 2rem;
+                        font-size: 1.5rem;
                     }
                 }
 
@@ -440,7 +443,7 @@ a.m-no-decoration
 
                     span, i
                     {
-                        font-size: 10vmin;
+                        font-size: 7vmin;
                     }
                 }
 
@@ -550,7 +553,7 @@ a.m-no-decoration
                     }
                 }
 
-                #m-aboutme-title
+                #m-aboutme-title, #m-aboutme-jedi
                 {
                     padding-left: 2rem;
 
@@ -638,6 +641,7 @@ a.m-no-decoration
                 
                 .m-skill-header
                 {
+                    color: $primary-color;
                     font-weight: bold;
                     font-size: 1.2rem;
 
@@ -678,8 +682,10 @@ a.m-no-decoration
 
                 border: $secondary-color 2px solid;
                 border-radius: 7px;
+                
+                cursor: pointer;
 
-                @include background-opacity(0.4);
+                @include background-opacity(0.25, $secondary-color);
 
                 &.m-active
                 {
@@ -694,6 +700,7 @@ a.m-no-decoration
                         {
                             z-index: 10;
                             transition: clip-path 0.5s linear;
+                            background-color: $primary-color;
                         }
                     }
                 }

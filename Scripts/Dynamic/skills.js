@@ -84,7 +84,7 @@ GLOBALS.skills = [
             name: 'Game engines',
             icon: 'class="icomoon icomoon-unrealengine"',
             level: 'gold',
-            description: `Unity, Unreal and Apex: this is the list of the engine I have used so far, but I hope this become bigger and bigger since I 
+            description: `Unity, Unreal, Apex and CryEngine: this is the list of the engine I have used so far, but I hope this become bigger and bigger since I 
             really love to discover how every engine has its peculiar approach to a specific problem. And maybe, one day, I will be also able (and not-lazy 
             enough) to write my small cute engine. I really love the world of engine programming, with all its awesome tricks to spill every single frame 
             from the hardware. Optimization, low-level code and fancy algorithms are some of the stuff I love more about programming.`
