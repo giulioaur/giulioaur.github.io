@@ -1,4 +1,8 @@
-class TeamList {
+import { Module, ModuleCompatibilty } from "./module.js";
+import { Player, PlayerList } from "./player.js";
+import { shuffle, maxIndex } from "./utilities.js";
+
+export class TeamList {
     constructor(modules) {
         /** @type { Array<Module> } */
         this.modules = modules;
@@ -42,7 +46,7 @@ class TeamList {
     }
 }
 
-class Team {
+export class Team {
     constructor(name, startingCredits = 1000) {
         this.name = name;
         this.credits = startingCredits;

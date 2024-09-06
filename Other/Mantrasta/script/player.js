@@ -1,4 +1,6 @@
-class PlayerList {
+import { Role } from "./module.js";
+
+export class PlayerList {
     static sortRoleOrder = {"P": 0, "D": 1, "C": 2, "A": 3};
     static classicSorter = (a, b) => {
         const rolePriority = PlayerList.sortRoleOrder[a.role.explicit] - PlayerList.sortRoleOrder[b.role.explicit];
@@ -67,7 +69,7 @@ class PlayerList {
     }
 }
 
-class Player {
+export class Player {
     constructor(jsonPlayer) {
         this.id = jsonPlayer.id;
         this.role = new Role(jsonPlayer.role);
