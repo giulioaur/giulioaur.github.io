@@ -1,0 +1,550 @@
+ul.no-bullets {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+body .role-icon {
+  border-radius: 12px;
+  display: inline-block;
+  padding: 4px;
+  text-align: center;
+  min-width: 31px;
+}
+body .role-icon.rv-por, body .role-icon.rv-p {
+  background-color: #F1952A;
+}
+body .role-icon.rv-dc, body .role-icon.rv-dc-b, body .role-icon.rv-dd, body .role-icon.rv-ds, body .role-icon.rv-d, body .role-icon.rv-b {
+  background-color: #419A1E;
+}
+body .role-icon.rv-e, body .role-icon.rv-m, body .role-icon.rv-c, body .role-icon.rv-m-c {
+  background-color: #1871EC;
+}
+body .role-icon.rv-t, body .role-icon.rv-w, body .role-icon.rv-w-t {
+  background-color: #B701A6;
+}
+body .role-icon.rv-a, body .role-icon.rv-pc, body .role-icon.rv-a-pc {
+  background-color: #B61723;
+}
+body .role-icon.rv-e-w, body .role-icon.rv-c-t {
+  background-image: linear-gradient(to right, #1871EC 50%, #B701A6 50%);
+}
+body .role-icon.rv-w-a, body .role-icon.rv-t-a {
+  background-image: linear-gradient(to right, #B701A6 50%, #B61723 50%);
+}
+body .role-icon.rv-t-a-pc {
+  background-image: linear-gradient(to right, #B701A6 33%, #B61723 67%);
+}
+body .team-icon {
+  border-radius: 12px;
+  color: white;
+  display: inline-block;
+  padding: 4px;
+  text-align: center;
+  min-width: 31px;
+}
+body .team-icon.rv-atalanta {
+  background-image: linear-gradient(to right, blue 50%, black 50%);
+}
+body .team-icon.rv-bologna {
+  background-image: linear-gradient(to right, blue 33%, red 33%, red 66%, blue 66%);
+}
+body .team-icon.rv-cagliari {
+  background-image: linear-gradient(to right, blue 50%, red 50%);
+}
+body .team-icon.rv-como {
+  background-image: linear-gradient(to right, blue 50%, gainsboro 50%);
+}
+body .team-icon.rv-empoli {
+  background-image: linear-gradient(blue 50%, gainsboro 50%);
+}
+body .team-icon.rv-fiorentina {
+  background-image: linear-gradient(purple, purple);
+}
+body .team-icon.rv-genoa {
+  background-image: linear-gradient(blue 50%, red 50%);
+}
+body .team-icon.rv-inter {
+  background-image: linear-gradient(to right, black 50%, blue 50%);
+}
+body .team-icon.rv-juventus {
+  background-image: linear-gradient(to right, gainsboro 50%, black 50%);
+}
+body .team-icon.rv-lazio {
+  background-image: linear-gradient(lightblue, lightblue);
+}
+body .team-icon.rv-lecce {
+  background-image: linear-gradient(to right, gold 50%, red 50%);
+}
+body .team-icon.rv-milan {
+  background-image: linear-gradient(to right, red 50%, black 50%);
+}
+body .team-icon.rv-monza {
+  background-image: linear-gradient(to right, red 50%, gainsboro 50%);
+}
+body .team-icon.rv-napoli {
+  background-image: linear-gradient(cornflowerblue, cornflowerblue);
+}
+body .team-icon.rv-parma {
+  background-image: linear-gradient(to right, gold 50%, blue 50%);
+}
+body .team-icon.rv-roma {
+  background-image: linear-gradient(to right, red 50%, orange 50%);
+}
+body .team-icon.rv-torino {
+  background-image: linear-gradient(coral, coral);
+}
+body .team-icon.rv-udinese {
+  background-image: linear-gradient(to right, black 50%, gainsboro 50%);
+}
+body .team-icon.rv-venezia {
+  background-image: linear-gradient(to right, black 33%, red 33%, red 66%, green 66%);
+}
+body .team-icon.rv-verona {
+  background-image: linear-gradient(to right, blue 50%, gold 50%);
+}
+body nav ul li {
+  font-size: 20px;
+}
+body #player {
+  border: 2px solid black;
+  border-radius: 12px;
+  margin: 10px 10px 25px 10px;
+}
+body #player #player-stats {
+  margin: 40px 0px;
+}
+body #player #player-stats #player-header #player-bg-container div {
+  border-radius: 14px;
+}
+body #player #player-stats #player-header #player-name-and-team {
+  padding: 10px;
+}
+body #player #player-stats #player-header h1, body #player #player-stats #player-header h3 {
+  color: white;
+}
+body #player #player-stats #player-header .rv-atalanta {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-atalanta:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/atalanta.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-bologna {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-bologna:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/bologna.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-cagliari {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-cagliari:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/cagliari.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-como {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-como:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/como.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-empoli {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-empoli:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/empoli.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-fiorentina {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-fiorentina:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/fiorentina.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-genoa {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-genoa:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/genoa.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-inter {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-inter:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/inter.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-juventus {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-juventus:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/juventus.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-lazio {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-lazio:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/lazio.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-lecce {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-lecce:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/lecce.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-milan {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-milan:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/milan.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-monza {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-monza:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/monza.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-napoli {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-napoli:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/napoli.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-parma {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-parma:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/parma.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-roma {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-roma:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/roma.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-torino {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-torino:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/torino.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-udinese {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-udinese:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/udinese.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-venezia {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-venezia:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/venezia.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #player-header .rv-verona {
+  position: relative;
+}
+body #player #player-stats #player-header .rv-verona:before {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  opacity: 0.7;
+  background-image: url("img/bkg/verona.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: inherit;
+}
+body #player #player-stats #add-player-form input {
+  height: -moz-max-content;
+  height: max-content;
+}
+body #teams-container #accordion-header {
+  margin: 5px 0px;
+  padding: 10px 20px;
+}
+body #teams-container #teams .accordion-item .accordion-body .row {
+  padding-right: 20px;
+}
+body #teams-container #teams .accordion-item .accordion-body .row .team-players ul li a {
+  cursor: pointer;
+}
+body #teams-container #teams .accordion-item .accordion-body .row .team-players ul li a svg {
+  color: red;
+}
+body #teams-container #teams .accordion-item .accordion-body .row .team-modules ul li {
+  margin-top: 8px;
+}
+body #player-filters > div {
+  margin-top: 25px;
+}
+body #player-filters #player-role-filters {
+  padding: 0 10%;
+  width: 100%;
+}
+body #player-filters #player-role-filters .role-icon.hovered {
+  opacity: 1 !important;
+}
+body #player-filters #player-role-filters .role-icon[data-filter-state=off] {
+  opacity: 0.65;
+}
+body #player-filters #player-team-filters {
+  padding: 0 5%;
+  width: 100%;
+}
+body #player-filters #player-team-filters .team-icon.hovered {
+  opacity: 1 !important;
+}
+body #player-filters #player-team-filters .team-icon[data-filter-state=off] {
+  opacity: 0.65;
+}
+body #table-container {
+  padding: 5%;
+  width: 100%;
+}
+body #table-container #players-table tr {
+  padding: 5px 0px;
+}
+body #pills-fields #fields-container .module h1 {
+  text-align: center;
+}
+body #pills-fields #fields-container .module .field {
+  background-image: url("img/field.png");
+  background-size: contain;
+  height: 455px;
+  margin-bottom: 25px;
+  width: 300px;
+  padding-top: 15px;
+  position: relative;
+}
+body #pills-fields #fields-container .module .field .row {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin: 0px;
+}
+body #pills-fields #fields-container .module .field .row div {
+  margin-bottom: 6px;
+}
+body #pills-fields #fields-container .module .field .field-d {
+  top: 70px;
+}
+body #pills-fields #fields-container .module .field .field-c {
+  top: 195px;
+}
+body #pills-fields #fields-container .module .field .field-a {
+  bottom: 15px;
+}
+
+.hint-list {
+  max-height: 800px;
+  overflow: hidden;
+}/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,318 @@
+$por-color: #F1952A;
+$def-color: #419A1E;
+$cc-color: #1871EC;
+$w-color: #B701A6;
+$atk-color: #B61723;
+
+$teams: ('atalanta', 'bologna', 'cagliari', 'como', 'empoli', 'fiorentina', 'genoa', 'inter', 
+        'juventus', 'lazio', 'lecce', 'milan', 'monza', 'napoli', 'parma', 'roma', 'torino', 'udinese', 
+        'venezia', 'verona');
+$teams-color: ('to right, blue 50%, black 50%', 'to right, blue 33%, red 33%, red 66%, blue 66%', 
+        'to right, blue 50%, red 50%', 'to right, blue 50%, gainsboro 50%', 'blue 50%, gainsboro 50%',
+        'purple, purple', 'blue 50%, red 50%', 'to right, black 50%, blue 50%', 
+        'to right, gainsboro 50%, black 50%', 'lightblue, lightblue', 'to right, gold 50%, red 50%',
+        'to right, red 50%, black 50%', 'to right, red 50%, gainsboro 50%', 'cornflowerblue, cornflowerblue', 
+        'to right, gold 50%, blue 50%', 'to right, red 50%, orange 50%', 'coral, coral',
+        'to right, black 50%, gainsboro 50%', 'to right, black 33%, red 33%, red 66%, green 66%', 
+        'to right, blue 50%, gold 50%');
+
+@mixin background-opacity($opacity, $color: #FFFFFF){
+    position: relative;
+
+    &:before
+    {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        content: "";
+        position: absolute;
+        background-color: $color;
+        opacity: $opacity;
+
+        border-radius: inherit;
+    }
+}
+
+@mixin background-opacity-img($opacity, $img) {
+    position: relative;
+
+    &:before
+    {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        content: "";
+        position: absolute;
+        opacity: $opacity;
+        background-image: $img;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+
+        border-radius: inherit;
+    }
+}
+
+// General purpose classes
+ul.no-bullets {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+}
+
+body {
+
+    // Roles
+    .role-icon {
+        border-radius: 12px;
+        display: inline-block;
+        padding: 4px;
+        text-align: center;
+        min-width: 31px;
+
+        &.rv-por, &.rv-p {
+            background-color: $por-color;
+        }
+
+        &.rv-dc, &.rv-dc-b, &.rv-dd, &.rv-ds, &.rv-d, &.rv-b{
+            background-color: $def-color;
+        }
+
+        &.rv-e, &.rv-m, &.rv-c, &.rv-m-c {
+            background-color: $cc-color;
+        }
+
+        &.rv-t, &.rv-w, &.rv-w-t {
+            background-color: $w-color;
+        }
+
+        &.rv-a, &.rv-pc, &.rv-a-pc {
+            background-color: $atk-color;
+        }
+
+        &.rv-e-w, &.rv-c-t {
+            background-image: linear-gradient(to right, $cc-color 50%, $w-color 50%);
+        }
+
+        &.rv-w-a, &.rv-t-a {
+            background-image: linear-gradient(to right, $w-color 50%, $atk-color 50%);
+        }
+        
+        &.rv-t-a-pc {
+            background-image: linear-gradient(to right, $w-color 33%, $atk-color 67%);
+        }
+    }
+
+    // Teams
+    .team-icon {
+        border-radius: 12px;
+        color: white;
+        display: inline-block;
+        padding: 4px;
+        text-align: center;
+        min-width: 31px;
+
+        @for $i from 1 through length($teams) {
+            $name: nth($teams, $i);
+            $color: nth($teams-color, $i);
+
+            &.rv-#{$name} 
+            {
+                background-image: linear-gradient(#{$color});
+            }
+        }
+    }
+
+    // Navbar
+    nav {
+        ul {
+            li {
+                font-size: 20px;
+            }
+        }
+    }
+
+    // Player
+    #player {
+        border: 2px solid black;
+        border-radius: 12px;
+        margin: 10px 10px 25px 10px;
+
+        #player-stats {
+            margin: 40px 0px; 
+
+            #player-header {               
+                #player-bg-container {
+                    div {
+                        border-radius: 14px;
+                    }
+                }
+
+                #player-name-and-team {
+                    padding: 10px;
+                }
+
+                h1, h3 {
+                    color: white;
+                }
+
+                @for $i from 1 through length($teams) {
+                    $name: nth($teams, $i);
+
+                    .rv-#{$name} 
+                    {
+                        @include background-opacity-img(0.7, url("img/bkg/#{$name}.webp"));
+                    }
+                }
+            }
+
+            #add-player-form {
+                input {
+                    height: max-content;
+                }
+            }
+        }
+    }
+
+    // Team
+    #teams-container{
+        #accordion-header {
+            margin: 5px 0px;
+            padding: 10px 20px;
+        }
+
+        #teams {
+            .accordion-item {
+                .accordion-body {
+                    .row {
+                        padding-right: 20px; // To align with header that has a 20px icon.
+    
+                        .team-players {
+                            ul {    
+                                li {
+                                    a {
+                                        cursor: pointer;
+    
+                                        svg {
+                                            color: red;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+    
+                        .team-modules {
+                            ul {    
+                                li {
+                                    margin-top: 8px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #player-filters {
+        >div {
+            margin-top: 25px;
+        }
+
+        #player-role-filters {
+            padding: 0 10%;
+            width: 100%;
+
+            .role-icon{
+                &.hovered {
+                    opacity: 1 !important;
+                }
+
+                &[data-filter-state="off"] {
+                    opacity: 0.65;
+                }
+            }
+        }
+
+        #player-team-filters {
+            padding: 0 5%;
+            width: 100%;
+
+            .team-icon{
+                &.hovered {
+                    opacity: 1 !important;
+                }
+
+                &[data-filter-state="off"] {
+                    opacity: 0.65;
+                }
+            }
+        }
+    }
+
+    // Table
+    #table-container {
+        padding: 5%;
+        width: 100%;
+
+        #players-table {
+            tr {
+                padding: 5px 0px;
+            }
+        }
+    }
+
+    #pills-fields {
+        #fields-container {
+            .module{
+                h1 {
+                    text-align: center;
+                }
+
+                .field {
+                    background-image: url('img/field.png');
+                    background-size: contain;
+                    height: 455px;
+                    margin-bottom: 25px;
+                    width: 300px;
+                    padding-top: 15px;
+                    position: relative;
+
+                    .row {
+                        position: absolute;
+                        text-align: center;
+                        width: 100%;
+                        margin: 0px;
+
+                        div {
+                            margin-bottom: 6px;
+                        }
+                    }
+
+                    .field-por {
+                        
+                    }
+
+                    .field-d {
+                        top: 70px
+                    }
+
+                    .field-c {
+                        top: 195px;
+                    }
+
+                    .field-a {
+                        bottom: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.hint-list {
+    max-height: 800px;
+    overflow: hidden;
+}
