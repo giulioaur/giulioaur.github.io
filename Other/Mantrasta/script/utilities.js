@@ -1,4 +1,4 @@
-export function shuffle(array) {
+function shuffle(array) {
     let shuffledArray = array.map(a => {return {...a}})
     for (let i = shuffledArray.length - 1; i > 0; --i) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -7,7 +7,7 @@ export function shuffle(array) {
     return shuffledArray;
 }
 
-export function minIndex(array, minFunctor) {
+function minIndex(array, minFunctor) {
     if (array.length <= 0)  return -1;
 
     let minIndex = 0;
@@ -22,14 +22,14 @@ export function minIndex(array, minFunctor) {
     return minIndex;
 }
 
-export function maxIndex(array, maxFunctor) {
+function maxIndex(array, maxFunctor) {
     return minIndex(array, val => -maxFunctor(val));
 }
 
-export function makeKebab(str) { 
+function makeKebab(str) { 
     return str ? str.toLowerCase().replace(/(\r\n|\n|\r| |;)/gm, "-") : "";
 }
 
-export function makeRole(role) {
+function makeRole(role) {
     return role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
 }

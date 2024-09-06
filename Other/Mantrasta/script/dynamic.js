@@ -1,11 +1,8 @@
-import { PlayerList } from "./player.js";
-import { Role } from "./module.js";
-
 /**
  * @param {InputEvent} event
  * @param {PlayerList} listone 
  */
-export function filterPlayers(event, listone, selectPlayerCallback) {
+function filterPlayers(event, listone, selectPlayerCallback) {
     const filter = event.target.value;
     const players = listone.getFilteredPlayers(filter, 10);
     const $appendTo = $('#players-dropdown ul');
@@ -17,7 +14,7 @@ export function filterPlayers(event, listone, selectPlayerCallback) {
     });
 }
 
-export function clearFilteredPlayers() {
+function clearFilteredPlayers() {
     $('#players-dropdown input').val("");
     $('#players-dropdown ul > li').remove();
 }
@@ -25,7 +22,7 @@ export function clearFilteredPlayers() {
 /**
  * @param {PlayerList} playerList 
  */
-export function getPlayerList(playerList) {
+function getPlayerList(playerList) {
     const [roleFilter, teamFilters] = getPlayerListFilters();
 
     return playerList.players

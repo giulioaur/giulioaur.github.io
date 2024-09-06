@@ -16,4 +16,6 @@ Styles/Images/mybackground (copy 2).jpg
 #Ignore win script
 *.bat
 
+jsonconfig.json
+
 missingCredits.txt

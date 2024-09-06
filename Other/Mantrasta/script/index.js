@@ -1,8 +1,4 @@
-import { fetchModulesList, fetchPlayersList } from './data.js';
-import { filterPlayers, clearFilteredPlayers, getPlayerList  } from './dynamic.js';
-import { PlayerList } from './player.js';
-import { Team, TeamList } from './team.js';
-import { makeKebab } from './utilities.js';
+const fanta = {};
 
 /** @type { PlayerList } */
 var listone = null;

@@ -1,7 +1,4 @@
-import { Player } from "./player.js";
-import { makeRole } from "./utilities.js";
-
-export class Module {
+class Module {
     constructor(name, field) {
         this.name = name;
         /** @type {Array<Role>} */
@@ -20,14 +17,14 @@ export class Module {
     }
 }
 
-export class FieldPosition {
+class FieldPosition {
     constructor(space, role) {
         this.space = space;
         this.role = role ? new Role(role) : null;
     }
 }
 
-export class ModuleCompatibilty {
+class ModuleCompatibilty {
     constructor(module, rolesAvailability, playersPerRole) {
         /** @type { Module } */
         this.module = module;
@@ -41,7 +38,7 @@ export class ModuleCompatibilty {
     }
 }
 
-export class Role {
+class Role {
     constructor(string) {
         this.explicit = string;
         /** @type { Array<String> } */
