@@ -3,8 +3,20 @@ GLOBALS.experiences = [
         name: "Senior Gameplay Programmer",
         company: "Crytek",
         icons: "<i class='icomoon icomoon-gamepad'></i>",
-        time: "01/2024 - now",
-        description: `We'll see.`
+        time: "01/2024 - 09/2024",
+        description: `This was a bit of an unlucky experience, but every adventurer needs to have one (and hopefully not more) of these at some 
+                point. However, after all, I'm quite happy with how it went, since it made me realize how much I have grown on a professional 
+                level and put me in some unique situations. <br/> 
+                I was hired as a gameplay developer, but unfortunately the only gameplay I ever saw was the one in my title. I volunteered to 
+                help the UI team for a bit (I should have known better, those are rookie mistakes) and despite my best effort, I was stuck there 
+                till I decided to terminite my short experience at the company. As a personal pride: even on a different role I did quite well. But I can 
+                assure you that CryEngine + Actionscript is not a fun combo to work on. <br/> 
+                With time, I realized my vision of a nice working environment was not in line with the one they had at Crytek, and despite the 
+                amazing colleagues, I realized that keeping working there would have consumed my passion, which is an essential tool on a game 
+                developer’s belt. Hence I decided to move on. I know that two short experiences one after another are not a good sign on your CV, 
+                but I found out that without passion, the growth you can achieve is very little and you just run the risk of developing bad working 
+                habits. After all, if you believe your healer was just three kobolds in a trenchcoat, I bet you'd rather go back to the city and 
+                wait to find a new one than adventuring in the Long Maze of thousand traps. `
     },
     {
         name: "Senior Gameplay and Tool Programmer",
