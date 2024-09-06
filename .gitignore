@@ -3,6 +3,7 @@ StartSass.bat
 NewProject.bmpr
 sushi - Copia.html
 .vscode/
+.vs/
 .sass-cache/
 
 #Ignore css not minified
